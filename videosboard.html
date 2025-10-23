@@ -255,20 +255,22 @@ image.setAttribute('src', randomSource);
    <div class="bg-image" style="background-image: url('path/to/image.jpg');"></div>
 </div>
 
- <script type="text/javascript">
-     const myGallery = cloudinary.galleryWidget({
-       container: "#my-gallery",
-       cloudName: "dussuas34", // Replace with your Cloudinary cloud name
-        mediaType: "video",
-       mediaAssets: [
-         { tag: "video_uploads"}, // Replace with the desired tag for your images
-         // You can add more assets here, e.g., for videos or 360 spin sets
-         // { tag: "your_video_tag", mediaType: "video" },
-         // { tag: "your_spin_set_tag", mediaType: "spin" }
-       ]
-     });
-     myGallery.render();
-   </script>
+ <video
+        id="my-video-player"
+        controls
+        class="cld-video-player cld-fluid"
+    >
+</video>
+       
+         <script>
+        var player = cloudinary.videoPlayer('my-video-player', {
+            cloud_name: 'dussuas34' // Replace with your Cloudinary cloud name
+        });
+
+        player.playlistByTag('video_uploads', { // Replace with your desired tag
+            // Optional: Add more playlist options here, e.g., 'autoAdvance', 'repeat'
+        });
+    </script>
           
    <script>
      const hiddenGridButton = document.getElementById('upload_widget');
