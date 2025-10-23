@@ -257,8 +257,9 @@ image.setAttribute('src', randomSource);
      const myGallery = cloudinary.galleryWidget({
        container: "#my-gallery",
        cloudName: "dussuas34", // Replace with your Cloudinary cloud name
+        mediaType: "video",
        mediaAssets: [
-         { tag: "video_uploads" mediaType: "video"}, // Replace with the desired tag for your images
+         { tag: "video_uploads"}, // Replace with the desired tag for your images
          // You can add more assets here, e.g., for videos or 360 spin sets
          // { tag: "your_video_tag", mediaType: "video" },
          // { tag: "your_spin_set_tag", mediaType: "spin" }
@@ -409,10 +410,3 @@ height: 220px;
 </style>
 </body>
 </html>
-
-
-
-
-
-
-
