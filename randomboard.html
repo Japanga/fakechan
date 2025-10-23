@@ -248,7 +248,7 @@ image.setAttribute('src', randomSource);
 <script src="https://product-gallery.cloudinary.com/latest/all.js" type="text/javascript">
 </script>  
 
-<div id="my-gallery" style="max-width:80%;max-height:80%;margin:fixed">
+<div id="my-gallery" style="max-width:80%;margin:auto">
 </div>
 
  <script type="text/javascript">
@@ -302,13 +302,10 @@ image.setAttribute('src', randomSource);
   #my-gallery {
     width: 50%; /* Adjust as needed */
      height:460px; /* Adjust as needed */
-     margin: 20px auto;
+     margin: 20px fixed;
      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
      transform: scale(1.0);
 }
-  .full-screen-style {
-        height:500px; /* Adjust as needed */
-    }
     #imageGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid columns */
@@ -435,7 +432,6 @@ height: 220px;
 </style>
 </body>
 </html>
-
 
 
 
