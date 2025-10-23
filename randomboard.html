@@ -270,39 +270,14 @@ image.setAttribute('src', randomSource);
      //hiddenGridButton.style.visibility = 'hidden';
       </script>
           
-            <script>
-                 document.addEventListener('fullscreenchange', function() {
-        const myElement = document.getElementById('my-gallery');
-        if (document.fullscreenElement) {
-            // Window is in full-screen mode
-            myElement.classList.add('full-screen-style');
-        } else {
-            // Window exited full-screen mode
-            myElement.classList.remove('full-screen-style');
-        }
-    });
-
-    // Optional: Add a button to trigger full-screen mode
-    // (You might have a different way to enter full-screen, e.g., video player)
-    function enterFullScreen() {
-        const myElement = document.getElementById('myElement');
-        if (myElement.requestFullscreen) {
-            myElement.requestFullscreen();
-        } else if (myElement.mozRequestFullScreen) { /* Firefox */
-            myElement.mozRequestFullScreen();
-        } else if (myElement.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-            myElement.webkitRequestFullscreen();
-        } else if (myElement.msRequestFullscreen) { /* IE/Edge */
-            myElement.msRequestFullscreen();
-        }
-    }
-            </script>
-
+         
 <style>
   #my-gallery {
+     display: block;
+     object-fit: cover;
     width: 50%; /* Adjust as needed */
      height:460px; /* Adjust as needed */
-     margin: 20px fixed;
+     margin: 20px auto;
      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
      transform: scale(1.0);
 }
@@ -432,7 +407,6 @@ height: 220px;
 </style>
 </body>
 </html>
-
 
 
 
