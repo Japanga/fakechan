@@ -249,6 +249,7 @@ image.setAttribute('src', randomSource);
 </script>  
 
 <div id="my-gallery" style="max-width:80%;margin:auto">
+   <div class="bg-image" style="background-image: url('path/to/image.jpg');"></div>
 </div>
 
  <script type="text/javascript">
@@ -275,8 +276,8 @@ image.setAttribute('src', randomSource);
   #my-gallery {
      display: block;
      object-fit: cover;
-    width: 50%; /* Adjust as needed */
-     height:460px; /* Adjust as needed */
+   min-width: 0;
+  min-height: 0;
      margin: 20px auto;
      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
      transform: scale(1.0);
