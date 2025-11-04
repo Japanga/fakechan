@@ -282,6 +282,43 @@ image.setAttribute('src', randomSource);
 <div id="my-gallery" style="max-width:80%;margin:auto">
    <div class="bg-image" style="background-image: url('path/to/image.jpg');"></div>
 </div>
+               <style>
+                 .desu-text {
+    font-size: 20px;
+    display: inline;
+    text-align: center;
+    color: #fff; /* Initial text color */
+    animation: colorGlow 3s infinite alternate ease-in-out; /* Animation properties */
+}
+
+@keyframes colorGlow {
+    0% {
+        text-shadow: 0 0 10px #089913, /* Cyan glow */
+                     0 0 20px #0EED1F,
+                     0 0 30px #0EED1F,
+                     0 0 40px #089913;
+    }
+    100% {
+        text-shadow: 0 0 10px #ED210E, /* Magenta glow */
+                     0 0 20px #ED210E,
+                     0 0 30px #ED210E,
+                     0 0 40px #ED210E;
+    }
+}
+             </style>
+                <script>
+window.onload = function() {
+  const wordToReplace = "$DESU$";
+  const replacementHTML = '<h1 class="desu-text">$DESU$</h1>';
+  document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
+};
+  </script>
+<!-- begin wwww.htmlcommentbox.com -->
+ <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
+ <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+ <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24dJ43Tl5IByJdqspQippWg1"+"&opts=16798&num=10&ts=1762281024694");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+<!-- end www.htmlcommentbox.com -->
+
 
  <script type="text/javascript">
      const myGallery = cloudinary.galleryWidget({
@@ -439,6 +476,7 @@ height: 220px;
 </style>
 </body>
 </html>
+
 
 
 
