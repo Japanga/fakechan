@@ -23,28 +23,7 @@
     
   
    
-         <script>
-function ensureTrailingSlash(url) {
-  // Split the URL into path and query/hash parts
-  const urlParts = url.split(/[?#]/);
-  let path = urlParts[0];
-
-  // Regex to check if the path ends with a trailing slash
-  const trailingSlashRegex = /\/$/;
-
-  // If the path doesn't have a trailing slash, add one
-  if (!trailingSlashRegex.test(path)) {
-    path = path + '/';
-    // Reconstruct the URL with the new path
-    const newUrl = path + urlParts.slice(1).join('?');
-    history.replaceState({}, '', newUrl);
-  }
-}
-     window.addEventListener('load', () => {
-  ensureTrailingSlash(window.location.href);
-});
-</script>
-   
+ 
    <style>
     #imgDiv {
   border: 1px solid #000;
@@ -294,7 +273,7 @@ image.setAttribute('src', randomSource);
             
 
   <span style="color: darkred;">
-<b><i><p>FakeChan uses a JavaScript function called trailingSlash to add the extra "/" at the end of the board names, which occasionally makes it harder to refresh pages or go back to the previous one after visiting another. This 404 hub will make it much easier for you to get back to the page you were on.</p></i></b>
+<b><i><p>FakeChan uses a JavaScript function called trailingSlash to add the extra "/" at the end of the board names in the URL, which occasionally makes it harder to refresh pages or go back to the previous one after visiting another. This 404 hub will make it much easier for you to get back to the page you were on.</p></i></b>
     
       <div class="item">
 <img src="https://yourimageshare.com/ib/EJU5NcBBOE.png" alt="Flowers in Chania" width="400" height="373">
