@@ -19,7 +19,28 @@
 <body>
    
      <div id="message"></div>
-    
+   
+      <script>
+function ensureTrailingSlash(url) {
+  // Split the URL into path and query/hash parts
+  const urlParts = url.split(/[?#]/);
+  let path = urlParts[0];
+
+  // Regex to check if the path ends with a trailing slash
+  const trailingSlashRegex = /\/$/;
+
+  // If the path doesn't have a trailing slash, add one
+  if (!trailingSlashRegex.test(path)) {
+    path = path + '/';
+    // Reconstruct the URL with the new path
+    const newUrl = path + urlParts.slice(1).join('?');
+    history.replaceState({}, '', newUrl);
+  }
+}
+     window.addEventListener('load', () => {
+  ensureTrailingSlash(window.location.href);
+});
+</script>
    
    
    
@@ -32,8 +53,8 @@
 
    </style>
   
-      <div id="imgDiv">
-    <img src="" data-random-image="./1.png ./2.png ./3.png ./4.png ./5.png ./6.png ./7.png ./8.png ./9.png ./10.png ./11.png ./12.png ./13.png ./14.png ./15.gif ./16.png ./17.png ./18.png ./19.png ./20.png ./21.png ./22.png ./23.png ./24.png" alt="Loading random header..." width="300" height="100">
+       <div id="imgDiv">
+    <img src="" data-random-image="/fakechan/boards/1.png /fakechan/boards/2.png /fakechan/boards/3.png /fakechan/boards/4.png /fakechan/boards/5.png /fakechan/boards/6.png /fakechan/boards/7.png /fakechan/boards/8.png /fakechan/boards/9.png /fakechan/boards/10.png /fakechan/boards/11.png /fakechan/boards/12.png /fakechan/boards/13.png /fakechan/boards/14.png /fakechan/boards/15.gif /fakechan/boards/16.png /fakechan/boards/17.png /fakechan/boards/18.png /fakechan/boards/19.png /fakechan/boards/20.png /fakechan/boards/21.png /fakechan/boards/22.png /fakechan/boards/23.png /fakechan/boards/24.png /fakechan/boards/25.png" alt="Loading random header..." width="300" height="100">
         </div>
    <script>  
     const image = document.querySelector('img[data-random-image]');
@@ -484,6 +505,7 @@ height: 220px;
 </style>
 </body>
 </html>
+
 
 
 
