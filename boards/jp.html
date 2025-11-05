@@ -21,7 +21,27 @@
      <div id="message"></div>
   
     
-  
+     <script>
+function ensureTrailingSlash(url) {
+  // Split the URL into path and query/hash parts
+  const urlParts = url.split(/[?#]/);
+  let path = urlParts[0];
+
+  // Regex to check if the path ends with a trailing slash
+  const trailingSlashRegex = /\/$/;
+
+  // If the path doesn't have a trailing slash, add one
+  if (!trailingSlashRegex.test(path)) {
+    path = path + '/';
+    // Reconstruct the URL with the new path
+    const newUrl = path + urlParts.slice(1).join('?');
+    history.replaceState({}, '', newUrl);
+  }
+}
+     window.addEventListener('load', () => {
+  ensureTrailingSlash(window.location.href);
+});
+</script>
    
        
    <style>
@@ -481,6 +501,7 @@ height: 220px;
 </style>
 </body>
 </html>
+
 
 
 
