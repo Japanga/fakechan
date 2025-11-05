@@ -1,13 +1,512 @@
-
+<!-- Start writing your code here -->
+<!-- Start writing your code here -->
+<!-- Start writing your code here -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>404 - Page Not Found</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-gray-100 flex items-center justify-center h-screen">
-    <section class="relative z-10 flex min-h-screen items-center justify-center overflow-hidden bg-primary-200 pb-20 pt-40"><div class="mx-auto w-full max-w-[451px] text-center"><div class="mb-10.5"><img alt="404" loading="lazy" width="451" height="240" decoding="async" data-nimg="1" style="color:transparent" src="https://static.run/images/404.svg"></div><h2 class="mb-3 text-2xl font-bold text-title-color sm:text-3xl sm:leading-[38px]">OPPS! Page Not Found</h2><p class="mb-8 text-base text-text-color">We are sorry, But the page you requested was not found</p><a class="inline-flex items-center gap-2 rounded-full bg-gray-800 px-6 py-3.5 text-sm font-medium text-white hover:bg-gray-900" href="https://static.run" rel="nofollow" target="_blank"><svg class="fill-current" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.08301 10.7428C3.08272 10.9351 3.15588 11.1274 3.30249 11.2741L8.29915 16.2743C8.59194 16.5673 9.06682 16.5674 9.35981 16.2747C9.65281 15.9819 9.65297 15.507 9.36018 15.214L5.64009 11.4913L17.1675 11.4913C17.5817 11.4913 17.9175 11.1555 17.9175 10.7413C17.9175 10.3271 17.5817 9.99129 17.1675 9.99129L5.64554 9.99129L9.36017 6.2743C9.65297 5.98132 9.65282 5.50644 9.35983 5.21364C9.06684 4.92084 8.59197 4.92099 8.29917 5.21398L3.34167 10.1746C3.18321 10.3121 3.08301 10.515 3.08301 10.7413C3.08301 10.7418 3.08301 10.7423 3.08301 10.7428Z" fill=""></path></svg>Back To Static.run</a></div></section>
-  </body>
+<head>
+   <link rel="shortcut icon" type="image/x-icon" href="https://yourimageshare.com/ib/GrUg6gfJ1o.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeChan Imageboards</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  
+  <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+  
+      <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script>
+
+</head>
+<body>
+   
+     <div id="message"></div>
+  
+    
+  
+   
+         <script>
+function ensureTrailingSlash(url) {
+  // Split the URL into path and query/hash parts
+  const urlParts = url.split(/[?#]/);
+  let path = urlParts[0];
+
+  // Regex to check if the path ends with a trailing slash
+  const trailingSlashRegex = /\/$/;
+
+  // If the path doesn't have a trailing slash, add one
+  if (!trailingSlashRegex.test(path)) {
+    path = path + '/';
+    // Reconstruct the URL with the new path
+    const newUrl = path + urlParts.slice(1).join('?');
+    history.replaceState({}, '', newUrl);
+  }
+}
+     window.addEventListener('load', () => {
+  ensureTrailingSlash(window.location.href);
+});
+</script>
+   
+   <style>
+    #imgDiv {
+  border: 1px solid #000;
+  width: 300px;
+  height: 100px;
+}
+
+   </style>
+  
+       <div id="imgDiv">
+    <img src="" data-random-image="/fakechan/boards/1.png /fakechan/boards/2.png /fakechan/boards/3.png /fakechan/boards/4.png /fakechan/boards/5.png /fakechan/boards/6.png /fakechan/boards/7.png /fakechan/boards/8.png /fakechan/boards/9.png /fakechan/boards/10.png /fakechan/boards/11.png /fakechan/boards/12.png /fakechan/boards/13.png /fakechan/boards/14.png /fakechan/boards/15.gif /fakechan/boards/16.png /fakechan/boards/17.png /fakechan/boards/18.png /fakechan/boards/19.png /fakechan/boards/20.png /fakechan/boards/21.png /fakechan/boards/22.png /fakechan/boards/23.png /fakechan/boards/24.png /fakechan/boards/25.png" alt="Loading random header..." width="300" height="100">
+        </div>
+   <script>  
+    const image = document.querySelector('img[data-random-image]');
+const sources = image.dataset.randomImage.split(" ");
+const randomSource = sources[Math.floor(Math.random() * sources.length)]
+
+image.setAttribute('src', randomSource);
+    </script>
+
+ 
+         <style>
+    #limeIcon{
+      font-size: 23px;
+    }
+    </style>
+          <div>
+    <div class="boards-container">
+   <span style="color: darkred;">
+<p class="inline-p"><b><a href="/fakechan/boards/a">/a/</a></b></p>
+     
+   <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+     <p class="inline-p"><b><a href="/fakechan/boards/an">/an/</a></b></p>
+     
+   <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+<p class="inline-p"><b><a href="/fakechan/boards/b">/b/</a></b></p>
+     
+ <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+     <p class="inline-p"><b><a href="/fakechan/boards/co">/co/</a></b></p>
+     
+ <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+       <p class="inline-p"><b><a href="/fakechan/boards/c">/c/</a></b></p>
+     
+ <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+<p class="inline-p"><b><a href="/fakechan/boards/x">/x/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+     <p class="inline-p"><b><a href="/fakechan/boards/m">/m/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+      <p class="inline-p"><b><a href="/fakechan/boards/mu">/mu/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+<p class="inline-p"><b><a href="/fakechan/boards/v">/v/</a></b></p>
+     
+        <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+     <p class="inline-p"><b><a href="/fakechan/boards/vid">/vid/</a></b></p>
+     
+        <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+     <p class="inline-p"><b><a href="/fakechan/boards/tv">/tv/</a></b></p>
+     
+        <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+     <p class="inline-p"><b><a href="/fakechan/boards/pol">/pol/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+       <p class="inline-p"><b><a href="/fakechan/boards/gifs">/gif/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+       <p class="inline-p"><b><a href="/fakechan/boards/sp">/sp/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+      <p class="inline-p"><b><a href="/fakechan/boards/jp">/jp/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+      <p class="inline-p"><b><a href="/fakechan/boards/lit">/lit/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+       <p class="inline-p"><b><a href="/fakechan/boards/h">/h/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+      <p class="inline-p"><b><a href="/fakechan/boards/hc">/hc/</a></b></p>
+     
+      <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+     
+        <p class="inline-p"><b><a href="/fakechan/boards/w">/w/</a></b></p>
+     
+ <div class="inline-p">
+   <p id="limeIcon">☘</p>
+     </div>
+       
+           <div class="inline-p">
+        
+   - <a href="/fakechan/index"><b>Home</a> - <a href="https://japanga.github.io/chadsofa/">Wiki</a> - <a href="https://japanga.github.io/fakechanarchive/">Archive</b></a> <b>4.9k image views, 260.06 MB currently hosted...</b>
+     </div>
+   
+      </span>
+</div>
+
+      
+
+  
+ <div class="parent-div">
+            <div class="item">
+               <button id="upload_widget" class="cloudinary-button">Upload files</button>
+       
+             </div>
+        
+   <div class="item">
+  <a href="https://cloudinary.com/"><img src="https://yourimageshare.com/ib/5JDVcid1uo.png" alt="Flowers in Chania" width="130" height="73"></a>
+   </div>
+          </div>
+           
+
+    <script>
+         // Get references to the HTML elements
+    const paragraph1 = document.getElementById('limeIcon');
+      const paragraph2 = document.getElementById('limeIcon2');
+            const paragraph3 = document.getElementById('limeIcon3');
+            const paragraph4 = document.getElementById('limeIcon4');
+            const paragraph5 = document.getElementById('limeIcon5');
+            const paragraph6 = document.getElementById('limeIcon6');
+            const paragraph7 = document.getElementById('limeIcon7');
+            const paragraph8 = document.getElementById('limeIcon8');
+            const paragraph9 = document.getElementById('limeIcon9');
+            const paragraph10 = document.getElementById('limeIcon10');
+      const paragraph11 = document.getElementById('limeIcon11');
+      const paragraph12 = document.getElementById('limeIcon12');
+      const paragraph13 = document.getElementById('limeIcon13');
+       const paragraph14 = document.getElementById('limeIcon14');
+      const paragraph15 = document.getElementById('limeIcon15');
+      const paragraph16 = document.getElementById('limeIcon16');
+      const paragraph17 = document.getElementById('limeIcon17');
+      const paragraph18 = document.getElementById('limeIcon18');
+      const paragraph18 = document.getElementById('limeIcon19');
+    const button = document.getElementById('mobileButton');
+
+    // Add a click event listener to the button
+    button.addEventListener('click', function() {
+        // Change the id of the paragraph element
+        paragraph1.textContent = '🍋‍🟩';
+        paragraph2.textContent = '🍋‍🟩';
+      paragraph3.textContent = '🍋‍🟩';
+      paragraph4.textContent = '🍋‍🟩';
+      paragraph5.textContent = '🍋‍🟩';
+      paragraph6.textContent = '🍋‍🟩';
+      paragraph7.textContent = '🍋‍🟩';
+      paragraph8.textContent = '🍋‍🟩';
+      paragraph9.textContent = '🍋‍🟩';
+      paragraph10.textContent = '🍋‍🟩';
+      paragraph11.textContent = '🍋‍🟩';
+      paragraph12.textContent = '🍋‍🟩';
+      paragraph13.textContent = '🍋‍🟩';
+      paragraph14.textContent = '🍋‍🟩';
+       paragraph15.textContent = '🍋‍🟩';
+      paragraph16.textContent = '🍋‍🟩';
+      paragraph17.textContent = '🍋‍🟩';
+      paragraph18.textContent = '🍋‍🟩';
+       paragraph19.textContent = '🍋‍🟩';
+    });
+          </script>
+  
+
+
+
+    
+    
+          
+          
+          
+          
+          <script>
+   document.getElementById("upload_widget").addEventListener("click", function() {
+         cloudinary.openUploadWidget(
+             {
+                 cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
+                 uploadPreset: "randomUPLOADS" // Replace with the name of your unsigned upload preset
+               
+             },
+           
+             (error, result) => {
+                 if (!error && result && result.event === "success") {
+                     console.log('Done! Here is the image info: ', result.info);
+     
+                     // You can access the uploaded image URL here: result.info.secure_url
+                     // Perform actions like displaying the image or saving the URL to your database
+                 }
+             }    
+        
+         );
+     });
+
+          </script>
+          
+            
+
+  <span style="color: darkred;">
+<b><i><p>FakeChan uses a JavaScript function called trailingSlash to add the extra "/" at the end of the board names, which occasionally makes it harder to refresh pages or go back to the previous one after visiting another. This 404 hub will make it much easier for you to get back to the page you were on.</p></i></b>
+    
+      <div class="item">
+<img src="https://yourimageshare.com/ib/EJU5NcBBOE.png" alt="Flowers in Chania" width="400" height="373">
+   </div>
+    
+            <style>
+                 .desu-text {
+    font-size: 20px;
+    display: inline;
+    text-align: center;
+    color: #fff; /* Initial text color */
+    animation: colorGlow 3s infinite alternate ease-in-out; /* Animation properties */
+}
+
+@keyframes colorGlow {
+    0% {
+        text-shadow: 0 0 10px #089913, /* Cyan glow */
+                     0 0 20px #0EED1F,
+                     0 0 30px #0EED1F,
+                     0 0 40px #089913;
+    }
+    100% {
+        text-shadow: 0 0 10px #ED210E, /* Magenta glow */
+                     0 0 20px #ED210E,
+                     0 0 30px #ED210E,
+                     0 0 40px #ED210E;
+    }
+}
+             </style>
+                <script>
+window.onload = function() {
+  const wordToReplace = "$DESU$";
+  const replacementHTML = '<h1 class="desu-text">$DESU$</h1>';
+  document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
+};
+  </script>
+
+
+ <script type="text/javascript">
+     const myGallery = cloudinary.galleryWidget({
+       container: "#my-gallery",
+       cloudName: "dussuas34", // Replace with your Cloudinary cloud name
+       mediaAssets: [
+         { tag: "random_uploads" }, // Replace with the desired tag for your images
+         // You can add more assets here, e.g., for videos or 360 spin sets
+         // { tag: "your_video_tag", mediaType: "video" },
+         // { tag: "your_spin_set_tag", mediaType: "spin" }
+       ]
+     });
+     myGallery.render();
+   </script>
+          
+   <script>
+     const hiddenGridButton = document.getElementById('upload_widget');
+     //hiddenGridButton.style.visibility = 'hidden';
+      </script>
+          
+         
+<style>
+  #my-gallery {
+     display: block;
+     object-fit: cover;
+   min-width: 0;
+  min-height: 0;
+     margin: 20px auto;
+     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7);
+     transform: scale(0.8);
+}
+    #imageGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid columns */
+    gap: 10px; /* Space between grid items */
+    padding: 20px;
+    background-image: linear-gradient(#A6A6A6
+, #4F4F4F);
+    height:500px; 
+           border-style: solid;
+      border-width: 2px;
+      border-color: white; /* Sets all four borders to red */
+}
+  /* Default link color */
+a {
+  color: darkred; /* Example: Sets all links to blue */
+}
+
+textarea {
+    width: 40%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't increase total width */
+    resize: vertical; /* Allows vertical resizing of textarea */
+}
+ 
+  #verifyLimeIDButton{
+    background-image: linear-gradient(#FCD5AC
+, #5C3F22);
+  }
+    #mobileButton{
+      padding: 12px 30px;
+    border-radius: 20px;
+    background-image: linear-gradient(#0078FF
+, #0078FF);
+  }
+   #deleteButton{
+    background-image: linear-gradient(#FCD5AC
+, #5C3F22);
+  }
+
+.grid-item img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below images */
+}
+  .overlay-text {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 70%;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #8BC809;
+    padding: 15px;
+    box-sizing: border-box;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+    text-align: center;
+    font-size: 0.7em;
+}
+.grid-item:hover img {
+    transform: scale(1.05);
+}
+
+.grid-item:hover .overlay-text {
+  display: block;
+    transform: translateY(0);
+}
+  .memo-text {
+  font-variant-emoji: text;
+}
+  .memo-mono {
+  font-family: monospace;
+}
+     body {
+  min-height: 200vh;
+  margin: 0; /* Remove default body margin */
+  background-image: linear-gradient(#F7B48D
+, #FFFDFC
+);
+    
+}
+  #previewContainer {
+  border: 2px dashed #ccc; /* A dashed border to indicate a drop zone */
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+height: 220px;
+    width: 200px;
+      background-image: linear-gradient(#5C3F22, #AD7D4C
+);
+}
+  .boards-container {
+  display: flex;
+  /* Optional: Add spacing between paragraphs */
+  gap: 10px;
+  /* Optional: Align items vertically */
+  align-items: center;
+}
+  .inline-p {
+  display: inline-block;
+  /* Optional: Add margin for spacing */
+  margin-right: 10px;
+}
+
+   .preview-image {
+ align-self: stretch; /* Makes the item fill the height of its grid area */
+        justify-self: stretch; /* Makes the item fill the width of its grid area */
+        /* Add other styling like background-color for visibility */
+        background-color: lightcoral;
+        display: flex; /* Optional: for centering content within the item */
+        align-items: center;
+        justify-content: center;
+      min-height: 200px; /* Ensure a minimum height for visibility */
+     
+}
+</style>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
