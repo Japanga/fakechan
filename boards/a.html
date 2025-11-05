@@ -22,34 +22,7 @@
   
    
 
-     <script>
-       function enforceTrailingSlash() {
-  const currentUrl = window.location.href;
-  const urlObject = new URL(currentUrl);
-  let pathname = urlObject.pathname;
-  
-  // Check if the pathname already ends with a slash
-  if (!pathname.endsWith('/')) {
-    // Check for common file extensions to avoid adding a slash to actual files
-    const fileExtensions = ['.htm', '.html', '.jpg', '.png', '.gif', '.pdf', '.php', '.doc', '.docx'];
-    const hasFileExtension = fileExtensions.some(ext => pathname.toLowerCase().endsWith(ext));
-
-    if (!hasFileExtension) {
-      // Append the slash to the pathname
-      urlObject.pathname += '/';
-
-      // Use replaceState to update the URL in the address bar without reloading
-      // pushState could also be used to add a new history entry, allowing the user 
-      // to use the browser's back button to go to the non-slash URL.
-      window.history.replaceState({}, document.title, urlObject.toString());
-    }
-  }
-}
-
-// Call the function when the page loads
-enforceTrailingSlash();
-
-        </script>
+     
   
   
   <style>
@@ -508,6 +481,7 @@ height: 220px;
 </style>
 </body>
 </html>
+
 
 
 
