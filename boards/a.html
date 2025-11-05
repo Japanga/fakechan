@@ -19,26 +19,7 @@
 <body>
    
      <div id="message"></div>
-  
-   <script>
-     function addTrailingSlash() {
-  const currentPath = window.location.pathname;
-  const currentSearch = window.location.search;
-  const currentHash = window.location.hash;
 
-  // Check if the path already ends with a slash and is not the root path "/"
-  if (currentPath.length > 1 && !currentPath.endsWith('/')) {
-    const newPath = currentPath + '/';
-    const newUrl = window.location.protocol + '//' + window.location.host + newPath + currentSearch + currentHash;
-
-    // Use replaceState to update the URL without a page reload
-    window.history.replaceState({ path: newUrl }, '', newUrl);
-  }
-}
-
-// Call the function on page load
-document.addEventListener('DOMContentLoaded', addTrailingSlash);
-</script>
     
   
   <style>
@@ -497,6 +478,7 @@ height: 220px;
 </style>
 </body>
 </html>
+
 
 
 
