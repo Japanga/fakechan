@@ -8,3 +8,5 @@ export function colorTexting() {
   document.body.innerHTML =
   document.body.innerHTML.replaceAll(wordToReplace2, replacementHTML2); 
 }          
+
+colorTexting();
