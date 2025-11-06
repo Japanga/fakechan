@@ -396,23 +396,36 @@ image.setAttribute('src', randomSource);
 }
               </style>
         
-           
+        
                
               <script>
-function wrapStringWithH1Class(targetElementId, textContent, className) {
-  const targetElement = document.getElementById(targetElementId);
+const wordToReplace = "$DESU$";
+const replacementClass = "desu-text";
 
-  if (targetElement) {
-    targetElement.innerHTML = `<h1 class="${className}">${textContent}</h1>`;
-  } else {
-    console.error(`Element with ID '${targetElementId}' not found.`);
+function replaceWordWithH1(node) {
+  // Recursively traverse the DOM
+  if (node.nodeType === Node.TEXT_NODE) {
+    if (node.textContent.includes(wordToReplace)) {
+      // Create a new h1 element
+      const h1 = document.createElement("h1");
+      h1.textContent = wordToReplace;
+      h1.className = replacementClass;
+
+      // Replace the text node with the new h1 element
+      node.parentNode.replaceChild(h1, node);
+    }
+  } else if (node.nodeType === Node.ELEMENT_NODE) {
+    // Traverse children elements
+    for (let i = 0; i < node.childNodes.length; i++) {
+      replaceWordWithH1(node.childNodes[i]);
+    }
   }
 }
 
-// Example usage:
-// Assuming you have an HTML element like <div id="container"></div>
-wrapStringWithH1Class('HCB_comment_box', '$DESU$', 'desu-text');
+// Start the process from the body of the document
+replaceWordWithH1(document.body);
                   </script>
+ 
             
             
 <style>
