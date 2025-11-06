@@ -1,5 +1,5 @@
 // colortext.js
-function colorTexting() {
+export function colorTexting() {
    const wordToReplace = "$DESU$";
   const replacementHTML = '<h1 class="desu-text">$DESU$</h1>';
   document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
