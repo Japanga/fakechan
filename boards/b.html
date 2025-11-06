@@ -329,15 +329,47 @@ image.setAttribute('src', randomSource);
     }
 }
              </style>
+            
+            <style>
+              /* style.css */
+.rainbow-text {
+  font-size: 20px; /* Adjust as needed */
+  font-weight: bold;
+  display: inline;
+  text-align: center;
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red);
+  background-size: 200% 100%; /* Makes the gradient wider than the text */
+  background-clip: text;
+  -webkit-background-clip: text; /* For Safari */
+  color: transparent; /* Hides the original text color */
+  animation: rainbow 5s linear infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+              </style>
                 <script>
 window.onload = function() {
   const wordToReplace = "$DESU$";
   const replacementHTML = '<h1 class="desu-text">$DESU$</h1>';
   document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
+    const wordToReplace2 = "$DOUBLERAINBOW$";
+   const replacementHTML2 = '<h1 class="rainbow-text">$DOUBLERAINBOW$</h1>';
+  document.body.innerHTML =
+  document.body.innerHTML.replaceAll(wordToReplace2, replacementHTML2);
 };
   </script>
-
-          
+            
+                
+           
+             
+         
 <!-- begin wwww.htmlcommentbox.com -->
  <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
@@ -501,7 +533,6 @@ height: 220px;
 </style>
 </body>
 </html>
-
 
 
 
