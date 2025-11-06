@@ -23,26 +23,82 @@
   
    
 
-      <script>
-function ensureTrailingSlash(url) {
-  // Split the URL into path and query/hash parts
-  const urlParts = url.split(/[?#]/);
-  let path = urlParts[0];
+     <style>
+                 .desu-text {
+    font-size: 20px;
+    display: inline;
+    text-align: center;
+    color: #fff; /* Initial text color */
+    animation: colorGlow 3s infinite alternate ease-in-out; /* Animation properties */
+}
 
-  // Regex to check if the path ends with a trailing slash
-  const trailingSlashRegex = /\/$/;
+@keyframes colorGlow {
+    0% {
+        text-shadow: 0 0 10px #089913, /* Cyan glow */
+                     0 0 20px #0EED1F,
+                     0 0 30px #0EED1F,
+                     0 0 40px #089913;
+    }
+    100% {
+        text-shadow: 0 0 10px #ED210E, /* Magenta glow */
+                     0 0 20px #ED210E,
+                     0 0 30px #ED210E,
+                     0 0 40px #ED210E;
+    }
+}
+             </style>
+            
+            <style>
+              /* style.css */
+.rainbow-text {
+  font-size: 20px; /* Adjust as needed */
+  font-weight: bold;
+  display: inline;
+  text-align: center;
+  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red);
+  background-size: 200% 100%; /* Makes the gradient wider than the text */
+  background-clip: text;
+  -webkit-background-clip: text; /* For Safari */
+  color: transparent; /* Hides the original text color */
+  animation: rainbow 5s linear infinite;
+}
 
-  // If the path doesn't have a trailing slash, add one
-  if (!trailingSlashRegex.test(path)) {
-    path = path + '/';
-    // Reconstruct the URL with the new path
-    const newUrl = path + urlParts.slice(1).join('?');
-    history.replaceState({}, '', newUrl);
+@keyframes rainbow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 0%;
   }
 }
-     window.addEventListener('load', () => {
-  ensureTrailingSlash(window.location.href);
-});
+              </style>
+                <script>
+document.addEventListener("DOMContentLoaded", function() {
+  const wordToReplace = "$DESU$";
+  const replacementHTML = '<h1 class="desu-text">$DESU$</h1>';
+  document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
+    const wordToReplace2 = "$DOUBLERAINBOW$";
+   const replacementHTML2 = '<h1 class="rainbow-text">$DOUBLERAINBOW$</h1>';
+  document.body.innerHTML =
+  document.body.innerHTML.replaceAll(wordToReplace2, replacementHTML2); 
+};
+  </script> 
+       <script>
+  function addTrailingSlashCosmetically() {
+    // Check if the current URL pathname ends with a slash
+    if (window.location.pathname.endsWith('/') === false) {
+      // Ensure we don't add a slash if a query string or fragment identifier is present
+      if (!window.location.search && !window.location.hash) {
+        var newUrl = window.location.protocol + '//' + window.location.host + window.location.pathname + '/' + window.location.search + window.location.hash;
+        
+        // Replace the current history entry with the new URL
+        window.history.replaceState(null, document.title, newUrl);
+      }
+    }
+  }
+
+  // Call the function when the page loads
+  addTrailingSlashCosmetically();
 </script>
       
    <style>
@@ -299,37 +355,7 @@ image.setAttribute('src', randomSource);
 </div>
 
              
-             <style>
-                 .desu-text {
-    font-size: 20px;
-    display: inline;
-    text-align: center;
-    color: #fff; /* Initial text color */
-    animation: colorGlow 3s infinite alternate ease-in-out; /* Animation properties */
-}
-
-@keyframes colorGlow {
-    0% {
-        text-shadow: 0 0 10px #089913, /* Cyan glow */
-                     0 0 20px #0EED1F,
-                     0 0 30px #0EED1F,
-                     0 0 40px #089913;
-    }
-    100% {
-        text-shadow: 0 0 10px #ED210E, /* Magenta glow */
-                     0 0 20px #ED210E,
-                     0 0 30px #ED210E,
-                     0 0 40px #ED210E;
-    }
-}
-             </style>
-                <script>
-window.onload = function() {
-  const wordToReplace = "$DESU$";
-  const replacementHTML = '<h1 class="desu-text">$DESU$</h1>';
-  document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
-};
-  </script>
+         
 <!-- begin wwww.htmlcommentbox.com -->
  <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
@@ -499,6 +525,7 @@ height: 220px;
 </style>
 </body>
 </html>
+
 
 
 
