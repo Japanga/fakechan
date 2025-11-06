@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FakeChan Imageboards</title>
      
+
   
   
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
@@ -19,12 +20,10 @@
   
 
 
-
 </head>
 <body>
  
      <div id="message"></div>
-  
 
       
       <script>
@@ -49,9 +48,7 @@ function ensureTrailingSlash(url) {
 });
 </script>
 
-    <script>
-colorTexting();
-  </script>
+   
   
   <style>
     #imgDiv {
@@ -209,37 +206,7 @@ image.setAttribute('src', randomSource);
    
       </span>
 </div>
-
-               
-              <script>
-const wordToReplace = "$DESU$";
-const replacementClass = "desu-text";
-
-function replaceWordWithH1(node) {
-  // Recursively traverse the DOM
-  if (node.nodeType === Node.TEXT_NODE) {
-    if (node.textContent.includes(wordToReplace)) {
-      // Create a new h1 element
-      const h1 = document.createElement("h1");
-      h1.textContent = wordToReplace;
-      h1.className = replacementClass;
-
-      // Replace the text node with the new h1 element
-      node.parentNode.replaceChild(h1, node);
-    }
-  } else if (node.nodeType === Node.ELEMENT_NODE) {
-    // Traverse children elements
-    for (let i = 0; i < node.childNodes.length; i++) {
-      replaceWordWithH1(node.childNodes[i]);
-    }
-  }
-}
-
-// Start the process from the body of the document
-replaceWordWithH1(document.body);
-                  </script>
- 
-    
+              
   
  <div class="parent-div">
             <div class="item">
@@ -374,56 +341,7 @@ replaceWordWithH1(document.body);
           
           
           
-                  <style>
-                 .desu-text {
-    font-size: 20px;
-    display: inline;
-    text-align: center;
-    color: #fff; /* Initial text color */
-    animation: colorGlow 3s infinite alternate ease-in-out; /* Animation properties */
-}
-
-@keyframes colorGlow {
-    0% {
-        text-shadow: 0 0 10px #089913, /* Cyan glow */
-                     0 0 20px #0EED1F,
-                     0 0 30px #0EED1F,
-                     0 0 40px #089913;
-    }
-    100% {
-        text-shadow: 0 0 10px #ED210E, /* Magenta glow */
-                     0 0 20px #ED210E,
-                     0 0 30px #ED210E,
-                     0 0 40px #ED210E;
-    }
-}
-             </style>
-            
-            <style>
-              /* style.css */
-.rainbow-text {
-  font-size: 20px; /* Adjust as needed */
-  font-weight: bold;
-  display: inline;
-  text-align: center;
-  background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet, red);
-  background-size: 200% 100%; /* Makes the gradient wider than the text */
-  background-clip: text;
-  -webkit-background-clip: text; /* For Safari */
-  color: transparent; /* Hides the original text color */
-  animation: rainbow 5s linear infinite;
-}
-
-@keyframes rainbow {
-  0% {
-    background-position: 0% 0%;
-  }
-  100% {
-    background-position: 100% 0%;
-  }
-}
-              </style>
-        
+              
         
             
             
