@@ -1,6 +1,6 @@
 // main.js
 
-import { colorTexting } from './utils.js'; // Adjust the path as necessary
+import { colorTexting } from './colortext.js'; // Adjust the path as necessary
 
 // Call the imported function immediately (optional)
 colorTexting();
