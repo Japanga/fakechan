@@ -210,7 +210,35 @@ image.setAttribute('src', randomSource);
       </span>
 </div>
 
-      
+               
+              <script>
+const wordToReplace = "$DESU$";
+const replacementClass = "desu-text";
+
+function replaceWordWithH1(node) {
+  // Recursively traverse the DOM
+  if (node.nodeType === Node.TEXT_NODE) {
+    if (node.textContent.includes(wordToReplace)) {
+      // Create a new h1 element
+      const h1 = document.createElement("h1");
+      h1.textContent = wordToReplace;
+      h1.className = replacementClass;
+
+      // Replace the text node with the new h1 element
+      node.parentNode.replaceChild(h1, node);
+    }
+  } else if (node.nodeType === Node.ELEMENT_NODE) {
+    // Traverse children elements
+    for (let i = 0; i < node.childNodes.length; i++) {
+      replaceWordWithH1(node.childNodes[i]);
+    }
+  }
+}
+
+// Start the process from the body of the document
+replaceWordWithH1(document.body);
+                  </script>
+ 
     
   
  <div class="parent-div">
@@ -397,35 +425,6 @@ image.setAttribute('src', randomSource);
               </style>
         
         
-               
-              <script>
-const wordToReplace = "$DESU$";
-const replacementClass = "desu-text";
-
-function replaceWordWithH1(node) {
-  // Recursively traverse the DOM
-  if (node.nodeType === Node.TEXT_NODE) {
-    if (node.textContent.includes(wordToReplace)) {
-      // Create a new h1 element
-      const h1 = document.createElement("h1");
-      h1.textContent = wordToReplace;
-      h1.className = replacementClass;
-
-      // Replace the text node with the new h1 element
-      node.parentNode.replaceChild(h1, node);
-    }
-  } else if (node.nodeType === Node.ELEMENT_NODE) {
-    // Traverse children elements
-    for (let i = 0; i < node.childNodes.length; i++) {
-      replaceWordWithH1(node.childNodes[i]);
-    }
-  }
-}
-
-// Start the process from the body of the document
-replaceWordWithH1(document.body);
-                  </script>
- 
             
             
 <style>
