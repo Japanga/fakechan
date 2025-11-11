@@ -202,12 +202,19 @@ image.setAttribute('src', randomSource);
     </div>
   <style>
   
-.image-grid {
+
+    #imageGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1px;
-    width: 80%;
-overflow:scroll;
+      overflow: scroll;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid columns */
+    gap: 140px; /* Space between grid items */
+    padding: 20px;
+    background-image: linear-gradient(#A6A6A6
+, #4F4F4F);
+    height:500px; 
+           border-style: solid;
+      border-width: 2px;
+      border-color: white; /* Sets all four borders to red */
 }
 
 .image-card {
@@ -216,16 +223,18 @@ overflow:scroll;
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9);
      height: 400px; 
+     width: 300px;
 }
 
 .image-card img {
-  width: 100%;
-    height: auto;
-    display: block;
+  width: 60%; /* Desired display width */
+    height: auto; /* Desired display height */
+    object-fit: fill;
 
 }
 
 .image-info {
+
     padding: 10px;
     font-size: 0.8em;
     color: #555;
@@ -243,7 +252,7 @@ overflow:scroll;
   </style>
     <script>
       const CLOUD_NAME = 'dussuas34'; // Replace with your Cloudinary cloud name
-const TAG =  'games_uploads';    // Replace with your specific tag
+const TAG = 'games_uploads';     // Replace with your specific tag
 const RESOURCE_TYPE = 'image';       // Can also be 'video' if needed
 
 const apiUrl = `https://res.cloudinary.com/${CLOUD_NAME}/${RESOURCE_TYPE}/list/${TAG}.json`;
@@ -278,7 +287,7 @@ function displayImages(resources) {
 
         const img = document.createElement('img');
         // Cloudinary URL structure: https://res.cloudinary.com/<cloud_name>/image/upload/<public_id>.<format> 
-        img.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_200,h_300,c_fill/${resource.public_id}.${resource.format}`;
+        img.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_auto,h_300,c_fill/${resource.public_id}.${resource.format}`;
         img.alt = resource.public_id; // Use public_id as alt text
 
         const info = document.createElement('div');
@@ -325,8 +334,6 @@ fetchImages();
 
 
 
-          
-
 
    <script>
      const hiddenGridButton = document.getElementById('upload_widget');
@@ -348,18 +355,6 @@ fetchImages();
      margin: 20px auto;
      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.7);
      transform: scale(0.8);
-}
-    #imageGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid columns */
-    gap: 10px; /* Space between grid items */
-    padding: 20px;
-    background-image: linear-gradient(#A6A6A6
-, #4F4F4F);
-    height:500px; 
-           border-style: solid;
-      border-width: 2px;
-      border-color: white; /* Sets all four borders to red */
 }
   /* Default link color */
 a {
@@ -393,11 +388,6 @@ textarea {
 , #5C3F22);
   }
 
-.grid-item img {
-    max-width: 100%;
-    height: auto;
-    display: block; /* Remove extra space below images */
-}
   .overlay-text {
     display: none;
     position: absolute;
