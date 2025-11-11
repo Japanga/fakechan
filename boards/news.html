@@ -74,6 +74,152 @@ function ensureTrailingSlash(url) {
         </div>
       </span>
 </div>
+
+ <style>
+   .popup-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+ 
+
+ </style>
+  
+  
+   <style>
+       .colored-line {
+    color:#850000;
+}
+      .colored-line2 {
+    color:#141A82;
+}
+      .colored-line3 {
+    color:#21C918;
+}
+      .colored-line4 {
+    color:green;
+}
+      .colored-line5 {
+    color:#ED3E09;
+}
+
+
+  </style>
+  
+    <div class="popup-container" id="popup-container">
+        <div class="popup">
+            <h2>Change Background Gradient</h2>
+            <p>Enter two colors separated by a comma [e.g., <b>#000000</b>, <span class="colored-line"><b>#850000</b></span>] or  [<b>black</b>, <span class="colored-line4">green</span>] Hexcode examples are black: <b>#000000</b>, red:  <span class="colored-line"><b>#850000</b></span> blue: <span class="colored-line2"><b>#000485</b></span> green: <span class="colored-line3"><b>#0EB005</b></span> orange: <span class="colored-line5"><b>#ED3E09</b></span> </p>
+            <input type="text" id="gradient-input" placeholder="e.g., #000000, #000485 or black, blue">
+          
+            <button id="change-gradient-btn">Apply Changes</button>
+          <h2>Change Page Font</h2>
+            <input type="text" id="colorInput" placeholder="e.g., red, green, teal etc. or #00ff00">
+    <button id="colorButton">Apply Color</button>
+                      <button id="close-popup-btn">Close</button>
+    
+        </div>
+    </div>
+    <button id="open-popup-btn">Settings</button>
+      
+  <script>
+    // Function to change the font color
+function changePageColor() {
+    // Get the value from the input field
+    const colorValue = document.getElementById('colorInput').value;
+  
+  const anchorLinks = document.getElementsByTagName('a'); 
+
+    // Get the body element of the page
+    const bodyElement = document.body;
+
+    // Apply the input value to the 'color' style property of the body
+    // The browser will attempt to use the entered value as a color
+    bodyElement.style.color = colorValue;
+    // 3. Loop through the links and apply the new color
+    for (let i = 0; i < anchorLinks.length; i++) {
+        anchorLinks[i].style.color = colorValue; // Change the inline style of each link
+    }
+}
+
+// Get the button element
+const button = document.getElementById('colorButton');
+
+// Add a click event listener to the button
+button.addEventListener('click', changePageColor);
+    </script>
+  
+  <script>
+    const openPopupBtn = document.getElementById('open-popup-btn');
+const closePopupBtn = document.getElementById('close-popup-btn');
+const popupContainer = document.getElementById('popup-container');
+const changeGradientBtn = document.getElementById('change-gradient-btn');
+const gradientInput = document.getElementById('gradient-input');
+
+// Function to open the popup
+openPopupBtn.addEventListener('click', () => {
+    popupContainer.style.display = 'flex';
+});
+
+// Function to close the popup
+closePopupBtn.addEventListener('click', () => {
+    popupContainer.style.display = 'none';
+});
+
+// Function to change the background gradient
+changeGradientBtn.addEventListener('click', () => {
+    const inputVal = gradientInput.value;
+    // Split the input string into an array of colors
+    const colors = inputVal.split(',').map(color => color.trim());
+
+    // Check if at least two valid colors were provided
+    if (colors.length >= 2) {
+        // Construct the linear gradient CSS string
+        const gradientString = `linear-gradient(to right, ${colors[0]}, ${colors[1]})`;
+        
+        // Apply the new gradient to the body background
+        document.body.style.background = gradientString;
+        
+        // Close the popup after applying
+        popupContainer.style.display = 'none';
+    } else {
+        alert('Please enter at least two colors separated by a comma.');
+    }
+});
+  </script>
+
+     <script>  
+    const image = document.querySelector('img[data-random-image]');
+const sources = image.dataset.randomImage.split(" ");
+const randomSource = sources[Math.floor(Math.random() * sources.length)]
+
+image.setAttribute('src', randomSource);
+    </script>
    <div class="parent-container">
                         <span style="color: darkred;">
             <h1>/news/ News</h1>
@@ -87,7 +233,7 @@ function ensureTrailingSlash(url) {
     </span>
    
             </div>
- <i><b>Massive site layout overhaul. Objects are more centered, board names are now displayed on the page, and the overall flow of FakeChan is much closer to the original. Even larger, the entire imageboard functionality has been re-designed allowing for deeper details about the files like their publication date, and the URLs they are hosted from to allow for re-downloading files sent to FakeChan. </i>
+ <i><b>Massive site layout overhaul. Objects are more centered, board names are now displayed on the page, and the overall flow of FakeChan is much closer to the original. Even larger, the entire imageboard functionality has been re-designed allowing for deeper details about the files like their publication date, and the URLs they are hosted from to allow for re-downloading files sent to FakeChan. Detailed customization has been added allowing for users to change the site gradient backgrounds and fonts. </i>
    
    
    
