@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Settings</title>
+</head>
+<body>
+  <h1>Change Background Color</h1>
+  <button onclick="setColor('lightblue')">Light Blue</button>
+  <button onclick="setColor('lightgreen')">Light Green</button>
+  <button onclick="setColor('lightcoral')">Light Coral</button>
+  <button onclick="setColor('white')">White</button>
+
+  <script>
+    function setColor(color) {
+      // Access the opener window (the main page) and call its function
+      if (window.opener && !window.opener.closed) {
+        window.opener.changeBackground(color);
+      }
+    }
+  </script>
+</body>
+</html>
