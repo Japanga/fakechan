@@ -197,6 +197,126 @@ image.setAttribute('src', randomSource);
 </div>
 
 
+ <div class="image-grid" id="imageGrid">
+        <!-- Images will be injected here by JavaScript -->
+    </div>
+  <style>
+  
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    width: 80%;
+overflow:scroll;
+}
+
+.image-card {
+    background-color: #fff;
+   
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9);
+     height: 400px; 
+}
+
+.image-card img {
+  width: 100%;
+    height: auto;
+    display: block;
+
+}
+
+.image-info {
+    padding: 10px;
+    font-size: 0.8em;
+    color: #555;
+}
+    .image-info p {
+    margin: 0;
+      
+}
+
+.image-info .filename {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+  </style>
+    <script>
+      const CLOUD_NAME = 'dussuas34'; // Replace with your Cloudinary cloud name
+const TAG = 'japan_uploads';
+const RESOURCE_TYPE = 'image';       // Can also be 'video' if needed
+
+const apiUrl = `https://res.cloudinary.com/${CLOUD_NAME}/${RESOURCE_TYPE}/list/${TAG}.json`;
+const imageGrid = document.getElementById('imageGrid');
+
+async function fetchImages() {
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        displayImages(data.resources);
+
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        imageGrid.innerHTML = '<p>Failed to load images. Check console for details.</p>';
+    }
+}
+
+function displayImages(resources) {
+    if (resources.length === 0) {
+        imageGrid.innerHTML = '<p>No images found with this tag.</p>';
+        return;
+    }
+
+    resources.forEach(resource => {
+        // Create elements
+        const card = document.createElement('div');
+        card.classList.add('image-card');
+
+        const img = document.createElement('img');
+        // Cloudinary URL structure: https://res.cloudinary.com/<cloud_name>/image/upload/<public_id>.<format> 
+        img.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_200,h_300,c_fill/${resource.public_id}.${resource.format}`;
+        img.alt = resource.public_id; // Use public_id as alt text
+
+        const info = document.createElement('div');
+        info.classList.add('image-info');
+
+        const filename = document.createElement('p');
+        // The public_id often corresponds to the filename if set during upload
+        filename.textContent = `Filename: ${resource.public_id}.${resource.format}`; 
+      
+      const downloadLink = document.createElement('p');
+      
+      downloadLink.textContent = `URL: ${resource.public_id}.${resource.format}`; 
+      
+      downloadLink.innerHTML = `URL: <a href="https://res.cloudinary.com/dussuas34/image/upload/${resource.public_id}.${resource.format}">${resource.public_id}.${resource.format}</a>`; 
+
+        const date = document.createElement('p');
+        // Format the upload date (resource.uploaded_at is an ISO string)
+        date.textContent = `Uploaded: ${new Date(resource.created_at).toLocaleDateString()}`;
+      
+      const author = document.createElement('p');
+      
+      author.textContent = `Author: Anonymous`; 
+
+        // Append elements
+        info.appendChild(filename);
+       info.appendChild(downloadLink);
+      info.appendChild(author);
+        info.appendChild(date);
+        card.appendChild(img);
+        card.appendChild(info);
+        imageGrid.appendChild(card);
+    });
+}
+
+// Initial fetch
+fetchImages();
+  </script>
+
 <!-- begin wwww.htmlcommentbox.com -->
  <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
  <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
@@ -204,22 +324,6 @@ image.setAttribute('src', randomSource);
 <!-- end www.htmlcommentbox.com -->
 
 
-
-
- <script type="text/javascript">
-     const myGallery = cloudinary.galleryWidget({
-       container: "#my-gallery",
-       cloudName: "dussuas34", // Replace with your Cloudinary cloud name
-       mediaAssets: [
-         { tag: "japan_uploads" }, // Replace with the desired tag for your images
-         // You can add more assets here, e.g., for videos or 360 spin sets
-         // { tag: "your_video_tag", mediaType: "video" },
-         // { tag: "your_spin_set_tag", mediaType: "spin" }
-       ]
-     });
-     myGallery.render();
-   </script>
-          
 
 
    <script>
@@ -374,7 +478,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
