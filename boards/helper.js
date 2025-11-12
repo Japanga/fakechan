@@ -1,6 +1,6 @@
 // helper.js
 const cloudinary = require('cloudinary').v2;
-
+ 
 // Configure Cloudinary using environment variables
 // Ensure CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET are set
 cloudinary.config({
