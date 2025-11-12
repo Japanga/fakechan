@@ -394,8 +394,7 @@ p {
          cloudinary.openUploadWidget(
              {
                  cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
-                 uploadPreset: "randomUploads", // Replace with the name of your unsigned upload preset
-               description: inputElement.value
+                 uploadPreset: "randomUploads"// Replace with the name of your unsigned upload preset
              },
            
              (error, result) => {
@@ -421,10 +420,13 @@ p {
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
         const descriptionValue = descriptionInput.value;
+      context: true;
+      
 
         if (descriptionValue) {
+          
             // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue;
+            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
         }
         cb(params);
@@ -433,7 +435,7 @@ p {
     if (!error && result && result.event === "success") {
         alert('Done! Here is the image info: ', result.info);
         // Optional: Clear the input field after successful upload
-        document.getElementById('imageDescription').value = '';
+
     }
 });
 
@@ -516,6 +518,7 @@ const TAG = 'random_uploads';     // Replace with your specific tag
 const RESOURCE_TYPE = 'image';       // Can also be 'video' if needed
 
 const apiUrl = `https://res.cloudinary.com/${CLOUD_NAME}/${RESOURCE_TYPE}/list/${TAG}.json`;
+      
 const imageGrid = document.getElementById('imageGrid');
 
 async function fetchImages() {
@@ -534,6 +537,8 @@ async function fetchImages() {
     }
 }
 
+      
+      
 function displayImages(resources) {
     if (resources.length === 0) {
         imageGrid.innerHTML = '<p>No images found with this tag.</p>';
@@ -552,7 +557,11 @@ function displayImages(resources) {
 
         const info = document.createElement('div');
         info.classList.add('image-info');
-
+    
+const postText = document.createElement('p');
+postText.textContent = `Post:`; 
+postText.innerHTML = resource.public_id.custom_desc;
+      
         const filename = document.createElement('p');
         // The public_id often corresponds to the filename if set during upload
         filename.textContent = `Filename: ${resource.public_id}.${resource.format}`; 
@@ -571,7 +580,7 @@ function displayImages(resources) {
       
       author.textContent = `Author: Anonymous`; 
 
-        // Append elements
+       info.appendChild(postText);
         info.appendChild(filename);
        info.appendChild(downloadLink);
       info.appendChild(author);
@@ -580,11 +589,14 @@ function displayImages(resources) {
         card.appendChild(info);
         imageGrid.appendChild(card);
     });
+  
 }
 
 // Initial fetch
 fetchImages();
   </script>
+
+
 
 <!-- begin wwww.htmlcommentbox.com -->
  <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
