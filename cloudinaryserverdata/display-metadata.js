@@ -32,5 +32,9 @@ export const getCustomDescription = async (publicId) => {
   }
 };
 
-// Replace 'your_public_id' with the actual public ID of your image
+export function displayMessage() {
+  // Replace 'your_public_id' with the actual public ID of your image
 getCustomDescription('ftnzsbd22tlun8ccvxag');
+alert(`The custom_desc for image "${publicId}" is:`, customDesc);
+}
+
