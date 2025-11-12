@@ -11,7 +11,7 @@ cloudinary.config({
   secure: true
 });
 
-export const getCustomDescription = async (publicId) => {
+const getCustomDescription = async (publicId) => {
   try {
     // Use the Admin API's resource method to get image details
     const result = await cloudinary.api.resource(publicId, {
@@ -22,19 +22,16 @@ export const getCustomDescription = async (publicId) => {
     const customDesc = result.context && result.context.custom && result.context.custom.custom_desc;
 
     if (customDesc) {
-      alert(`The custom_desc for image "${publicId}" is:`, customDesc);
+      console.log(`The custom_desc for image "${publicId}" is:`, customDesc);
     } else {
-      alert(`No custom_desc found for image "${publicId}" or it was not stored in 'context.custom'.`);
+      console.log(`No custom_desc found for image "${publicId}" or it was not stored in 'context.custom'.`);
     }
 
   } catch (error) {
-    alert('Error fetching image metadata:', error.message);
+    console.error('Error fetching image metadata:', error.message);
   }
 };
 
-export function displayMessage() {
-  // Replace 'your_public_id' with the actual public ID of your image
+// Replace 'your_public_id' with the actual public ID of your image
 getCustomDescription('ftnzsbd22tlun8ccvxag');
-alert(`The custom_desc for image "${publicId}" is:`, customDesc);
-}
-
+export const replacementText = getCustomDescription('ftnzsbd22tlun8ccvxag');
