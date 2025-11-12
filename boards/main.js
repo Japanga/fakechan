@@ -1,4 +1,4 @@
 //main.js
-import { sayHello } from './helper.js';
+import { getCustomDescription } from './display-metadata.js';
 
-sayHello();
+getCustomDescription('ftnzsbd22tlun8ccvxag');
