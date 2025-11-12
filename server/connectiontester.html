@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Data from Node.js</title>
+</head>
+<body>
+    <h1>Data from Node.js Server:</h1>
+    <p id="message-area">Loading...</p>
+ 
+    <script>
+        // The URL must include the protocol, domain, and specified port
+        const api_url = 'http://localhost:4400/api/data'; 
+
+        async function getapi(url) {
+            try {
+                // Fetch data from the Node.js API
+                const response = await fetch(url);
+
+                // Check if the request was successful
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Parse the JSON data from the response body
+                const data = await response.json();
+
+                // Display the data in the HTML element
+                document.getElementById('message-area').innerText = `Message: ${data.message}\nTimestamp: ${data.timestamp}`;
+            } catch (error) {
+                // Handle any errors that occurred during the fetch operation
+                console.error('Error fetching data:', error);
+                document.getElementById('message-area').innerText = 'Failed to load data.';
+            }
+        }
+
+        // Call the function to fetch the data when the page loads
+        getapi(api_url);
+    </script>
+</body>
+</html>
