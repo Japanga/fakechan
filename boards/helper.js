@@ -23,10 +23,10 @@ export function getCustomDescription = async (publicId) => {
     const customDesc = result.context && result.context.custom && result.context.custom.custom_desc;
 
     if (customDesc) {
-      console.log(`The custom_desc for image "${publicId}" is:`, customDesc);
+      alert(`The custom_desc for image "${publicId}" is:`, customDesc);
        paragraphElement.innerHTML = customDesc;
     } else {
-      console.log(`No custom_desc found for image "${publicId}" or it was not stored in 'context.custom'.`);
+      alert(`No custom_desc found for image "${publicId}" or it was not stored in 'context.custom'.`);
     }
 
   } catch (error) {
