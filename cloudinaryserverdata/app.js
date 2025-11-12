@@ -18,7 +18,7 @@ cloudinary.config({
 app.use(cors());
 
 // Define a route to fetch image data
-app.get('/api/images', async (req, res) => {
+app.get('/api/images/uploads', async (req, res) => {
   try {
     // Use the Admin API to retrieve resources
     // The 'context=true' option is crucial to fetch custom metadata (descriptions)
@@ -50,4 +50,5 @@ app.get('/api/images', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);
+
 });
