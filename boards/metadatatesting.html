@@ -1,43 +1,33 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudinary Metadata</title>
+    <title>Cloudinary Image Gallery</title>
+    <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .image-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .image-container img {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Image Description:</h1>
-    <p id="description-paragraph">Loading description...</p>
+    <h1>My Image Gallery (Tag: random_uploads)</h1>
+    <div class="gallery" id="gallery">
+        <!-- Images will be injected here -->
+    </div>
 
-    <!-- Link your external JavaScript file -->
-    <script src="/fakechan/cloudinaryserverdata/app.js">
-  </script>
-  
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-    fetch('http://localhost:3000/api/images')
-        .then(response => response.json())
-        .then(images => {
-            const gallery = document.getElementById('gallery');
-            images.forEach(image => {
-                const container = document.createElement('div');
-                container.classList.add('image-container');
-
-                const imgElement = document.createElement('img');
-                imgElement.src = image.url;
-                imgElement.alt = image.description; // Use description as alt text
-
-                const descElement = document.createElement('p');
-                descElement.classList.add('description');
-                descElement.textContent = image.description;
-
-                container.appendChild(imgElement);
-                container.appendChild(descElement);
-                gallery.appendChild(container);
-            });
-        })
-        .catch(error => console.error('Error fetching images:', error));
-});
-    </script>
+    <script src="/fakechan/cloudinaryserverdata/app.js"></script>
 </body>
 </html>
