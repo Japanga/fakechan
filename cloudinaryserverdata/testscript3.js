@@ -1,4 +1,4 @@
-// display-metadata.js
+//testscript3.js
 
 const cloudinary = require('cloudinary').v2;
 
