@@ -1,54 +1,29 @@
-//app.js
-const express = require('express');
-const cloudinary = require('cloudinary').v2;
-const cors = require('cors');
+// app.js
+async function fetchImages() {
+    const tag = 'nature'; // Replace with your specific tag
+    const response = await fetch(`http://localhost:3000/images/${tag}`);
+    const images = await response.json();
+    displayImages(images);
+}
 
-const app = express();
-const PORT = 3000;
+function displayImages(images) {
+    const gallery = document.getElementById('gallery');
+    gallery.innerHTML = ''; // Clear previous images
+    images.forEach(image => {
+        const container = document.createElement('div');
+        container.classList.add('image-container');
 
-// Configure Cloudinary with your credentials
-cloudinary.config({
-  cloud_name: 'dussuas34',
-  api_key: '423721223638219',
-  api_secret: 'gkJMCXQBwhQj48HCq9_jAJLZZLc',
-  secure: true
-});
+        const img = document.createElement('img');
+        img.src = image.url;
+        img.alt = image.description; // Use the description as alt text
 
-// Use cors to allow frontend requests
-app.use(cors());
+        const desc = document.createElement('p');
+        desc.textContent = image.description; // Display the custom description
 
-// Define a route to fetch image data
-app.get('/api/images/uploads', async (req, res) => {
-  try {
-    // Use the Admin API to retrieve resources
-    // The 'context=true' option is crucial to fetch custom metadata (descriptions)
-    const result = await cloudinary.api.resources({ 
-      type: 'upload', 
-      prefix: '', // Optional: specify a folder prefix
-      max_results: 30, // Adjust as needed for pagination
-      context: true // Get custom context metadata
+        container.appendChild(img);
+        container.appendChild(desc);
+        gallery.appendChild(container);
     });
+}
 
-    // Extract relevant data: public_id, URL, and custom description from context
-    const images = result.resources.map(resource => {
-      // The description is stored in the 'context.custom.description' field
-      const description = resource.context && resource.context.custom ? resource.context.custom.description : 'No description available';
-      return {
-        publicId: resource.public_id,
-        url: resource.secure_url,
-        description: description
-      };
-    });
-
-    res.json(images);
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error fetching images');
-  }
-});
-
-app.listen(PORT, () => {
-  console.log(`Backend server running on http://localhost:${PORT}`);
-
-});
+fetchImages();
