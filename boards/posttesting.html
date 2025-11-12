@@ -310,17 +310,11 @@ p {
 }
 </style>
     <div class="parent-container">
- <div class="container">
-        <!-- Text input field with an ID for easy access in JS -->
-        <input type="text" id="textInput" placeholder="Enter text here...">
-        
-        <!-- Button with an onClick event listener to run a JavaScript function -->
-        <button onclick="saveAndDisplay()">Write Post</button>
-        
-        <!-- Paragraph where the saved text will be displayed, also with an ID -->
-        <p><strong>Post Content:</strong> <span id="outputParagraph"></span></p>
-    </div>
+
       </div>
+
+<input type="text" id="imageDescription" placeholder="Enter image description">
+
 
                         <div class="parent-container">
  <div class="parent-div">
@@ -383,7 +377,7 @@ p {
        paragraph19.textContent = '🍋‍🟩';
     });
           </script>
-    
+     
     
     
           
@@ -417,6 +411,36 @@ p {
      });
 
           </script>
+
+
+<script>
+  var myWidget = cloudinary.createUploadWidget({
+    cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
+    uploadPreset: 'randomUploads', // Replace with your upload preset
+    // Use prepareUploadParams to add custom data
+    prepareUploadParams: (cb, params) => {
+        const descriptionInput = document.getElementById('imageDescription');
+        const descriptionValue = descriptionInput.value;
+
+        if (descriptionValue) {
+            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
+            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue;
+            // You can also use custom keys, e.g., 'custom_desc=...'
+        }
+        cb(params);
+    }
+}, (error, result) => {
+    if (!error && result && result.event === "success") {
+        alert('Done! Here is the image info: ', result.info);
+        // Optional: Clear the input field after successful upload
+        document.getElementById('imageDescription').value = '';
+    }
+});
+
+document.getElementById("upload_widget").addEventListener("click", function(){
+    myWidget.open();
+}, false);
+   </script>
           
             
 <hr class="long-line">
