@@ -428,7 +428,7 @@ p {
             // Cloudinary uses pipe (|) separated key-value pairs for context metadata
             params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
-          params.metadata = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue;
+          params.metadata = 'custom_desc=' + descriptionValue;
         }
         cb(params);
     }
