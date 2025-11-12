@@ -11,7 +11,7 @@ cloudinary.config({
   secure: true
 });
 
-const getCustomDescription = async (publicId) => {
+export const getCustomDescription = async (publicId) => {
   try {
     // Use the Admin API's resource method to get image details
     const result = await cloudinary.api.resource(publicId, {
