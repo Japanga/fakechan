@@ -21,7 +21,7 @@
                 // Check if the request was successful
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                } 
 
                 // Parse the JSON data from the response body
                 const data = await response.json();
@@ -31,8 +31,9 @@
             } catch (error) {
                 // Handle any errors that occurred during the fetch operation
                 console.error('Error fetching data:', error);
-                document.getElementById('message-area').innerText = 'Failed to load data.';
-            }
+                document.getElementById('message-area').innerText = 'Failed to get a signal from the FakeChan node.js servers';
+              document.getElementById('message-area').innerHTML = '<span style="color: red;">Failed to get a signal from the FakeChan node.js servers, the hoster is unavailable at the moment and the post metadata cannot be retrieved.';
+            } 
         }
 
         // Call the function to fetch the data when the page loads
