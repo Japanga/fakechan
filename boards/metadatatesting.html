@@ -1,9 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudinary Metadata</title>
 </head>
 <body>
-    <script src="main.js" type="module"></script>
+    <h1>Image Description:</h1>
+    <p id="description-paragraph">Loading description...</p>
+
+    <!-- Link your external JavaScript file -->
+    <script src="/fakechan/cloudinaryserverdata/app.js">
+  </script>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    fetch('http://localhost:3000/api/images')
+        .then(response => response.json())
+        .then(images => {
+            const gallery = document.getElementById('gallery');
+            images.forEach(image => {
+                const container = document.createElement('div');
+                container.classList.add('image-container');
+
+                const imgElement = document.createElement('img');
+                imgElement.src = image.url;
+                imgElement.alt = image.description; // Use description as alt text
+
+                const descElement = document.createElement('p');
+                descElement.classList.add('description');
+                descElement.textContent = image.description;
+
+                container.appendChild(imgElement);
+                container.appendChild(descElement);
+                gallery.appendChild(container);
+            });
+        })
+        .catch(error => console.error('Error fetching images:', error));
+});
+    </script>
 </body>
 </html>
