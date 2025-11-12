@@ -1,4 +1,5 @@
 //main.js
-import { sayHello } from './helper.js';
+import { getCustomDescription } from './helper.js';
 
-sayHello();
+// Replace 'your_public_id' with the actual public ID of your image
+getCustomDescription('ftnzsbd22tlun8ccvxag');
