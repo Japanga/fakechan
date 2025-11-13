@@ -324,6 +324,7 @@ image.setAttribute('src', randomSource);
 
                 // Display the data in the HTML element
                 document.getElementById('message-area').innerText = `Message: ${data.message}\nTimestamp: ${data.timestamp}`;
+              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly.';
             } catch (error) {
                 // Handle any errors that occurred during the fetch operation
                 console.error('Error fetching data:', error);
