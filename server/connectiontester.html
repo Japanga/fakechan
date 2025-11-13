@@ -324,7 +324,7 @@ image.setAttribute('src', randomSource);
 
                 // Display the data in the HTML element
                 document.getElementById('message-area').innerText = `Message: ${data.message}\nTimestamp: ${data.timestamp}`;
-              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly. The current detected proxu domains are     <p id="content-placeholder">This is the original content of the paragraph. It will be replaced.</p>';
+              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly. The current detected tunnel port forwarding domains are     <b><p id="content-placeholder">This is the original content of the paragraph. It will be replaced.</p></b> for signals/pinging <b><p id="content-placeholder2">This is the original content of the paragraph. It will be replaced.</p></b> for hosting the Server Mode version of /b/ <b><p id="content-placeholder3">This is the original content of the paragraph. It will be replaced.</p></b> for hosting the Server Mode version of /a/ <b><p id="content-placeholder4">This is the original content of the paragraph. It will be replaced.</p></b> for hosting the Server Mode version of /vid/';
             } catch (error) {
                 // Handle any errors that occurred during the fetch operation
                 console.error('Error fetching data:', error);
@@ -343,6 +343,156 @@ function loadExternalContent() {
     // Specify the path to your external text file
     const fileUrl = '/fakechan/server/tunneldomain1.txt'; 
     const targetElementId = 'content-placeholder';
+
+    fetch(fileUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            // Read the response as plain text
+            return response.text(); 
+        })
+        .then(textData => {
+            // Find the target element and replace its content
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = textData; // Use textContent for plain text
+            } else {
+                console.error('Target element not found:', targetElementId);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the external file:', error);
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = 'Failed to load content.';
+            }
+        });
+}
+
+// Call the function immediately after the script loads
+loadExternalContent();
+  </script>
+  
+   <script>
+// Function to fetch content and update the DOM
+function loadExternalContent() {
+    // Specify the path to your external text file
+    const fileUrl = '/fakechan/server/tunneldomain2.txt'; 
+    const targetElementId = 'content-placeholder2';
+
+    fetch(fileUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            // Read the response as plain text
+            return response.text(); 
+        })
+        .then(textData => {
+            // Find the target element and replace its content
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = textData; // Use textContent for plain text
+            } else {
+                console.error('Target element not found:', targetElementId);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the external file:', error);
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = 'Failed to load content.';
+            }
+        });
+}
+
+// Call the function immediately after the script loads
+loadExternalContent();
+  </script>
+  
+   <script>
+// Function to fetch content and update the DOM
+function loadExternalContent() {
+    // Specify the path to your external text file
+    const fileUrl = '/fakechan/server/tunneldomain3.txt'; 
+    const targetElementId = 'content-placeholder3';
+
+    fetch(fileUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            // Read the response as plain text
+            return response.text(); 
+        })
+        .then(textData => {
+            // Find the target element and replace its content
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = textData; // Use textContent for plain text
+            } else {
+                console.error('Target element not found:', targetElementId);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the external file:', error);
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = 'Failed to load content.';
+            }
+        });
+}
+
+// Call the function immediately after the script loads
+loadExternalContent();
+  </script>
+  
+  
+   <script>
+// Function to fetch content and update the DOM
+function loadExternalContent() {
+    // Specify the path to your external text file
+    const fileUrl = '/fakechan/server/tunneldomain4.txt'; 
+    const targetElementId = 'content-placeholder4';
+
+    fetch(fileUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            // Read the response as plain text
+            return response.text(); 
+        })
+        .then(textData => {
+            // Find the target element and replace its content
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = textData; // Use textContent for plain text
+            } else {
+                console.error('Target element not found:', targetElementId);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the external file:', error);
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = 'Failed to load content.';
+            }
+        });
+}
+
+// Call the function immediately after the script loads
+loadExternalContent();
+  </script>
+  
+  
+   <script>
+// Function to fetch content and update the DOM
+function loadExternalContent() {
+    // Specify the path to your external text file
+    const fileUrl = '/fakechan/server/tunneldomain2.txt'; 
+    const targetElementId = 'content-placeholder2';
 
     fetch(fileUrl)
         .then(response => {
