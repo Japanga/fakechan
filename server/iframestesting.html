@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iFrame 503 Error Check</title>
+</head>
+<body>
+    <h1>Checking iFrame Status</h1>
+ 
+    <script>
+      async function checkIfIframeHas503(iframeId, url) {
+    try {
+        const response = await fetch(url, { method: 'HEAD' }); // Using HEAD method is efficient
+        const status = response.status;
+
+        if (status === 503) {
+            displayStatement("Error: The iframe source returned a 503 Service Unavailable error.");
+            return true;
+        } else if (!response.ok) {
+            displayStatement(`Error: The iframe source returned an HTTP error, status code: ${status}.`);
+        } else {
+            // If the status is okay (e.g., 200), load the iframe
+            document.getElementById(iframeId).src = url;
+            alert("Success: The iframe is loading correctly.");
+        }
+    } catch (error) {
+        // This catch block handles network issues but not cross-origin errors if a simple fetch is blocked
+        alert("Error: A network error occurred while trying to check the iframe source.");
+    }
+    return false;
+}
+
+function displayStatement(message) {
+    // A function to display the result on your page
+    const outputElement = document.getElementById('status-display');
+    if (outputElement) {
+        outputElement.textContent = message;
+    } else {
+        console.log(message);
+    }
+}
+
+// Example usage (replace 'myIframe' and the URL with your actual values)
+// Make sure this script runs after the DOM is loaded and the elements exist
+
+      document.addEventListener('DOMContentLoaded', function() {
+  // Your code here will run after the HTML is ready
+  checkIfIframeHas503('myIframe', 'https://japanga.github.io/fakechan/server/vid');
+});
+  </script>
+</body>
+</html>
