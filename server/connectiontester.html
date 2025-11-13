@@ -306,17 +306,8 @@ image.setAttribute('src', randomSource);
     <p id="message-area">Loading...</p>
  
     <script>
-      
-      let fileContent;
-      async function loadFileContent() {
-  const response = await fetch('/fakechan/servers/tunneldomain1.txt');
-  fileContent = await response.text();
-  console.log(fileContent); // Use the content here
-}
-
-loadFileContent();
         // The URL must include the protocol, domain, and specified port
-        const api_url = fileContent + ':4400/api/data'; 
+        const api_url = 'http://localhost:4400/api/data'; 
 
         async function getapi(url) {
             try {
