@@ -316,6 +316,19 @@ p {
 <input type="text" id="imageDescription" placeholder="Enter text content to accompany your post...">
 
 
+<form method="POST">
+  <div class="h-captcha" data-sitekey="33045dda-670e-4626-b55c-49ee0dbadd76" data-callback="onRecaptchaSuccess"></div>
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+</form>
+
+   <script>
+
+          function onRecaptchaSuccess(token) {
+       const hiddenGridButton = document.getElementById('upload_widget');
+     hiddenGridButton.style.visibility = 'visible';
+    }
+    </script>
+
                         <div class="parent-container">
  <div class="parent-div">
             <div class="item">
@@ -324,7 +337,7 @@ p {
              </div>
         
    <div class="item">
-  <a href="https://cloudinary.com/"><img src="https://yourimageshare.com/ib/5JDVcid1uo.png" alt="Flowers in Chania" width="100" height="73"></a>
+  <a href="https://cloudinary.com/"><img src="https://yourimageshare.com/ib/QhyfLmWead.png" alt="Flowers in Chania" width="253" height="143"></a>
    </div>
           </div>
                            </div>
@@ -465,7 +478,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
 
    <script>
      const hiddenGridButton = document.getElementById('upload_widget');
-     //hiddenGridButton.style.visibility = 'hidden';
+     hiddenGridButton.style.visibility = 'hidden';
       </script>
           
           
