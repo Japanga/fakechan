@@ -1,4 +1,4 @@
-//tagtests.js
+//testscript2.js
 const cloudinary = require('cloudinary').v2;
 
 // Configure Cloudinary with your credentials (cloud_name, api_key, api_secret)
