@@ -303,75 +303,74 @@ image.setAttribute('src', randomSource);
 </head>
 <body>
  
-  
-  
-  
-  
-   <h1>Domain Activity Status</h1>
-    <p>Loading domain list from <a href="https://japanga.github.io/fakechan/server/tunneldomainslist.txt">https://japanga.github.io/fakechan/server/tunneldomainslist.txt</a> and checking status...</p>
-  
-    <div id="status-container">
-  </div>
- 
+    <div class="container">
+       <span style="color: darkred;">
+        <h1>Check FakeChan Server signals</h1>
+        <label for="urlInput">Enter the URL of the https://japanga.github.io/fakechan/server/tunneldomainslist.txt file:</label>
+        <input type="text" id="urlInput" placeholder="e.g., tunneldomain1.txt, tunneldomain2.txt. tunneldomain3.txt, tunneldomain4.txt">
+        <button onclick="checkFileContent()">Check File</button>
+        <div id="status"></div>
+    </div>
+
     <script>
-      // Function to fetch the domains list from the .txt file
-async function fetchDomainList(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch domain list: ${response.status}`);
+        async function checkFileContent() {
+            const url = document.getElementById('urlInput').value.trim();
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = 'Fetching...';
+            statusDiv.className = '';
+
+            if (!url) {
+                statusDiv.textContent = 'Please enter a valid URL.';
+                statusDiv.className = 'error';
+                return;
+            }
+
+            try {
+                // Fetch the file content
+                const response = await fetch(url);
+
+                // Check if the fetch was successful (HTTP status code 200-299)
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                // Get the response as text
+                const text = await response.text();
+
+                // Check if the text content (after trimming whitespace) is empty
+                if (text.trim().length === 0) {
+                    statusDiv.textContent = 'Error: The file is empty or contains only whitespace, meaning no proxy for the port address has been listed today and there is no signal.';
+                    statusDiv.className = 'error';
+                } else {
+                    statusDiv.textContent = 'Success! File content:\n\n' + text;
+                    statusDiv.className = 'success';
+                }
+
+            } catch (error) {
+                // This catch block handles network errors (e.g., 'Failed to fetch') and status errors thrown above
+                console.error('Fetch error:', error);
+                statusDiv.textContent = 'Error: ' + error.message + '. Please check the URL, network connection, and CORS policies.';
+                statusDiv.className = 'error';
+            }
         }
-        const text = await response.text();
-        // Split text by new line and filter out empty lines
-        return text.split('\n').map(domain => domain.trim()).filter(domain => domain.length > 0);
-    } catch (error) {
-        console.error(error);
-        return [];
+    </script>
+   <script>
+   function forceReloadOnce() {
+    // Check if the page was accessed by navigating into the history (e.g., back button)
+    // or by a normal reload using the browser's default behavior
+    if (window.performance.navigation.type === 0) {
+      // If so, force a full reload from the server, bypassing the cache
+      // The 'true' parameter is supported in all major browsers including Chrome, Firefox, Safari, and Edge
+      window.location.reload(true);
+      localStorage.clear();
+sessionStorage.clear();
     }
-}
- 
-// Function to check a single domain's status
-async function checkDomainStatus(domain) {
-    const statusContainer = document.getElementById('status-container');
-    const domainUrl = `${domain}`; // Assuming HTTPS for modern web
+  }
 
-    try {
-        const response = await fetch(domainUrl, { method: 'HEAD', mode: 'no-cors' });
-        // In 'no-cors' mode, we cannot read the status code for cross-origin requests.
-        // The fetch succeeds if a connection is made, but status is opaque (0).
-        // This approach can only verify basic connectivity, not specific HTTP statuses like 503 from external domains.
-        
-        // For same-origin requests, this would work:
-        // if (response.status === 503) {
-        //     statusContainer.innerHTML += `<p style="color: red;">${domainUrl} is active but returned Error 503 (Service Unavailable).</p>`;
-        // } else if (response.ok) {
-        //     statusContainer.innerHTML += `<p style="color: green;">${domainUrl} is active and OK.</p>`;
-        // } else {
-        //     statusContainer.innerHTML += `<p>Status for ${domainUrl}: ${response.status}</p>`;
-        // }
-
-        // Due to CORS restrictions on cross-origin requests, a backend proxy is the reliable solution.
-        // The following message explains the limitation:
-        statusContainer.innerHTML += `<p style="color: green;">Basic connectivity check for ${domainUrl} complete.</p>`;
- 
-
-    } catch (error) {
-        // This usually catches network errors, DNS issues, or blocked requests 
-        statusContainer.innerHTML += `<p style="color: gray;">${domainUrl} seems inactive or unreachable: ${error.message}</p>`;
-    }
-}
-
-// Main function to run the checks
-async function runChecks() {
-    const domains = await fetchDomainList('https://japanga.github.io/fakechan/server/tunneldomainslist.txt');
-    for (const domain of domains) {
-        await checkDomainStatus(domain);
-    }
-}
-
-runChecks();
-  </script>
-  
+  // Add event listener for DOMContentLoaded to run the function when the initial
+  // HTML document has been completely loaded and parsed
+  window.addEventListener("DOMContentLoaded", forceReloadOnce);
+</script> 
 </body>
 </html>
         
