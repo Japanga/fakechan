@@ -313,7 +313,7 @@ p {
 
       </div>
 
-<input type="text" id="imageDescription" placeholder="Enter image description">
+<input type="text" id="imageDescription" placeholder="Enter text content to accompany your post...">
 
 
                         <div class="parent-container">
@@ -447,9 +447,12 @@ document.getElementById("upload_widget").addEventListener("click", function(){
           
             
 <hr class="long-line">
-  <span style="color: darkred;">
-<b><i><p>Anyone can upload to FakeChan image feeds, so start doing it!</p></i></b>
-    <hr class="long-line">
+
+
+<iframe src="http://localhost:3000/" width="900" height="400" title="Description of the embedded content">
+  Fallback content for browsers that do not support iframes.
+</iframe>
+ 
     
            </span>
 <script src="https://product-gallery.cloudinary.com/latest/all.js" type="text/javascript">
@@ -458,188 +461,6 @@ document.getElementById("upload_widget").addEventListener("click", function(){
 <div id="my-gallery" style="max-width:80%;margin:auto">
    <div class="bg-image" style="background-image: url('path/to/image.jpg');"></div>
 </div>
-
-
- <div class="image-grid" id="imageGrid">
-        <!-- Images will be injected here by JavaScript -->
-    </div>
-  <style>
-  
-
-    #imageGrid {
-    display: grid;
-      overflow: scroll;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid columns */
-    gap: 140px; /* Space between grid items */
-    padding: 20px;
-    background-image: linear-gradient(#A6A6A6
-, #4F4F4F);
-    height:500px; 
-           border-style: solid;
-      border-width: 2px;
-      border-color: white; /* Sets all four borders to red */
-}
-
-.image-card {
-    background-color: #fff;
-   
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9);
-     height: 400px; 
-     width: 300px;
-}
-
-.image-card img {
-  width: 60%; /* Desired display width */
-    height: auto; /* Desired display height */
-    object-fit: fill;
-
-}
-
-.image-info {
-
-    padding: 10px;
-    font-size: 0.8em;
-    color: #555;
-}
-    .image-info p {
-    margin: 0;
-      
-}
-
-.image-info .filename {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-  </style>
-    <script>
-      const CLOUD_NAME = 'dussuas34'; // Replace with your Cloudinary cloud name
-const TAG = 'random_uploads';     // Replace with your specific tag
-const RESOURCE_TYPE = 'image';       // Can also be 'video' if needed
-
-const apiUrl = `https://res.cloudinary.com/${CLOUD_NAME}/${RESOURCE_TYPE}/list/${TAG}.json`;
-      
-const imageGrid = document.getElementById('imageGrid');
-
-async function fetchImages() {
-    try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        
-        displayImages(data.resources);
-
-    } catch (error) {
-        console.error("Error fetching images:", error);
-        imageGrid.innerHTML = '<p>Failed to load images. Check console for details.</p>';
-    }
-}
-
-      
-      
-function displayImages(resources) {
-    if (resources.length === 0) {
-        imageGrid.innerHTML = '<p>No images found with this tag.</p>';
-        return;
-    }
-
-    resources.forEach(resource => {
-        // Create elements
-        const card = document.createElement('div');
-        card.classList.add('image-card');
-
-        const img = document.createElement('img');
-        // Cloudinary URL structure: https://res.cloudinary.com/<cloud_name>/image/upload/<public_id>.<format> 
-        img.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_auto,h_300,c_fill/${resource.public_id}.${resource.format}`;
-        img.alt = resource.public_id; // Use public_id as alt text
-
-        const info = document.createElement('div');
-        info.classList.add('image-info');
-    
-const postText = document.createElement('p'); 
-postText.ID = 'postText';
-postText.textContent = `Post:`; 
-      postText.innerHTML = `<p id="message-area">Loading...</p>`; 
-      
-        const filename = document.createElement('p');
-        // The public_id often corresponds to the filename if set during upload
-        filename.textContent = `Filename: ${resource.public_id}.${resource.format}`; 
-      
-      const downloadLink = document.createElement('p');
-      
-      downloadLink.textContent = `URL: ${resource.public_id}.${resource.format}`; 
-      
-      downloadLink.innerHTML = `URL: <a href="https://res.cloudinary.com/dussuas34/image/upload/${resource.public_id}.${resource.format}">${resource.public_id}.${resource.format}</a>`; 
-
-        const date = document.createElement('p');
-        // Format the upload date (resource.uploaded_at is an ISO string)
-        date.textContent = `Uploaded: ${new Date(resource.created_at).toLocaleDateString()}`;
-      
-      const author = document.createElement('p');
-      
-      author.textContent = `Author: Anonymous`; 
-
-       info.appendChild(postText);
-        info.appendChild(filename);
-       info.appendChild(downloadLink);
-      info.appendChild(author);
-        info.appendChild(date);
-        card.appendChild(img);
-        card.appendChild(info);
-        imageGrid.appendChild(card);
-    });
-  
-}
-
-// Initial fetch
-fetchImages();
-  </script>
-
-
-
-
-  <script>
-        // The URL must include the protocol, domain, and specified port
-        const api_url = 'http://localhost:4400/api/data'; 
-
-        async function getapi(url) {
-            try {
-                // Fetch data from the Node.js API
-                const response = await fetch(url);
-
-                // Check if the request was successful
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                } 
-
-                // Parse the JSON data from the response body
-                const data = await response.json();
-
-                // Display the data in the HTML element
-                document.getElementById('message-area').innerText = `Message: ${data.message}\nTimestamp: ${data.timestamp}`; 
-            } catch (error) { 
-                // Handle any errors that occurred during the fetch operation
-                console.error('Error fetching data:', error);
-                document.getElementById('message-area').innerText = 'Failed to get a signal from the FakeChan node.js servers';
-              document.getElementById('message-area').innerHTML = '<span style="color: red;">Failed to get a signal from the FakeChan node.js servers, the hoster is unavailable at the moment and the post metadata cannot be retrieved.';
-            } 
-        }
-
-        // Call the function to fetch the data when the page loads
-        getapi(api_url);
-    </script>
-
-
-<!-- begin wwww.htmlcommentbox.com -->
- <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
- <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
- <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24dJ43Tl5IByJdqspQippWg1"+"&opts=16798&num=10&ts=1762281024694");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
-<!-- end www.htmlcommentbox.com -->
-
-
 
 
    <script>
