@@ -302,101 +302,76 @@ image.setAttribute('src', randomSource);
     <title>Fetch Data from Node.js</title>
 </head>
 <body>
-  <span style="color: darkred;">
-  <b>FakeChan Pinging/Server Connection Testing Server Tunnel:</b>
-    <p id="statusMessage"></p>
-    </span>
+ 
   
-    <span style="color: darkred;">
-  <b>FakeChan /vid/ VIDEOS BOARD Connection Testing Server Tunnel:</b>
-    <p id="statusMessage2"></p>
-    </span>
-
-    
-   <script>
-      // Replace with the actual URL of your .txt document
-const url = 'https://japanga.github.io/fakechan/server/tunneldomain1.txt';
-const statusMessageElement = document.getElementById('statusMessage');
-
-fetch(url)
-    .then(response => {
-        // The fetch promise resolves even on HTTP error statuses (like 404 or 500).
-        // We must manually check the `response.ok` property, which is true for 200-299 status codes.
-        if (response.ok) {
-            return response.text(); // Get the text content of the response
-        } else {
-            // If the response is not 'ok', throw an error to trigger the .catch block
-            throw new Error('Network response was not ok: ' + response.status);
+  
+  
+  
+   <h1>Domain Activity Status</h1>
+    <p>Loading domain list from <a href="https://japanga.github.io/fakechan/server/tunneldomainslist.txt">https://japanga.github.io/fakechan/server/tunneldomainslist.txt</a> and checking status...</p>
+  
+    <div id="status-container">
+  </div>
+ 
+    <script>
+      // Function to fetch the domains list from the .txt file
+async function fetchDomainList(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch domain list: ${response.status}`);
         }
-    })
-    .then(text => {
-        // This block runs if the fetch was successful (status 200-299)
-        statusMessageElement.textContent = 'Success: Got signal from the URL.';
-        statusMessageElement.className = 'success';
-        console.log('File content:', text); // Optionally, log the file content
-    })
-    .catch(error => {
-        // This block runs for network errors or if we threw an error in the .then block
-        statusMessageElement.textContent = 'Error: Did not get a signal from the URL.';
-        statusMessageElement.className = 'error';
-        console.error('Fetch error:', error);
-    });
-  </script>
-  <script>
-      // Replace with the actual URL of your .txt document
-const url2 = 'https://japanga.github.io/fakechan/server/tunneldomain4.txt';
-const statusMessageElement2 = document.getElementById('statusMessage2');
+        const text = await response.text();
+        // Split text by new line and filter out empty lines
+        return text.split('\n').map(domain => domain.trim()).filter(domain => domain.length > 0);
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
+ 
+// Function to check a single domain's status
+async function checkDomainStatus(domain) {
+    const statusContainer = document.getElementById('status-container');
+    const domainUrl = `${domain}`; // Assuming HTTPS for modern web
 
-fetch(url)
-    .then(response => {
-        // The fetch promise resolves even on HTTP error statuses (like 404 or 500).
-        // We must manually check the `response.ok` property, which is true for 200-299 status codes.
-        if (response.ok) {
-            return response.text(); // Get the text content of the response
-        } else {
-            // If the response is not 'ok', throw an error to trigger the .catch block
-            throw new Error('Network response was not ok: ' + response.status);
-        }
-    })
-    .then(text => {
-        // This block runs if the fetch was successful (status 200-299)
-        statusMessageElement2.textContent = 'Success: Got signal from the URL.';
-        statusMessageElement2.className = 'success';
-        console.log('File content:', text); // Optionally, log the file content
-    })
-    .catch(error => {
-        // This block runs for network errors or if we threw an error in the .then block
-        statusMessageElement2.textContent = 'Error: Did not get a signal from the URL.';
-        statusMessageElement2.className = 'error';
-        console.error('Fetch error:', error);
-    });
-  </script>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <style>
-  .success {
-    color: green;
-    font-weight: bold;
+    try {
+        const response = await fetch(domainUrl, { method: 'HEAD', mode: 'no-cors' });
+        // In 'no-cors' mode, we cannot read the status code for cross-origin requests.
+        // The fetch succeeds if a connection is made, but status is opaque (0).
+        // This approach can only verify basic connectivity, not specific HTTP statuses like 503 from external domains.
+        
+        // For same-origin requests, this would work:
+        // if (response.status === 503) {
+        //     statusContainer.innerHTML += `<p style="color: red;">${domainUrl} is active but returned Error 503 (Service Unavailable).</p>`;
+        // } else if (response.ok) {
+        //     statusContainer.innerHTML += `<p style="color: green;">${domainUrl} is active and OK.</p>`;
+        // } else {
+        //     statusContainer.innerHTML += `<p>Status for ${domainUrl}: ${response.status}</p>`;
+        // }
+
+        // Due to CORS restrictions on cross-origin requests, a backend proxy is the reliable solution.
+        // The following message explains the limitation:
+        statusContainer.innerHTML += `<p style="color: green;">Basic connectivity check for ${domainUrl} complete.</p>`;
+ 
+
+    } catch (error) {
+        // This usually catches network errors, DNS issues, or blocked requests 
+        statusContainer.innerHTML += `<p style="color: gray;">${domainUrl} seems inactive or unreachable: ${error.message}</p>`;
+    }
 }
 
-.error {
-    color: red;
-    font-weight: bold;
+// Main function to run the checks
+async function runChecks() {
+    const domains = await fetchDomainList('https://japanga.github.io/fakechan/server/tunneldomainslist.txt');
+    for (const domain of domains) {
+        await checkDomainStatus(domain);
+    }
 }
-  </style>
+
+runChecks();
+  </script>
+  
 </body>
 </html>
         
