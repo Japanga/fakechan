@@ -311,8 +311,22 @@ image.setAttribute('src', randomSource);
         <button onclick="checkFileContent()">Check File</button>
         <div id="status"></div>
     </div>
-
+  <p>Elapsed time since last signal check: <span id="timer-display">0</span> seconds</p> 
+    
     <script>
+              // Initialize the time counter
+let secondsElapsed = 0;
+ 
+// Get the display element
+const displayElement = document.getElementById('timer-display');
+
+// Function to update the timer
+function updateTimer() {
+    secondsElapsed++;
+    displayElement.textContent = secondsElapsed;
+}
+
+
         async function checkFileContent() {
             const url = document.getElementById('urlInput').value.trim();
             const statusDiv = document.getElementById('status');
@@ -343,6 +357,9 @@ image.setAttribute('src', randomSource);
                     statusDiv.className = 'error';
                 } else {
                     statusDiv.textContent = 'Success! File content:\n\n' + text;
+                  statusDiv.innerHTML = ' <span style="color: green;">Success! File content:\n\n' + text;
+                  // Start the infinite timer, updating every 1000ms (1 second)
+setInterval(updateTimer, 1000);
                     statusDiv.className = 'success';
                 }
 
