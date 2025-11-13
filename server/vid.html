@@ -147,6 +147,24 @@ button {
         </div>
     </div>
     <button id="open-popup-btn">Settings</button>
+  
+  <script>
+  function forceReloadOnce() {
+    // Check if the page was accessed by navigating into the history (e.g., back button)
+    // or by a normal reload using the browser's default behavior
+    if (window.performance.navigation.type === 0) {
+      // If so, force a full reload from the server, bypassing the cache
+      // The 'true' parameter is supported in all major browsers including Chrome, Firefox, Safari, and Edge
+      window.location.reload(true);
+      localStorage.clear();
+sessionStorage.clear();
+    }
+  }
+
+  // Add event listener for DOMContentLoaded to run the function when the initial
+  // HTML document has been completely loaded and parsed
+  window.addEventListener("DOMContentLoaded", forceReloadOnce);
+</script>
       
   <script>
     // Function to change the font color
