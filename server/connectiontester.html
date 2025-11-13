@@ -306,8 +306,14 @@ image.setAttribute('src', randomSource);
   <b>FakeChan Pinging/Server Connection Testing Server Tunnel:</b>
     <p id="statusMessage"></p>
     </span>
+  
+    <span style="color: darkred;">
+  <b>FakeChan /vid/ VIDEOS BOARD Connection Testing Server Tunnel:</b>
+    <p id="statusMessage2"></p>
+    </span>
 
-    <script>
+    
+   <script>
       // Replace with the actual URL of your .txt document
 const url = 'https://japanga.github.io/fakechan/server/tunneldomain1.txt';
 const statusMessageElement = document.getElementById('statusMessage');
@@ -336,6 +342,49 @@ fetch(url)
         console.error('Fetch error:', error);
     });
   </script>
+  <script>
+      // Replace with the actual URL of your .txt document
+const url2 = 'https://japanga.github.io/fakechan/server/tunneldomain4.txt';
+const statusMessageElement2 = document.getElementById('statusMessage2');
+
+fetch(url)
+    .then(response => {
+        // The fetch promise resolves even on HTTP error statuses (like 404 or 500).
+        // We must manually check the `response.ok` property, which is true for 200-299 status codes.
+        if (response.ok) {
+            return response.text(); // Get the text content of the response
+        } else {
+            // If the response is not 'ok', throw an error to trigger the .catch block
+            throw new Error('Network response was not ok: ' + response.status);
+        }
+    })
+    .then(text => {
+        // This block runs if the fetch was successful (status 200-299)
+        statusMessageElement2.textContent = 'Success: Got signal from the URL.';
+        statusMessageElement2.className = 'success';
+        console.log('File content:', text); // Optionally, log the file content
+    })
+    .catch(error => {
+        // This block runs for network errors or if we threw an error in the .then block
+        statusMessageElement2.textContent = 'Error: Did not get a signal from the URL.';
+        statusMessageElement2.className = 'error';
+        console.error('Fetch error:', error);
+    });
+  </script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   <style>
   .success {
