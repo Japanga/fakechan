@@ -1,14 +1,13 @@
-
 <!-- Start writing your code here -->
 <!-- Start writing your code here -->
 <!-- Start writing your code here -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <link rel="shortcut icon" type="image/x-icon" href="https://yourimageshare.com/ib/YfpBy0OpQf.png" />
+   <link rel="shortcut icon" type="image/x-icon" href="https://yourimageshare.com/ib/GrUg6gfJ1o.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeChan: Server</title>
+    <title>FakeChan Imageboards</title>
      
 
   
@@ -308,7 +307,7 @@ image.setAttribute('src', randomSource);
  
     <script>
         // The URL must include the protocol, domain, and specified port
-        const api_url = 'https://localhost:4400/api/data'; 
+        const api_url = 'http://localhost:4400/api/data'; 
 
         async function getapi(url) {
             try {
@@ -325,9 +324,9 @@ image.setAttribute('src', randomSource);
 
                 // Display the data in the HTML element
                 document.getElementById('message-area').innerText = `Message: ${data.message}\nTimestamp: ${data.timestamp}`;
-              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly. The current daily tunnel mask domain allowing for signals to the FakeChan server is <p id="content-placeholder"></p>';
-            } catch (error) { 
-                // Handle any errors that occurred during the fetch operation 
+              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly. The current detected proxu domains are     <p id="content-placeholder">This is the original content of the paragraph. It will be replaced.</p>';
+            } catch (error) {
+                // Handle any errors that occurred during the fetch operation
                 console.error('Error fetching data:', error);
                 document.getElementById('message-area').innerText = 'Failed to get a signal from the FakeChan node.js servers';
               document.getElementById('message-area').innerHTML = '<span style="color: red;">Failed to get a signal from the FakeChan node.js servers, the hoster is unavailable at the moment and the post metadata cannot be retrieved.';
@@ -338,44 +337,42 @@ image.setAttribute('src', randomSource);
         getapi(api_url);
     </script>
   
-   <script>
-// Function to fetch the text file content and update the paragraph
-async function loadExternalContent(filePath, elementId) {
-    try {
-        // Fetch the file content
-        const response = await fetch(filePath);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        // Read the response as plain text
-        const textContent = await response.text();
-        
-        // Find the paragraph element by its ID
-        const paragraphElement = document.getElementById(elementId);
-        
-        // Check if the element exists and update its text content
-        if (paragraphElement) {
-            // Use textContent for plain text to prevent XSS vulnerabilities
-            // and ensure the content is treated as literal text
-            paragraphElement.textContent = textContent; 
-        } else {
-            console.error(`Element with id "${elementId}" not found.`);
-        }
+  <script>
+// Function to fetch content and update the DOM
+function loadExternalContent() {
+    // Specify the path to your external text file
+    const fileUrl = '/fakechan/server/tunneldomain1.txt'; 
+    const targetElementId = 'content-placeholder';
 
-    } catch (error) {
-        console.error('Could not load the external file:', error);
-        document.getElementById(elementId).textContent = 'Failed to load content.';
-    }
+    fetch(fileUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            // Read the response as plain text
+            return response.text(); 
+        })
+        .then(textData => {
+            // Find the target element and replace its content
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = textData; // Use textContent for plain text
+            } else {
+                console.error('Target element not found:', targetElementId);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching the external file:', error);
+            const targetElement = document.getElementById(targetElementId);
+            if (targetElement) {
+                targetElement.textContent = 'Failed to load content.';
+            }
+        });
 }
 
-// Call the function when the page loads
-// Ensure the script runs after the DOM is loaded
-document.addEventListener('DOMContentLoaded', (event) => {
-    loadExternalContent('https://japanga.github.io/fakechan/server/tunneldomain1.txt', 'content-placeholder');
-});
-   </script>
+// Call the function immediately after the script loads
+loadExternalContent();
+  </script>
 </body>
 </html>
         
