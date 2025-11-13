@@ -7,7 +7,7 @@
    <link rel="shortcut icon" type="image/x-icon" href="https://yourimageshare.com/ib/LSvMo9HAEP.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeChan: Server</title>
+    <title>FakeChan:Server</title>
      
 
   
@@ -306,8 +306,17 @@ image.setAttribute('src', randomSource);
     <p id="message-area">Loading...</p>
  
     <script>
+      
+      let fileContent;
+      async function loadFileContent() {
+  const response = await fetch('/fakechan/servers/tunneldomain1.txt');
+  fileContent = await response.text();
+  console.log(fileContent); // Use the content here
+}
+
+loadFileContent();
         // The URL must include the protocol, domain, and specified port
-        const api_url = '<p id="content-placeholder">This is the original content of the paragraph. It will be replaced.</p>' + ':4400/api/data'; 
+        const api_url = fileContent + ':4400/api/data'; 
 
         async function getapi(url) {
             try {
