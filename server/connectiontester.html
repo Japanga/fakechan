@@ -302,227 +302,52 @@ image.setAttribute('src', randomSource);
     <title>Fetch Data from Node.js</title>
 </head>
 <body>
-    <h1>Data from Node.js Server:</h1>
-    <p id="message-area">Loading...</p>
- 
+  <span style="color: darkred;">
+  <b>FakeChan Pinging/Server Connection Testing Server Tunnel:</b>
+    <p id="statusMessage"></p>
+    </span>
+
     <script>
-        // The URL must include the protocol, domain, and specified port
-        const api_url = 'http://localhost:4400/api/data'; 
+      // Replace with the actual URL of your .txt document
+const url = 'https://japanga.github.io/fakechan/server/tunneldomain1.txt';
+const statusMessageElement = document.getElementById('statusMessage');
 
-        async function getapi(url) {
-            try {
-                // Fetch data from the Node.js API
-                const response = await fetch(url);
-
-                // Check if the request was successful
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                } 
-
-                // Parse the JSON data from the response body
-                const data = await response.json();
-
-                // Display the data in the HTML element
-                document.getElementById('message-area').innerText = `Message: ${data.message}\nTimestamp: ${data.timestamp}`;
-              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly. The current detected tunnel port forwarding domains are     <b><p id="content-placeholder">This is the original content of the paragraph. It will be replaced.</p></b> for signals/pinging <b><p id="content-placeholder2">This is the original content of the paragraph. It will be replaced.</p></b> for hosting the Server Mode version of /b/ <b><p id="content-placeholder3">This is the original content of the paragraph. It will be replaced.</p></b> for hosting the Server Mode version of /a/ <b><p id="content-placeholder4">This is the original content of the paragraph. It will be replaced.</p></b> for hosting the Server Mode version of /vid/';
-            } catch (error) {
-                // Handle any errors that occurred during the fetch operation
-                console.error('Error fetching data:', error);
-                document.getElementById('message-area').innerText = 'Failed to get a signal from the FakeChan node.js servers';
-              document.getElementById('message-area').innerHTML = '<span style="color: red;">Failed to get a signal from the FakeChan node.js servers, the hoster is unavailable at the moment and the post metadata cannot be retrieved.';
-            } 
+fetch(url)
+    .then(response => {
+        // The fetch promise resolves even on HTTP error statuses (like 404 or 500).
+        // We must manually check the `response.ok` property, which is true for 200-299 status codes.
+        if (response.ok) {
+            return response.text(); // Get the text content of the response
+        } else {
+            // If the response is not 'ok', throw an error to trigger the .catch block
+            throw new Error('Network response was not ok: ' + response.status);
         }
-
-        // Call the function to fetch the data when the page loads
-        getapi(api_url);
-    </script>
-  
-  <script>
-// Function to fetch content and update the DOM
-function loadExternalContent() {
-    // Specify the path to your external text file
-    const fileUrl = '/fakechan/server/tunneldomain1.txt'; 
-    const targetElementId = 'content-placeholder';
-
-    fetch(fileUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            // Read the response as plain text
-            return response.text(); 
-        })
-        .then(textData => {
-            // Find the target element and replace its content
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = textData; // Use textContent for plain text
-            } else {
-                console.error('Target element not found:', targetElementId);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the external file:', error);
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = 'Failed to load content.';
-            }
-        });
-}
-
-// Call the function immediately after the script loads
-loadExternalContent();
+    })
+    .then(text => {
+        // This block runs if the fetch was successful (status 200-299)
+        statusMessageElement.textContent = 'Success: Got signal from the URL.';
+        statusMessageElement.className = 'success';
+        console.log('File content:', text); // Optionally, log the file content
+    })
+    .catch(error => {
+        // This block runs for network errors or if we threw an error in the .then block
+        statusMessageElement.textContent = 'Error: Did not get a signal from the URL.';
+        statusMessageElement.className = 'error';
+        console.error('Fetch error:', error);
+    });
   </script>
   
-   <script>
-// Function to fetch content and update the DOM
-function loadExternalContent() {
-    // Specify the path to your external text file
-    const fileUrl = '/fakechan/server/tunneldomain2.txt'; 
-    const targetElementId = 'content-placeholder2';
-
-    fetch(fileUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            // Read the response as plain text
-            return response.text(); 
-        })
-        .then(textData => {
-            // Find the target element and replace its content
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = textData; // Use textContent for plain text
-            } else {
-                console.error('Target element not found:', targetElementId);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the external file:', error);
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = 'Failed to load content.';
-            }
-        });
+  <style>
+  .success {
+    color: green;
+    font-weight: bold;
 }
 
-// Call the function immediately after the script loads
-loadExternalContent();
-  </script>
-  
-   <script>
-// Function to fetch content and update the DOM
-function loadExternalContent() {
-    // Specify the path to your external text file
-    const fileUrl = '/fakechan/server/tunneldomain3.txt'; 
-    const targetElementId = 'content-placeholder3';
-
-    fetch(fileUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            // Read the response as plain text
-            return response.text(); 
-        })
-        .then(textData => {
-            // Find the target element and replace its content
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = textData; // Use textContent for plain text
-            } else {
-                console.error('Target element not found:', targetElementId);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the external file:', error);
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = 'Failed to load content.';
-            }
-        });
+.error {
+    color: red;
+    font-weight: bold;
 }
-
-// Call the function immediately after the script loads
-loadExternalContent();
-  </script>
-  
-  
-   <script>
-// Function to fetch content and update the DOM
-function loadExternalContent() {
-    // Specify the path to your external text file
-    const fileUrl = '/fakechan/server/tunneldomain4.txt'; 
-    const targetElementId = 'content-placeholder4';
-
-    fetch(fileUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            // Read the response as plain text
-            return response.text(); 
-        })
-        .then(textData => {
-            // Find the target element and replace its content
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = textData; // Use textContent for plain text
-            } else {
-                console.error('Target element not found:', targetElementId);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the external file:', error);
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = 'Failed to load content.';
-            }
-        });
-}
-
-// Call the function immediately after the script loads
-loadExternalContent();
-  </script>
-  
-  
-   <script>
-// Function to fetch content and update the DOM
-function loadExternalContent() {
-    // Specify the path to your external text file
-    const fileUrl = '/fakechan/server/tunneldomain2.txt'; 
-    const targetElementId = 'content-placeholder2';
-
-    fetch(fileUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok: ' + response.statusText);
-            }
-            // Read the response as plain text
-            return response.text(); 
-        })
-        .then(textData => {
-            // Find the target element and replace its content
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = textData; // Use textContent for plain text
-            } else {
-                console.error('Target element not found:', targetElementId);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the external file:', error);
-            const targetElement = document.getElementById(targetElementId);
-            if (targetElement) {
-                targetElement.textContent = 'Failed to load content.';
-            }
-        });
-}
-
-// Call the function immediately after the script loads
-loadExternalContent();
-  </script>
+  </style>
 </body>
 </html>
         
