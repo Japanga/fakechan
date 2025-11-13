@@ -28,10 +28,9 @@ async function getAllCustomDescByTag(tag) {
       resources.forEach(resource => {
         const customDesc = resource.context && resource.context.custom_desc;
         if (customDesc) {
-          console.log(`Public ID: ${resource.public_id}, Description: ${customDesc}`);
-          document.getElementById("demo").innerHTML = `Public ID: ${resource.public_id}, Description: ${customDesc}`;
+         alert(`Public ID: ${resource.public_id}, Description: ${customDesc}`);
         } else {
-          console.log(`Public ID: ${resource.public_id}, No custom_desc found`);
+          alert(`Public ID: ${resource.public_id}, No custom_desc found`);
         }
       });
     } else {
