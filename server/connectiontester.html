@@ -307,7 +307,7 @@ image.setAttribute('src', randomSource);
  
     <script>
         // The URL must include the protocol, domain, and specified port
-        const api_url = 'https://funny-squids-report.loca.lt/api/data'; 
+        const api_url = 'http://localhost:4400/api/data'; 
 
         async function getapi(url) {
             try {
@@ -324,9 +324,9 @@ image.setAttribute('src', randomSource);
 
                 // Display the data in the HTML element
                 document.getElementById('message-area').innerText = `Message: ${data.message}\nTimestamp: ${data.timestamp}`;
-              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly.';
-            } catch (error) {
-                // Handle any errors that occurred during the fetch operation
+              document.getElementById('message-area').innerHTML = '<span style="color: green;">A signal was detected from the command prompt on the computer hosting FakeChan on custom detection port 4400! All boards with server posting functionality turned on will be active and functioning regularly. The current daily tunnel mask domain allowing for signals to the FakeChan server is <b><p id="content-placeholder">This is the original paragraph content that will be replaced.</p></b>';
+            } catch (error) { 
+                // Handle any errors that occurred during the fetch operation 
                 console.error('Error fetching data:', error);
                 document.getElementById('message-area').innerText = 'Failed to get a signal from the FakeChan node.js servers';
               document.getElementById('message-area').innerHTML = '<span style="color: red;">Failed to get a signal from the FakeChan node.js servers, the hoster is unavailable at the moment and the post metadata cannot be retrieved.';
@@ -336,6 +336,44 @@ image.setAttribute('src', randomSource);
         // Call the function to fetch the data when the page loads
         getapi(api_url);
     </script>
+  
+   <script>
+     // script.js
+
+// 1. Define the function to fetch and replace content
+function replaceParagraphContent(url, elementId) {
+    // Use the fetch API to make a GET request to the external file
+    fetch(url)
+        .then(response => {
+            // Check if the request was successful
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            // Parse the response body as plain text
+            return response.text();
+        })
+        .then(text => {
+            // Find the target HTML element by its ID
+            const placeholder = document.getElementById(elementId);
+            if (placeholder) {
+                // Replace the element's content with the fetched text
+                placeholder.textContent = text; 
+                // Alternatively, use .innerHTML if your text file contains HTML markup
+                // placeholder.innerHTML = text; 
+            } else {
+                console.error('Placeholder element not found:', elementId);
+            }
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
+
+// 2. Call the function when the page loads
+document.addEventListener('DOMContentLoaded', (event) => {
+    replaceParagraphContent('https://japanga.github.io/fakechan/server/tunneldomain1.txt', 'content-placeholder');
+});
+   </script>
 </body>
 </html>
         
