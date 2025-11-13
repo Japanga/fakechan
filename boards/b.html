@@ -52,8 +52,34 @@ function ensureTrailingSlash(url) {
 
                       <div class="inline-p">
         
-<b>[</b> <a href="/fakechan/boards/a"><b>/a/</b></a>  -  <a href="/fakechan/boards/an"><b>/an/</b></a> -  <a href="/fakechan/boards/b"><b>/b/</b></a> -  <a href="/fakechan/boards/co"><b>/co/</b></a> -  <a href="/fakechan/boards/c"><b>/c/</b></a> -  <a href="/fakechan/boards/x"><b>/x/</b></a> -  <a href="/fakechan/boards/m"><b>/m/</b></a> -  <a href="/fakechan/boards/mu"><b>/mu/</b></a> -  <a href="/fakechan/boards/v"><b>/v/</b></a> -  <a href="/fakechan/boards/vid"><b>/vid/</b></a> -  <a href="/fakechan/boards/tv"><b>/tv/</b></a> -  <a href="/fakechan/boards/pol"><b>/pol/</b></a> -  <a href="/fakechan/boards/gif"><b>/gif/</b></a> - <a href="/fakechan/boards/sp"><b>/sp/</b></a> - <a href="/fakechan/boards/jp"><b>/jp/</b></a> -  <a href="/fakechan/boards/h"><b>/h/</b></a> -  <a href="/fakechan/boards/hc"><b>/hc/</b></a> -  <a href="/fakechan/boards/w"><b>/w/</b></a> -  <a href="/fakechan/boards/wsg"><b>/wsg/</b></a> -  <a href="/fakechan/boards/pw"><b>/pw</b>/</a> -  <a href="/fakechan/boards/news"><b>/news/</b></b></a> <b>]</b>  <a href="/fakechan/index"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="/fakechan/boards/vpn"><b>VPN</b></a> <b>10.1k image views, 328.09 MB currently hosted...</b>
+<b>[</b> <a href="/fakechan/boards/a"><b>/a/</b></a>  -  <a href="/fakechan/boards/an"><b>/an/</b></a> -  <a href="/fakechan/boards/b"><b>/b/</b></a> -  <a href="/fakechan/boards/co"><b>/co/</b></a> -  <a href="/fakechan/boards/c"><b>/c/</b></a> -  <a href="/fakechan/boards/x"><b>/x/</b></a> -  <a href="/fakechan/boards/m"><b>/m/</b></a> -  <a href="/fakechan/boards/mu"><b>/mu/</b></a> -  <a href="/fakechan/boards/v"><b>/v/</b></a> -  <a href="/fakechan/boards/vid"><b>/vid/</b></a> -  <a href="/fakechan/boards/tv"><b>/tv/</b></a> -  <a href="/fakechan/boards/pol"><b>/pol/</b></a> -  <a href="/fakechan/boards/gif"><b>/gif/</b></a> - <a href="/fakechan/boards/sp"><b>/sp/</b></a> - <a href="/fakechan/boards/jp"><b>/jp/</b></a> -  <a href="/fakechan/boards/h"><b>/h/</b></a> -  <a href="/fakechan/boards/hc"><b>/hc/</b></a> -  <a href="/fakechan/boards/w"><b>/w/</b></a> -  <a href="/fakechan/boards/wsg"><b>/wsg/</b></a> -  <a href="/fakechan/boards/pw"><b>/pw</b>/</a> -  <a href="/fakechan/boards/news"><b>/news/</b></b></a> <b>]</b>  <a href="/fakechan/index"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="/fakechan/boards/vpn"><b>VPN</b></a> 
      </div>
+  
+  <b>  <p id="content-paragraph">Loading Cloudinary dashboard stats...</p> </b>
+  
+  <script>
+   window.onload = function() {
+    // Specify the path to your text file
+    const textFilePath = 'https://japanga.github.io/fakechan/server/statsdisplay.txt'; 
+    const paragraphElement = document.getElementById('content-paragraph');
+
+    fetch(textFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+            return response.text(); // Read the response as plain text
+        })
+        .then(data => {
+            // Update the paragraph with the content from the text file
+            paragraphElement.textContent = data; 
+        })
+        .catch(error => {
+            console.error('Error fetching the text file:', error);
+            paragraphElement.textContent = 'Failed to load content.';
+        });
+};
+  </script>
       
   <style>
     .parent-container {
@@ -626,7 +652,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
