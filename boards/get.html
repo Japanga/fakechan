@@ -97,9 +97,8 @@ function ensureTrailingSlash(url) {
 
                         <div class="parent-container">
       <div id="imgDiv">
-    <img src="" data-random-image="https://japanga.github.io/fakechan/boards/1.png" alt="Loading random header..." width="300" height="100">
-        </div>
-                          </div>
+    <img src="" data-random-image="/fakechan/boards/1.png /fakechan/boards/2.png /fakechan/boards/3.png /fakechan/boards/4.png /fakechan/boards/5.png /fakechan/boards/6.png /fakechan/boards/7.png /fakechan/boards/8.png /fakechan/boards/9.png /fakechan/boards/10.png /fakechan/boards/11.png /fakechan/boards/12.png /fakechan/boards/13.png /fakechan/boards/14.png /fakechan/boards/15.gif /fakechan/boards/16.png /fakechan/boards/17.png /fakechan/boards/18.png /fakechan/boards/19.png /fakechan/boards/20.png /fakechan/boards/21.png /fakechan/boards/22.png /fakechan/boards/23.png /fakechan/boards/24.png /fakechan/boards/25.png /fakechan/boards/26.png /fakechan/boards/27.png /fakechan/boards/28.png /fakechan/boards/29.png /fakechan/boards/30.png" alt="Loading random header..." width="300" height="100">
+        </div>           </div>
 
   
  <style>
@@ -268,19 +267,6 @@ image.setAttribute('src', randomSource);
                           </div>
 
 
-                        <hr class="long-line">
-  
-                        <div class="parent-container">
- <div class="parent-div">
-            <div class="item">
-               <button id="upload_widget" class="cloudinary-button">Upload files</button>
-       
-             </div>
-        
-   <div class="item">
-  <a href="https://cloudinary.com/"><img src="https://yourimageshare.com/ib/5JDVcid1uo.png" alt="Flowers in Chania" width="100" height="73"></a>
-   </div>
-          </div>
                            </div>
            
 
@@ -366,6 +352,9 @@ image.setAttribute('src', randomSource);
     <hr class="long-line">
     
            </span>
+
+
+
 
 
 
@@ -1281,6 +1270,31 @@ image.setAttribute('src', randomSource);
                 <td>707x1000px</td>
                 <td>November 12, 2025 at 09:50 PM</td>
             </tr>
+          
+      
+<script>
+  // Function to check and update td elements
+  function checkAndColorTds() {
+    // Select all td elements in the document
+    const allTds = document.querySelectorAll('td');
+
+    // Iterate through the NodeList of td elements
+    allTds.forEach(td => {
+      // Get the text content and trim whitespace for accurate checking
+      const textContent = td.textContent.trim();
+
+      // Check if the text content starts with a '>' character
+      if (textContent.startsWith('>')) {
+        // If it does, change the text color to green
+        td.style.color = 'green';
+      }
+    });
+  }
+
+  // Run the function when the DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', checkAndColorTds);
+</script>d = colorText; 
+</script>
 
 
 
