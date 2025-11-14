@@ -47,6 +47,29 @@ function ensureTrailingSlash(url) {
   ensureTrailingSlash(window.location.href);
 });
 </script>
+  <script>
+  function redirectToUrlWithoutTrailingSlash() {
+  const currentPath = window.location.pathname;
+  const currentSearch = window.location.search;
+  
+  // Check if the path ends with a slash and is not the root path ("/")
+  if (currentPath.length > 1 && currentPath.endsWith('/')) {
+    // Remove the trailing slash from the pathname
+    const newPath = currentPath.slice(0, -1);
+    
+    // Construct the new URL (protocol, host, new path, query parameters)
+    const newUrl = window.location.origin + newPath + currentSearch;
+    
+    // Perform the redirect
+    // Using replace() is slightly better than assigning to href as it prevents the original URL 
+    // with the slash from being in the browser's history.
+    window.location.replace(newUrl);
+  }
+}
+
+// Call the function when the page loads
+redirectToUrlWithoutTrailingSlash();
+    </script>
 
 
                         <div class="inline-p">
