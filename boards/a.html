@@ -49,25 +49,26 @@ function ensureTrailingSlash(url) {
 </script>
 
 <script>
-    // Function to remove a trailing slash from a string
-    function stripTrailingSlash(str) {
-        // Regex to match one or more slashes at the end of the string
-        return str.replace(/\/+$/, ''); 
+window.onload = function() {
+    var reloading = sessionStorage.getItem("reloading");
+    if (reloading) {
+        sessionStorage.removeItem("reloading");
+        mySpecificFunction(); // This function runs only after the specific reload
+         
+   window.location.href = 'https://japanga.github.io/fakechan/boards/a';
     }
+}
 
-    // Get the current URL
-    var currentUrl = window.location.href;
-    // Get the URL without the trailing slash
-    var newUrl = stripTrailingSlash(currentUrl);
+function reloadPageAndRunFunction() {
+    sessionStorage.setItem("reloading", "true");
+    document.location.reload();
+}
 
-    // Check if the URL needs to be changed (and it's not just the homepage '/')
-    if (currentUrl !== newUrl && window.location.pathname !== "/") {
-        // Use replaceState to change the URL in the browser history without a reload
-        // Parameters: state object, title, URL
-        window.history.replaceState({ path: newUrl }, '', newUrl);
-    }
+function mySpecificFunction() {
+    console.log("This function only runs after the 'reloadPageAndRunFunction' was called!");
+    // Add your specific code here
+}
 </script>
-   
 
                         <div class="inline-p">
         
@@ -655,7 +656,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
