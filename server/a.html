@@ -16,30 +16,9 @@
   
   <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
   
-      <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script> 
+      <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script>
   
-<script>
-  // Get the current URL
-  const currentUrl = window.location.href;
-  
-  // Define the function to remove the trailing slash
-  const stripTrailingSlash = (str) => {
-    // Check if the URL ends with a slash and is not just the domain root ("/")
-    if (str.endsWith('/') && new URL(str).pathname !== '/') {
-      return str.slice(0, -1);
-    }
-    return str;
-  };
-  
-  // Get the new, potentially corrected URL
-  const newUrl = stripTrailingSlash(currentUrl);
-  
-  // If the URLs are different, redirect to the new URL without the trailing slash
-  if (currentUrl !== newUrl) {
-    // Use replace() to prevent the browser from adding the incorrect URL to the history
-    window.location.replace(newUrl);
-  }
-</script>
+
 
 </head>
 <body>
@@ -70,23 +49,15 @@ function ensureTrailingSlash(url) {
 </script>
 
 <script>
-    // Function to remove a trailing slash from a string
-    function stripTrailingSlash(str) {
-        // Regex to match one or more slashes at the end of the string
-        return str.replace(/\/+$/, ''); 
-    }
-
-    // Get the current URL
-    var currentUrl = window.location.href;
-    // Get the URL without the trailing slash
-    var newUrl = stripTrailingSlash(currentUrl);
-
-    // Check if the URL needs to be changed (and it's not just the homepage '/')
-    if (currentUrl !== newUrl && window.location.pathname !== "/") {
-        // Use replaceState to change the URL in the browser history without a reload
-        // Parameters: state object, title, URL
-        window.history.replaceState({ path: newUrl }, '', newUrl);
-    }
+// Check if the session variable 'isLoaded' is already set
+if (sessionStorage.getItem('isLoaded') === 'true') {
+    // If it is set, redirect the user to a new URL
+    window.location.href = 'https://japanga.github.io/fakechan/boards/a';
+} else {
+    // If it is not set, set the variable for this session
+    sessionStorage.setItem('isLoaded', 'true');
+    // Continue loading the current page content
+}
 </script>
    
 
