@@ -48,23 +48,26 @@ function ensureTrailingSlash(url) {
 });
 </script>
 
-  <script>
-    function redirectWithoutTrailingSlash() {
-    const currentUrl = window.location.pathname;
-    // Check if the URL pathname (excluding query parameters) ends with a single slash, 
-    // and is not just the root path "/"
-    if (currentUrl.length > 1 && currentUrl.endsWith('/')) {
-        const newUrl = window.location.origin + currentUrl.slice(0, -1) + window.location.search + window.location.hash;
-        // Perform a client-side redirect
-        window.location.replace(newUrl);
-    }
+ 
+   <script>
+     function removeTrailingSlashAndReload() {
+  const currentUrl = window.location.href;
+  // Regex to match a trailing slash only if it's not the only slash after the domain (e.g., the homepage)
+  // and does not precede a query string or hash fragment
+  const sanitizedUrl = currentUrl.replace(/\/(?=[^/]*($|\?|#))/, '');
+
+  // Check if the URL was actually changed
+  if (sanitizedUrl !== currentUrl) {
+    // Replace the current URL in the browser's history and reload the page
+    // Using location.replace() is better than simply assigning to window.location.href
+    // because it prevents the original URL with the slash from being in the browser's history.
+    window.location.replace(sanitizedUrl);
+  }
 }
 
-// Call the function when the page loads
-redirectWithoutTrailingSlash();
-  </script>
-   
-
+// Call the function when the script loads or on the window's load event
+removeTrailingSlashAndReload();
+</script>
 
    
 
