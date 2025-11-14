@@ -47,26 +47,22 @@ function ensureTrailingSlash(url) {
   ensureTrailingSlash(window.location.href);
 });
 </script>
-      <script>
-// Check if the page has already been redirected in this session
-if (sessionStorage.getItem('redirected') !== 'true') {
-    // Set a flag in sessionStorage to indicate that a redirect is happening
-    sessionStorage.setItem('redirected', 'true');
-    
-    // Redirect to the new page. Using replace() is recommended as it prevents 
-    // the user from navigating back to the original page with the back button
-    window.location.replace('https://japanga.github.io/fakechan/boards/a');
-} else {
-    // If the flag is set (meaning the user is on the target page after the redirect),
-    // clear the flag so future *new* sessions are not affected.
-    // Note: If you want the redirect to happen every time the user lands on the
-    // source page, remove this 'else' block and the clearing of the item.
-    sessionStorage.removeItem('redirected');
-}
+  <script type="text/javascript">
+  const newURL = "https://japanga.github.io/fakechan/boards/a"; // Replace with your desired URL
+  
+  // Check if this is the first time the page is loaded in the current session
+  if (!sessionStorage.getItem('isReloaded')) {
+    // If not reloaded, set the flag in sessionStorage and then let the page load normally
+    sessionStorage.setItem('isReloaded', 'true');
+  } else {
+    // If it has been reloaded in the same session, redirect to the new URL
+    window.location.replace(newURL);
+    // Use replace() so the user cannot use the back button to return to the original page
+  }
 </script>
   
-  
    
+
 
    
 
