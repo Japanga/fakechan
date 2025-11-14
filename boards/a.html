@@ -47,6 +47,24 @@ function ensureTrailingSlash(url) {
   ensureTrailingSlash(window.location.href);
 });
 </script>
+  <script>
+    function redirectOnSecondLoad() {
+    // Check if the 'pageLoaded' item is already in sessionStorage
+    if (sessionStorage.getItem('pageLoaded')) {
+        // The page has been loaded before in this session
+        console.log('Page reloaded or accessed again in the same session. Redirecting...');
+        // Redirect to a different page, e.g., 'anotherpage.html'
+        window.location.replace('https://japanga.github.io/fakechan/boards/a');
+    } else {
+        // This is the first load of the page in the current session
+        sessionStorage.setItem('pageLoaded', 'true');
+        console.log('First page load in this session. Proceeding normally.');
+    }
+}
+
+// Attach the function to the window's load event
+window.addEventListener('reload', redirectOnSecondLoad);
+  </script>
  
 
                         <div class="inline-p">
