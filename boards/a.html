@@ -47,6 +47,24 @@ function ensureTrailingSlash(url) {
   ensureTrailingSlash(window.location.href);
 });
 </script>
+  
+       
+      <script>
+function removeTrailingSlashAndReload() {
+  const currentUrl = window.location.href;
+  // Regular expression to match one or more trailing slashes at the end of the string
+  const urlWithoutTrailingSlash = currentUrl.replace(/\/+$/, '');
+
+  // Check if the URL has changed (to avoid infinite reload loops for the homepage "/")
+  if (currentUrl !== urlWithoutTrailingSlash) {
+    // Redirect to the new URL without the trailing slash
+    window.location.replace(urlWithoutTrailingSlash);
+  }
+}
+
+// Call the function on page load
+window.onload = removeTrailingSlashAndReload;
+</script>
 
    
 
@@ -636,7 +654,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
