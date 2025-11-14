@@ -1,2 +1,3 @@
-Video boards domain: https://fakechanvideos.pagekite.me
-Random board display domain: https://randomboarddisplay.fakechancore.workers.dev
+https://fakechanvideos.pagekite.me
+https://randomboarddisplay.fakechancore.workers.dev
+https://gets.fakechancore.workers.dev
