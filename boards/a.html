@@ -19,53 +19,66 @@
       <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script>
   
 
+<script>
+    // Function to add a trailing slash if not present
+    function addTrailingSlash(url) {
+        const urlObj = new URL(url);
+        if (urlObj.pathname.charAt(urlObj.pathname.length - 1) !== '/') {
+            urlObj.pathname += '/';
+            // Also adds a trailing slash to the end of any hash part
+            if (urlObj.hash && urlObj.hash.charAt(urlObj.hash.length - 1) !== '/') {
+                urlObj.hash += '/';
+            }
+        }
+        return urlObj.toString();
+    }
 
+    // Function to remove a trailing slash if present
+    function removeTrailingSlash(url) {
+        const urlObj = new URL(url);
+        // Ensure we don't remove the slash for the root path '/'
+        if (urlObj.pathname.length > 1 && urlObj.pathname.charAt(urlObj.pathname.length - 1) === '/') {
+            urlObj.pathname = urlObj.pathname.slice(0, -1);
+        }
+        // Also removes a trailing slash from the end of any hash part
+        if (urlObj.hash && urlObj.hash.charAt(urlObj.hash.length - 1) === '/') {
+            urlObj.hash = urlObj.hash.slice(0, -1);
+        }
+        return urlObj.toString();
+    }
+
+    // Differentiate between initial load and refresh using sessionStorage
+    if (sessionStorage.getItem('isReloaded') !== 'yes') {
+        // Initial page load: Add the trailing slash
+        const currentUrl = window.location.href;
+        const newUrl = addTrailingSlash(currentUrl);
+        if (newUrl !== currentUrl) {
+            history.replaceState(null, '', newUrl);
+        }
+        // Set flag for subsequent loads in the same session
+        sessionStorage.setItem('isReloaded', 'yes');
+    } else {
+        // Page was reloaded: Remove the trailing slash
+        const currentUrl = window.location.href;
+        const newUrl = removeTrailingSlash(currentUrl);
+        if (newUrl !== currentUrl) {
+            history.replaceState(null, '', newUrl);
+        }
+    }
+
+    // Clear the sessionStorage flag when the user leaves the page or closes the tab/browser
+    // Note: This is an approximation as onbeforeunload fires for both navigation and close
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.removeItem('isReloaded');
+    });
+
+</script>
 </head>
 <body>
  
      <div id="message"></div>
 
-      
-      <script>
-function ensureTrailingSlash(url) {
-  // Split the URL into path and query/hash parts
-  const urlParts = url.split(/[?#]/);
-  let path = urlParts[0];
 
-  // Regex to check if the path ends with a trailing slash
-  const trailingSlashRegex = /\/$/;
-
-  // If the path doesn't have a trailing slash, add one
-  if (!trailingSlashRegex.test(path)) {
-    path = path + '/';
-    // Reconstruct the URL with the new path
-    const newUrl = path + urlParts.slice(1).join('?');
-    history.replaceState({}, '', newUrl);
-  }
-}
-     window.addEventListener('load', () => {
-  ensureTrailingSlash(window.location.href);
-});
-</script>
-  <script>
-    function redirectOnSecondLoad() {
-    // Check if the 'pageLoaded' item is already in sessionStorage
-    if (sessionStorage.getItem('pageLoaded')) {
-        // The page has been loaded before in this session
-        console.log('Page reloaded or accessed again in the same session. Redirecting...');
-        // Redirect to a different page, e.g., 'anotherpage.html'
-        window.location.replace('https://japanga.github.io/fakechan/boards/a');
-    } else {
-        // This is the first load of the page in the current session
-        sessionStorage.setItem('pageLoaded', 'true');
-        console.log('First page load in this session. Proceeding normally.');
-    }
-}
-
-// Attach the function to the window's load event
-window.addEventListener('reload', redirectOnSecondLoad);
-  </script>
- 
 
                         <div class="inline-p">
         
