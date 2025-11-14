@@ -49,25 +49,38 @@ function ensureTrailingSlash(url) {
 </script>
 
 <script>
-window.onload = function() {
-    var reloading = sessionStorage.getItem("reloading");
-    if (reloading) {
-        sessionStorage.removeItem("reloading");
-        mySpecificFunction(); // This function runs only after the specific reload
-         
-   window.location.href = 'https://japanga.github.io/fakechan/boards/a';
+// Function to remove the trailing slash from the current URL
+function removeTrailingSlash() {
+    const currentURL = window.location.href;
+    // Check if the URL ends with a single slash (but is not the root path)
+    if (currentURL.endsWith('/') && window.location.pathname !== '/') {
+        const newURL = currentURL.slice(0, -1);
+        // Update the URL without reloading the entire page if using history API (modern approach)
+        // window.history.replaceState({}, document.title, newURL);
+        
+        // OR, the following line will navigate to the new URL, causing a page reload.
+        // This is usually what you want for canonical URLs, but it triggers the onload event again.
+        // window.location.replace(newURL); 
+
+        // To make it work with the "loaded once" requirement, we must rely on storage to prevent a loop.
+        // The most common use case is to only perform the redirection once per session.
+        sessionStorage.setItem('slash_removed', 'true');
+        window.location.replace(newURL);
     }
 }
 
-function reloadPageAndRunFunction() {
-    sessionStorage.setItem("reloading", "true");
-    document.location.reload();
-}
-
-function mySpecificFunction() {
-    console.log("This function only runs after the 'reloadPageAndRunFunction' was called!");
-    // Add your specific code here
-}
+// Check sessionStorage on every page load
+window.onload = function() {
+    if (sessionStorage.getItem('slash_removed') === null) {
+        // If the 'slash_removed' item is not set, run the function and redirect
+        removeTrailingSlash();
+    } else {
+        // If it is set, clear it for the next fresh session or do nothing
+        // You can clear it to allow the slash check on a new browser session
+        // or a new tab depending on your requirements.
+        sessionStorage.removeItem('slash_removed');
+    }
+};
 </script>
 
                         <div class="inline-p">
