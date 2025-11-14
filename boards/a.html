@@ -51,19 +51,23 @@ function ensureTrailingSlash(url) {
        
       <script>
 function removeTrailingSlashAndReload() {
-  const currentUrl = window.location.href;
-  // Regular expression to match one or more trailing slashes at the end of the string
-  const urlWithoutTrailingSlash = currentUrl.replace(/\/+$/, '');
+    const currentUrl = window.location.href;
 
-  // Check if the URL has changed (to avoid infinite reload loops for the homepage "/")
-  if (currentUrl !== urlWithoutTrailingSlash) {
-    // Redirect to the new URL without the trailing slash
-    window.location.replace(urlWithoutTrailingSlash);
-  }
+    // Use a regular expression to check for a trailing slash immediately before
+    // the end of the string.
+    if (currentUrl.endsWith('/')) {
+        // Remove the last character (the trailing slash)
+        const newUrl = currentUrl.slice(0, -1);
+
+        // Replace the current history entry with the new URL to prevent the
+        // back button from going to the trailing slash version first.
+        window.history.replaceState(null, null, newUrl);
+
+        // Reload the page to ensure all relative paths and server-side logic
+        // behave correctly with the canonical URL.
+        window.location.reload();
+    }
 }
-
-// Call the function on page load
-window.onload = removeTrailingSlashAndReload;
 </script>
 
    
