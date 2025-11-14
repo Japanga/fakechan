@@ -47,20 +47,22 @@ function ensureTrailingSlash(url) {
   ensureTrailingSlash(window.location.href);
 });
 </script>
-  <script type="text/javascript">
-  const newURL = "https://japanga.github.io/fakechan/boards/a"; // Replace with your desired URL
-  
-  // Check if this is the first time the page is loaded in the current session
-  if (!sessionStorage.getItem('isReloaded')) {
-    // If not reloaded, set the flag in sessionStorage and then let the page load normally
-    sessionStorage.setItem('isReloaded', 'true');
-  } else {
-    // If it has been reloaded in the same session, redirect to the new URL
-    window.location.replace(newURL);
-    // Use replace() so the user cannot use the back button to return to the original page
-  }
-</script>
-  
+
+  <script>
+    function redirectWithoutTrailingSlash() {
+    const currentUrl = window.location.pathname;
+    // Check if the URL pathname (excluding query parameters) ends with a single slash, 
+    // and is not just the root path "/"
+    if (currentUrl.length > 1 && currentUrl.endsWith('/')) {
+        const newUrl = window.location.origin + currentUrl.slice(0, -1) + window.location.search + window.location.hash;
+        // Perform a client-side redirect
+        window.location.replace(newUrl);
+    }
+}
+
+// Call the function when the page loads
+redirectWithoutTrailingSlash();
+  </script>
    
 
 
