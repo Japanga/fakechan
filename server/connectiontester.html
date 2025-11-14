@@ -334,26 +334,39 @@ image.setAttribute('src', randomSource);
     <div class="container">
        <span style="color: darkred;">
         <h1>Check FakeChan Server signals</h1>
-        <label for="urlInput">Enter the URL of the <b>https://japanga.github.io/fakechan/server/signaltest.txt file:</b></label>
+        <label for="urlInput">Enter the URL of the <b>https://japanga.github.io/fakechan/server/signaltest.txt </b>file:</label>
         <input type="text" id="urlInput" style="width: 400px; height: 20px;" placeholder="https://japanga.github.io/fakechan/server/signaltest.txt">
         <button onclick="checkFileContent()">Check File</button>
         <div id="status"></div>
     </div>
-  <p>Elapsed time since last signal check: <span id="timer-display">0</span> seconds</p> 
+       <style>
+      #display {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+       </style>
+      <span style="color: darkred;">
+  <p><b>Elapsed time since last signal check: </b></p> 
+      <div id="display">00:00:00</div>
     
     <script>
-              // Initialize the time counter
-let secondsElapsed = 0;
- 
-// Get the display element
-const displayElement = document.getElementById('timer-display');
+      let totalSeconds = 0;
+let timer = null;
+const display = document.getElementById('display');
 
-// Function to update the timer
-function updateTimer() {
-    secondsElapsed++;
-    displayElement.textContent = secondsElapsed;
+function pad(val) {
+    return val.toString().padStart(2, '0');
 }
 
+function setTime() {
+    totalSeconds++;
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+ 
+    display.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+}
 
         async function checkFileContent() {
             const url = document.getElementById('urlInput').value.trim();
@@ -375,7 +388,7 @@ function updateTimer() {
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-
+ 
                 // Get the response as text
                 const text = await response.text();
 
@@ -387,7 +400,7 @@ function updateTimer() {
                     statusDiv.textContent = 'Success! File content:\n\n' + text;
                   statusDiv.innerHTML = ' <span style="color: green;">Success! File content:\n\n' + text;
                   // Start the infinite timer, updating every 1000ms (1 second)
-setInterval(updateTimer, 1000);
+  timer = setInterval(setTime, 1000);
                     statusDiv.className = 'success';
                 }
 
