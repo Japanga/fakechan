@@ -4,10 +4,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <link rel="shortcut icon" type="image/x-icon" href="https://yourimageshare.com/ib/LSvMo9HAEP.png" />
+   <link rel="shortcut icon" type="image/x-icon" href="https://yourimageshare.com/ib/GrUg6gfJ1o.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeChan: Server</title>
+    <title>FakeChan</title>
      
 
   
@@ -16,9 +16,30 @@
   
   <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
   
-      <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script>
+      <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script> 
   
-
+<script>
+  // Get the current URL
+  const currentUrl = window.location.href;
+  
+  // Define the function to remove the trailing slash
+  const stripTrailingSlash = (str) => {
+    // Check if the URL ends with a slash and is not just the domain root ("/")
+    if (str.endsWith('/') && new URL(str).pathname !== '/') {
+      return str.slice(0, -1);
+    }
+    return str;
+  };
+  
+  // Get the new, potentially corrected URL
+  const newUrl = stripTrailingSlash(currentUrl);
+  
+  // If the URLs are different, redirect to the new URL without the trailing slash
+  if (currentUrl !== newUrl) {
+    // Use replace() to prevent the browser from adding the incorrect URL to the history
+    window.location.replace(newUrl);
+  }
+</script>
 
 </head>
 <body>
@@ -48,12 +69,59 @@ function ensureTrailingSlash(url) {
 });
 </script>
 
+<script>
+    // Function to remove a trailing slash from a string
+    function stripTrailingSlash(str) {
+        // Regex to match one or more slashes at the end of the string
+        return str.replace(/\/+$/, ''); 
+    }
+
+    // Get the current URL
+    var currentUrl = window.location.href;
+    // Get the URL without the trailing slash
+    var newUrl = stripTrailingSlash(currentUrl);
+
+    // Check if the URL needs to be changed (and it's not just the homepage '/')
+    if (currentUrl !== newUrl && window.location.pathname !== "/") {
+        // Use replaceState to change the URL in the browser history without a reload
+        // Parameters: state object, title, URL
+        window.history.replaceState({ path: newUrl }, '', newUrl);
+    }
+</script>
    
 
-                      <div class="inline-p">
+                        <div class="inline-p">
         
-<b>[</b> <a href="/fakechan/boards/a"><b>/a/</b></a>  -  <a href="/fakechan/boards/an"><b>/an/</b></a> -  <a href="/fakechan/boards/b"><b>/b/</b></a> -  <a href="/fakechan/boards/co"><b>/co/</b></a> -  <a href="/fakechan/boards/c"><b>/c/</b></a> -  <a href="/fakechan/boards/x"><b>/x/</b></a> -  <a href="/fakechan/boards/m"><b>/m/</b></a> -  <a href="/fakechan/boards/mu"><b>/mu/</b></a> -  <a href="/fakechan/boards/v"><b>/v/</b></a> -  <a href="/fakechan/boards/vid"><b>/vid/</b></a> -  <a href="/fakechan/boards/tv"><b>/tv/</b></a> -  <a href="/fakechan/boards/pol"><b>/pol/</b></a> -  <a href="/fakechan/boards/gif"><b>/gif/</b></a> - <a href="/fakechan/boards/sp"><b>/sp/</b></a> - <a href="/fakechan/boards/jp"><b>/jp/</b></a> -  <a href="/fakechan/boards/h"><b>/h/</b></a> -  <a href="/fakechan/boards/hc"><b>/hc/</b></a> -  <a href="/fakechan/boards/w"><b>/w/</b></a> -  <a href="/fakechan/boards/wsg"><b>/wsg/</b></a> -  <a href="/fakechan/boards/pw"><b>/pw</b>/</a> -  <a href="/fakechan/boards/news"><b>/news/</b></b></a> <b>]</b>  <a href="/fakechan/index"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="/fakechan/boards/vpn"><b>VPN</b></a> <b>10.1k image views, 328.09 MB currently hosted...</b>
+<b>[</b> <a href="/fakechan/boards/a"><b>/a/</b></a>  -  <a href="/fakechan/boards/an"><b>/an/</b></a> -  <a href="/fakechan/boards/b"><b>/b/</b></a> -  <a href="/fakechan/boards/co"><b>/co/</b></a> -  <a href="/fakechan/boards/c"><b>/c/</b></a> -  <a href="/fakechan/boards/get"><b>/get/</b></a> -  <a href="/fakechan/boards/x"><b>/x/</b></a> -  <a href="/fakechan/boards/m"><b>/m/</b></a> -  <a href="/fakechan/boards/mu"><b>/mu/</b></a> -  <a href="/fakechan/boards/v"><b>/v/</b></a> -  <a href="/fakechan/boards/vid"><b>/vid/</b></a> -  <a href="/fakechan/boards/tv"><b>/tv/</b></a> -  <a href="/fakechan/boards/pol"><b>/pol/</b></a> -  <a href="/fakechan/boards/gif"><b>/gif/</b></a> - <a href="/fakechan/boards/sp"><b>/sp/</b></a> - <a href="/fakechan/boards/jp"><b>/jp/</b></a> -  <a href="/fakechan/boards/h"><b>/h/</b></a> -  <a href="/fakechan/boards/hc"><b>/hc/</b></a> -  <a href="/fakechan/boards/w"><b>/w/</b></a> -  <a href="/fakechan/boards/wsg"><b>/wsg/</b></a> -  <a href="/fakechan/boards/pw"><b>/pw</b>/</a> -  <a href="/fakechan/boards/news"><b>/news/</b></b></a> <b>]</b>  <a href="/fakechan/index"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="/fakechan/boards/vpn"><b>VPN</b></a> 
      </div>
+  
+  <b>  <p id="content-paragraph">Loading Cloudinary dashboard stats...</p> </b>
+  
+  <script>
+   window.onload = function() {
+    // Specify the path to your text file
+    const textFilePath = 'https://japanga.github.io/fakechan/server/statsdisplay.txt'; 
+    const paragraphElement = document.getElementById('content-paragraph');
+
+    fetch(textFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+            return response.text(); // Read the response as plain text
+        })
+        .then(data => {
+            // Update the paragraph with the content from the text file
+            paragraphElement.textContent = data; 
+        })
+        .catch(error => {
+            console.error('Error fetching the text file:', error);
+            paragraphElement.textContent = 'Failed to load content.';
+        });
+};
+  </script>
+      
+  
       
   <style>
     .parent-container {
@@ -74,8 +142,8 @@ function ensureTrailingSlash(url) {
     <img src="" data-random-image="/fakechan/boards/1.png /fakechan/boards/2.png /fakechan/boards/3.png /fakechan/boards/4.png /fakechan/boards/5.png /fakechan/boards/6.png /fakechan/boards/7.png /fakechan/boards/8.png /fakechan/boards/9.png /fakechan/boards/10.png /fakechan/boards/11.png /fakechan/boards/12.png /fakechan/boards/13.png /fakechan/boards/14.png /fakechan/boards/15.gif /fakechan/boards/16.png /fakechan/boards/17.png /fakechan/boards/18.png /fakechan/boards/19.png /fakechan/boards/20.png /fakechan/boards/21.png /fakechan/boards/22.png /fakechan/boards/23.png /fakechan/boards/24.png /fakechan/boards/25.png /fakechan/boards/26.png /fakechan/boards/27.png /fakechan/boards/28.png /fakechan/boards/29.png /fakechan/boards/30.png" alt="Loading random header..." width="300" height="100">
         </div>
                           </div>
-
-  
+    
+ 
  <style>
    .popup-container {
     display: none; /* Hidden by default */
@@ -147,7 +215,7 @@ button {
         </div>
     </div>
     <button id="open-popup-btn">Settings</button>
-      
+
   <script>
     // Function to change the font color
 function changePageColor() {
@@ -212,8 +280,7 @@ changeGradientBtn.addEventListener('click', () => {
         alert('Please enter at least two colors separated by a comma.');
     }
 });
-  </script>
-                        
+  </script>      
    <script>  
     const image = document.querySelector('img[data-random-image]');
 const sources = image.dataset.randomImage.split(" ");
@@ -224,104 +291,14 @@ image.setAttribute('src', randomSource);
  
    
       </span>
-<style>
-  .tinytextcode {
-  font-size: 9px; /* Adjust the pixel value to make it tinier or slightly larger */
-      display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center;
-    color:darkred;
-}
-  </style>
+</div>
                         <div class="parent-container">
                         <span style="color: darkred;">
             <h1>/a/ Anime & Manga</h1>
                           </span>
                           </div>
-
-<script>
-  function saveAndDisplay() {
-    // 1. Get the input element by its ID
-    const inputElement = document.getElementById('textInput');
-    
-    // 2. Get the value (string) from the input field
-    const inputValue = inputElement.value;
-    
-    // 3. Get the paragraph element where we want to display the text
-    const outputElement = document.getElementById('outputParagraph');
-    
-    // 4. Update the text content of the paragraph with the saved string
-    outputElement.textContent = inputValue;
-
-    // Optional: Clear the input field after saving
-    inputElement.value = '';
-}
-  </script>
-<style>
-
-.container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;
-    width: 300px;
-}
-
-input[type="text"] {
-    padding: 10px;
-    width: 80%;
-  height:130px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-bottom: 15px;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-p {
-    font-size: 16px;
-    color: #333;
-}
-
-#outputParagraph {
-    color: #d9534f;
-    font-weight: bold;
-    word-wrap: break-word;
-}
-</style>
-    <div class="parent-container">
-
-      </div>
-
-<input type="text" id="imageDescription" placeholder="Enter text content to accompany your post...">
-
-
-<form method="POST">
-  <div class="h-captcha" data-sitekey="33045dda-670e-4626-b55c-49ee0dbadd76" data-callback="onRecaptchaSuccess"></div>
-  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-</form>
-
-   <script>
-
-          function onRecaptchaSuccess(token) {
-       const hiddenGridButton = document.getElementById('upload_widget');
-     hiddenGridButton.style.visibility = 'visible';
-    }
-    </script>
-
+                        <hr class="long-line">
+  
                         <div class="parent-container">
  <div class="parent-div">
             <div class="item">
@@ -330,7 +307,7 @@ p {
              </div>
         
    <div class="item">
-  <a href="https://cloudinary.com/"><img src="https://yourimageshare.com/ib/NjtVdTfYnb.png" alt="Flowers in Chania" width="253" height="143"></a>
+  <a href="https://cloudinary.com/"><img src="https://yourimageshare.com/ib/5JDVcid1uo.png" alt="Flowers in Chania" width="100" height="73"></a>
    </div>
           </div>
                            </div>
@@ -383,24 +360,18 @@ p {
        paragraph19.textContent = '🍋‍🟩';
     });
           </script>
-     
+    
     
     
           
           
           
           <script>
-         
    document.getElementById("upload_widget").addEventListener("click", function() {
-         const inputElement = document.getElementById('textInput');
-    
-    // 2. Get the value (string) from the input field
-    const inputValue = inputElement.value;
-    
          cloudinary.openUploadWidget(
              {
                  cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
-                 uploadPreset: "animeUPLOADS"// Replace with the name of your unsigned upload preset
+                 uploadPreset: "animeUPLOADS" // Replace with the name of your unsigned upload preset
              },
            
              (error, result) => {
@@ -416,55 +387,12 @@ p {
      });
 
           </script>
-
-
-<script>
-  var myWidget = cloudinary.createUploadWidget({
-    cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
-    uploadPreset: 'animeUPLOADS', // Replace with your upload preset
-    // Use prepareUploadParams to add custom data
-    prepareUploadParams: (cb, params) => {
-        const descriptionInput = document.getElementById('imageDescription');
-        const descriptionValue = descriptionInput.value;
-      context: true;
-      
-
-        if (descriptionValue) {
-          
-            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue;
-            // You can also use custom keys, e.g., 'custom_desc=...'
-          params.metadata = 'custom_desc=' + descriptionValue;
-        }
-        cb(params);
-    }
-}, (error, result) => {
-    if (!error && result && result.event === "success") {
-        alert('Done! Here is the image info: ', result.info);
-        // Optional: Clear the input field after successful upload
-
-    }
-});
-
-document.getElementById("upload_widget").addEventListener("click", function(){
-    myWidget.open();
-}, false);
-   </script>
           
             
 <hr class="long-line">
-
-
-<iframe src="https://empty-rings-pull.loca.lt/" width="1000" height="400" title="Description of the embedded content">
-  Fallback content for browsers that do not support iframes.
-</iframe>
- <div class="tinytextcode">
-   A few of the boards that we deem the most popular have been given the full post writing functionality. One of the major cons is that it requires manual node.js server hosting and localhost port forwarding, so posts on these boards may go down and become unavailable from 2:00 AM - 11 AM EST. A specific section of FakeChan has been created for detecting if any signals from the servers can be found. This is only for the post contents though, and you can get access to the photos themselves at any time even when the hoster is offline from the archive.
-</div>
-<a href="https://japanga.github.io/fakechan/server/connectiontester"><b>https://japanga.github.io/fakechan/server/connectiontester/</b></a>
-</div>
-<a href="https://japanga.github.io/fakechanarchive/snapshot_10-03-25_2"><b>https://japanga.github.io/fakechanarchive/snapshot_10-03-25_2</b></a>
-
+  <span style="color: darkred;">
+<b><i><p>Anyone can upload to FakeChan image feeds, so start doing it!</p></i></b>
+    <hr class="long-line">
     
            </span>
 <script src="https://product-gallery.cloudinary.com/latest/all.js" type="text/javascript">
@@ -475,9 +403,147 @@ document.getElementById("upload_widget").addEventListener("click", function(){
 </div>
 
 
+ <div class="image-grid" id="imageGrid">
+        <!-- Images will be injected here by JavaScript -->
+    </div>
+  <style>
+  
+
+    #imageGrid {
+    display: grid;
+      overflow: scroll;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid columns */
+    gap: 140px; /* Space between grid items */
+    padding: 20px;
+    background-image: linear-gradient(#A6A6A6
+, #4F4F4F);
+    height:500px; 
+           border-style: solid;
+      border-width: 2px;
+      border-color: white; /* Sets all four borders to red */
+}
+
+.image-card {
+    background-color: #fff;
+   
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.9);
+     height: 400px; 
+     width: 300px;
+}
+
+.image-card img {
+  width: 60%; /* Desired display width */
+    height: auto; /* Desired display height */
+    object-fit: fill;
+
+}
+
+.image-info {
+
+    padding: 10px;
+    font-size: 0.8em;
+    color: #555;
+}
+    .image-info p {
+    margin: 0;
+      
+}
+
+.image-info .filename {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+  </style>
+    <script>
+      const CLOUD_NAME = 'dussuas34'; // Replace with your Cloudinary cloud name
+const TAG = 'anime_uploads';     // Replace with your specific tag
+const RESOURCE_TYPE = 'image';       // Can also be 'video' if needed
+
+const apiUrl = `https://res.cloudinary.com/${CLOUD_NAME}/${RESOURCE_TYPE}/list/${TAG}.json`;
+const imageGrid = document.getElementById('imageGrid');
+
+async function fetchImages() {
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        displayImages(data.resources);
+
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        imageGrid.innerHTML = '<p>Failed to load images. Check console for details.</p>';
+    }
+}
+
+function displayImages(resources) {
+    if (resources.length === 0) {
+        imageGrid.innerHTML = '<p>No images found with this tag.</p>';
+        return;
+    }
+
+    resources.forEach(resource => {
+        // Create elements
+        const card = document.createElement('div');
+        card.classList.add('image-card');
+
+        const img = document.createElement('img');
+        // Cloudinary URL structure: https://res.cloudinary.com/<cloud_name>/image/upload/<public_id>.<format> 
+        img.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_auto,h_300,c_fill/${resource.public_id}.${resource.format}`;
+        img.alt = resource.public_id; // Use public_id as alt text
+
+        const info = document.createElement('div');
+        info.classList.add('image-info');
+
+        const filename = document.createElement('p');
+        // The public_id often corresponds to the filename if set during upload
+        filename.textContent = `Filename: ${resource.public_id}.${resource.format}`; 
+      
+      const downloadLink = document.createElement('p');
+      
+      downloadLink.textContent = `URL: ${resource.public_id}.${resource.format}`; 
+      
+      downloadLink.innerHTML = `URL: <a href="https://res.cloudinary.com/dussuas34/image/upload/${resource.public_id}.${resource.format}">${resource.public_id}.${resource.format}</a>`; 
+
+        const date = document.createElement('p');
+        // Format the upload date (resource.uploaded_at is an ISO string)
+        date.textContent = `Uploaded: ${new Date(resource.created_at).toLocaleDateString()}`;
+      
+      const author = document.createElement('p');
+      
+      author.textContent = `Author: Anonymous`; 
+
+        // Append elements
+        info.appendChild(filename);
+       info.appendChild(downloadLink);
+      info.appendChild(author);
+        info.appendChild(date);
+        card.appendChild(img);
+        card.appendChild(info);
+        imageGrid.appendChild(card);
+    });
+}
+
+// Initial fetch
+fetchImages();
+  </script>
+
+<!-- begin wwww.htmlcommentbox.com -->
+ <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
+ <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+ <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24dJ43Tl5IByJdqspQippWg1"+"&opts=16798&num=10&ts=1762281024694");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+<!-- end www.htmlcommentbox.com -->
+
+
+
+
    <script>
      const hiddenGridButton = document.getElementById('upload_widget');
-     hiddenGridButton.style.visibility = 'hidden';
+     //hiddenGridButton.style.visibility = 'hidden';
       </script>
           
           
@@ -560,7 +626,7 @@ textarea {
      body {
   min-height: 200vh;
   margin: 0; /* Remove default body margin */
-   background-image: linear-gradient(#D1D5EE
+  background-image: linear-gradient(#D1D5EE
 , #EEF2FF
 );
     
@@ -610,3 +676,27 @@ height: 220px;
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
