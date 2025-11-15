@@ -81,6 +81,8 @@ Welcome to FakeChan's frequently asked questions page!
             <h><a href="#target-section4">Technical</a></h>
             <ol>
   <li><a href="#target-section4">How does FakeChan run and operate?</a></li>
+              
+                <li><a href="#target-section4">Are there limitations to how many files FakeChan can store?</a></li>
 
    
 </ol>
@@ -217,9 +219,37 @@ Welcome to FakeChan's frequently asked questions page!
       </span>
             </section>
             <p><img src="https://yourimageshare.com/ib/FYHlBMogKQ.jpg" alt="Smiley face" style="width:100px;height:100px;"> </p>
+           <hr class="long-line">
+        <span style="color: darkblue;">
+<b>Are there limitations to how many files FakeChan can store?</b>
+           <span style="color: black;">
+        <p>There are, but we have not yet breached the level of popularity to the point of overloading the servers or needing to set up a new one for hosting files (one could easily be made if this were the case) You are given an automatic display message on the top of all pages where the boards are listed to assess how many files are currently hosted to FakeChan and how many views they have.</p>
+      </span>
+             <b> <p id="replace-me">Loading image views and storage data...</p></b>
     </div>
         </div>
-  
+   <script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const paragraph = document.getElementById('replace-me');
+    const textFilePath = 'https://japanga.github.io/fakechan/boards/statsdisplay.txt'; // Make sure this path is correct
+
+    fetch(textFilePath)
+        .then(response => {
+            // Check if the request was successful
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text(); // Get the response as plain text
+        })
+        .then(text => {
+            paragraph.textContent = text; // Replace the paragraph's content
+        })
+        .catch(error => {
+            console.error('Error fetching the text file:', error);
+            paragraph.textContent = 'Failed to load external content.'; // Display an error message
+        });
+});
+  </script>
 
   
   <script>
@@ -407,7 +437,7 @@ textarea {
   
   
    .grid-container5 {
-   height:400px;
+   height:450px;
    width:625px;
     border: 2px solid #141B69;
    background-color: lightblue;
