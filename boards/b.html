@@ -62,7 +62,7 @@ function ensureTrailingSlash(url) {
   <script>
    window.onload = function() {
     // Specify the path to your text file
-    const textFilePath = 'https://japanga.github.io/fakechan/server/statsdisplay.txt'; 
+    const textFilePath = 'statsdisplay.txt'; 
     const paragraphElement = document.getElementById('content-paragraph');
 
     fetch(textFilePath)
@@ -474,7 +474,7 @@ window.onload = colorParagraphsStartingWithGreaterSign;
 <script>
   var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
-    uploadPreset: 'randomUPLOADER', // Replace with your upload preset
+    uploadPreset: 'randomUploads', // Replace with your upload preset
     // Use prepareUploadParams to add custom data
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
