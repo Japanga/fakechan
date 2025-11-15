@@ -23,18 +23,51 @@
   <p><img src="https://yourimageshare.com/ib/s3UsWoFxgf.png" alt="Smiley face" style="width:630px;height:190px;"> </p>
    
     <div class="headerSubSection2">
-<h2><a>Frequently Asked Questions</a></h2>
+      
+<h2><a> <span style="color: darkred;">Frequently Asked Questions</a></h2>
 </div>
   
  <div class="grid-containerx">
 Welcome to FakeChan's frequently asked questions page!
 </div>
+
+     <div class="questionsSubSection">
+    
+
+  <h2><a><span style="color: white;">Questions</a></h2>
+</div>
+        <div class="grid-new">
+             <ol>
+        <li>
+            <h>Basics</h>
+           <ol>
+  <li>What is FakeChan?</li>
+  <li>How do I access the boards?</li>
+  <li>How do I post Anonymously?</li>
+              <li>Do I have to post an image?</li>
+              <li>Does FakeChan have greentexting?</li>
+</ol>
+        </li>
+        <li>
+            <h><a href="#target-section1">Culture</a></h>
+            <ol>
+  <li><a href="#target-section1">Who is Anonymous?</a></li>
+  <li><a href="#target-section1">Who is that blacked hair girl in all of the site header memes?</a></li>
+  <li><a href="#target-section1">What are GETS?</a></li>
+   
+</ol>
+        </li>
+        
+          </div>
   
+   <div class="leftAligned">
       <div class="headerSubSection">
+    
 
   <h2><a><span style="color: white;">Basics</a></h2>
 </div>
   
+        
  <div class="grid-container">
    <span style="color: darkblue;">
 <b>What is FakeChan?</b>
@@ -75,6 +108,8 @@ Welcome to FakeChan's frequently asked questions page!
       </span>
               <hr class="long-line">
      
+          
+          <section id="target-section1">
        <div class="headerSubSection">
 
   <h2><a><span style="color: white;">Culture</a></h2>
@@ -97,6 +132,8 @@ Welcome to FakeChan's frequently asked questions page!
 <b>What are "GETs"?</b>
         <span style="color: black;">
         <p>GETS/digits are a well known phenomenon on 4chan where the numbers on the end of your post ID have a matching number like 00/88/666/7777/99999 etc. GETS often add more validity and truth to the post, with jokes like "Dubs confirm" as if the post having a GET signifies the quality and status of the post. Theories that webadmins can rig them have existed for years but the truth is you can get them here as well as lots of other similar post ID-based sites like Rule 34. They are handled by the web admin approving/declining posts and could very likely be intentional or by pure luck and chance. Scripts exist to get all of the latest posts across all the 4chan boards to predict when the next GET is going to be. FakeChan has a special board designed solely for tracking GETs on image uploads called <a href="https://japanga.github.io/fakechan/boards/get">/get/</a> </p>
+          </section>
+          
            <div class="headerSubSection">
 
   <h2><a><span style="color: white;">Contribution</a></h2>
@@ -113,7 +150,7 @@ Welcome to FakeChan's frequently asked questions page!
         <span style="color: black;">
         <p>We want good and consistent users that publish good stuff we would want to show off and host. If it is gross, bad, or unfunny: we don't want it on here! Curating the overall theme of the material hosted here is very important. Classification/organization is also important to make sure all of the materials are being sent to the right boards.</p>
       </span>
-                     <span style="color: darkblue;">
+                     <hr class="long-line">  <span style="color: darkblue;">
 <b>What is "shitposting"?</b>
         <span style="color: black;">
         <p>Anything that SHITienrus posts.</p>
@@ -144,12 +181,11 @@ Welcome to FakeChan's frequently asked questions page!
         <span style="color: darkblue;">
 <b>How does FakeChan run and operate?</b>
         <span style="color: black;">
-        <p>FakeChan was initially primarily powered on .HTML/JavaScript and .CSS with an external third party service called Cloudinary to host and retrieve user content and display it to the site. After the creation of <b>FakeChan: Server</b>, a deeper inner node.js framework referred to as <b>"FakeChan: Core"</b> was built to procedurally render upload data to Cloudflare sites and stream the data to FakeChan. Most of FakeChan is open-source, but <u><b>the scripts for generating/compiling FakeChan boards are privately owned and not available to the public.</b></b></p>
+        <p>FakeChan was initially primarily powered on .HTML/JavaScript and .CSS with an external third party service called Cloudinary to host and retrieve user content and display it to the site. After the creation of <b>FakeChan: Server</b>, a deeper inner node.js framework referred to as <b>"FakeChan: Core"</b> was built to procedurally render upload data to Cloudflare sites and stream the data to FakeChan. Most of FakeChan is open-source, but   <span style="color: red;"><u><b>the scripts for generating/compiling FakeChan boards are privately owned and not available to the public.</b></b></p>
       </span>
             <p><img src="https://yourimageshare.com/ib/6yJgH3e33W.png" alt="Smiley face" style="width:200px;height:190px;"> </p>
     </div>
-       </div>
-</div>
+        </div>
   
 
   
@@ -218,6 +254,11 @@ Welcome to FakeChan's frequently asked questions page!
    
 
 <style>
+  .leftAligned {
+    width: 50%; /* Adjust as needed */
+     margin-top: -965px;
+ float: right;
+}
     .gradient-text {   
       
          font-size: 14px;
@@ -260,7 +301,7 @@ Welcome to FakeChan's frequently asked questions page!
    
   /* Default link color */
 a {
-  color: darkred; /* Example: Sets all links to blue */
+  color: blue; /* Example: Sets all links to blue */
 }
   a1 {
   color: red; /* Example: Sets all links to blue */
@@ -283,13 +324,24 @@ textarea {
    width:625px;
     border: 1px solid #000;
   display: grid; /* Makes the element a grid container */
-  
+         margin-left: 0; /* Ensures no left margin */
+    /* Optional: Remove all default margins/padding for predictability */
+    margin: 0; 
 }
  .grid-container {
    height:900px;
    width:625px;
     border: 2px solid #141B69;
    background-color: lightblue;
+  display: grid; /* Makes the element a grid container */
+  
+}
+  
+  .grid-new {
+   height:900px;
+   width:530px;
+    border: 2px solid #214511;
+   background-color: #BAF79C;
   display: grid; /* Makes the element a grid container */
   
 }
@@ -329,6 +381,16 @@ textarea {
   
 }
   
+   .questionsSubSection {
+   height:60px;
+      width:530px;
+    border: 1px solid #141414;
+    border-radius: 4px;
+  display: grid; /* Makes the element a grid container */
+  
+     background-image: linear-gradient(#6DC242
+, #448026);
+}
    .headerSubSection {
    height:60px;
       width:630px;
