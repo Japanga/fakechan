@@ -7,7 +7,7 @@
    <link rel="shortcut icon" type="image/x-icon" href="https://yourimageshare.com/ib/GrUg6gfJ1o.png" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeChan Imageboards</title>
+    <title>FakeChan</title>
   
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
   
@@ -25,7 +25,32 @@
 </div>
   
  <div class="grid-container">
-<b><p>FakeChan is an altchan imageboard and public cloud file storage client. FakeChan is already starting to have very unique functions compared to other altchans, like the ability to upload .pdf documents incorporated into our versions of <a href="/fakechan/boards/co">/co/</a> and <a href="/fakechan/boards/lit">/lit/</a>, uploading .mp3s in our version of <a href="/fakechan/boards/mu">/mu/</a>, and an entirely new board for videos called <a href="/fakechan/boards/vid">/vid/</a>. Uploads to FakeChan remain stagnant on less-populated boards and ones with high amounts of traffic/visitors are preserved in our secondary archiving site, <a href="https://japanga.github.io/fakechanarchive/">FakeChan Archive</a></p> The current stats survey for FakeChan is: <span style="color:darkred;">10.1k total image views, 328.09 MB hosted</span></b>
+<b><p>FakeChan is an altchan imageboard and public cloud file storage client. FakeChan is already starting to have very unique functions compared to other altchans, like the ability to upload .pdf documents incorporated into our versions of <a href="/fakechan/boards/co">/co/</a> and <a href="/fakechan/boards/lit">/lit/</a>, uploading .mp3s in our version of <a href="/fakechan/boards/mu">/mu/</a>, and an entirely new board for videos called <a href="/fakechan/boards/vid">/vid/</a>. Uploads to FakeChan remain stagnant on less-populated boards and ones with high amounts of traffic/visitors are preserved in our secondary archiving site, <a href="https://japanga.github.io/fakechanarchive/">FakeChan Archive</a></p> The current stats survey for FakeChan is: <p id="content-paragraph">Loading Cloudinary dashboard stats...</p> Full post-writing to FakeChan was implemented on November 11th, with the addition of the new <a href="/fakechan/boards/get">/get/</a> board and inner FakeChan: Server and FakeChan: Core Cloudflare infrastructure.</b>
+
+  
+  <script>
+   window.onload = function() {
+    // Specify the path to your text file
+    const textFilePath = 'https://japanga.github.io/fakechan/server/statsdisplay.txt'; 
+    const paragraphElement = document.getElementById('content-paragraph');
+
+    fetch(textFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+            return response.text(); // Read the response as plain text
+        })
+        .then(data => {
+            // Update the paragraph with the content from the text file
+            paragraphElement.textContent = data; 
+        })
+        .catch(error => {
+            console.error('Error fetching the text file:', error);
+            paragraphElement.textContent = 'Failed to load content.';
+        });
+};
+  </script>
 </div>
   
   <p><img src="https://yourimageshare.com/ib/s3UsWoFxgf.png" alt="Smiley face" style="width:630px;height:190px;"> </p>
@@ -35,7 +60,7 @@
 </div>
   
  <div class="grid-container">
-<b><a><a href="/fakechan/boards/a">Anime & Manga</a> - <a href="/fakechan/boards/c">Anime/Cute</a> - <a href="/fakechan/boards/w">Anime/Wallpapers</a> - <a href="/fakechan/boards/jp">Otaku Culture</a> - <a href="/fakechan/boards/m">Mecha</a> - <a href="/fakechan/boards/v">Video Games</a> - <a href="/fakechan/boards/vid">Videos</a> - <a href="/fakechan/boards/co">Comics & Cartoons</a> - <a href="/fakechan/boards/an">Animals & Nature</a> - <a href="/fakechan/boards/tv">Television & Film</a> - <a href="/fakechan/boards/pw">Professional Wrestling</a> - <a href="/fakechan/boards/lit">Literature</a>  - <a href="/fakechan/boards/mu">Music</a> - <a href="/fakechan/boards/wsg">Worksafe GIF</a> -  <a href="/fakechan/boards/x">Paranormal</a> - <a href="/fakechan/boards/pol">Politically Incorrect</a> - <a href="/fakechan/boards/sp">Sports</a> - <a1>(NSFW!)</a1> <a href="/fakechan/boards/b">Random</a> - <a href="/fakechan/boards/gifs">Adult Gif</a> - <a href="/fakechan/boards/h">Hentai</a> - <a href="/fakechan/boards/hc">Hardcore</a></a></b>
+<b><a><a href="/fakechan/boards/a">Anime & Manga</a> - <a href="/fakechan/boards/c">Anime/Cute</a> - <a href="/fakechan/boards/w">Anime/Wallpapers</a> - <a href="/fakechan/boards/jp">Otaku Culture</a> - <a href="/fakechan/boards/m">Mecha</a> - <a href="/fakechan/boards/v">Video Games</a> - <a href="/fakechan/boards/vid">Videos</a> - <a href="/fakechan/boards/co">Comics & Cartoons</a> - <a href="/fakechan/boards/an">Animals & Nature</a> - <a href="/fakechan/boards/tv">Television & Film</a> - <a href="/fakechan/boards/pw">Professional Wrestling</a> - <a href="/fakechan/boards/lit">Literature</a>  - <a href="/fakechan/boards/mu">Music</a> - <a href="/fakechan/boards/wsg">Worksafe GIF</a> -  <a href="/fakechan/boards/x">Paranormal</a> - <a href="/fakechan/boards/pol">Politically Incorrect</a> - <a href="/fakechan/boards/sp">Sports</a> - <a1>(NSFW!)</a1> - <a href="/fakechan/boards/get">GETS/Digits</a> - <a href="/fakechan/boards/b">Random</a> - <a href="/fakechan/boards/gifs">Adult Gif</a> - <a href="/fakechan/boards/h">Hentai</a> - <a href="/fakechan/boards/hc">Hardcore</a></a></b>
 </div>
        
      
@@ -105,7 +130,7 @@ textarea {
     resize: vertical; /* Allows vertical resizing of textarea */
 }
  .grid-container {
-   height:250px;
+   height:350px;
    width:625px;
     border: 1px solid #141414;
   
