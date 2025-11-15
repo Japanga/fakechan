@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudinary Image Gallery</title>
+    <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .image-container {
+            position: relative;
+            border: 1px solid #ccc;
+            padding: 5px;
+            text-align: center;
+        }
+        .image-container img {
+            width: 200px;
+            height: auto;
+            display: block;
+        }
+        .image-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: black;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Image Gallery</h1>
+    <div class="gallery" id="image-gallery">
+        <!-- Images will be injected here by JavaScript -->
+    </div>
+
+    <script src="gallery.js"></script>
+</body>
