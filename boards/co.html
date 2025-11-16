@@ -565,6 +565,8 @@ window.onload = colorParagraphsStartingWithGreaterSign;
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
         const descriptionValue = descriptionInput.value;
+           const passwordInput = document.getElementById('generatedPassword');
+        const passwordValue = passwordInput.value;
       context: true;
       
 
@@ -574,6 +576,10 @@ window.onload = colorParagraphsStartingWithGreaterSign;
             params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'custom_desc=' + descriptionValue;
+          
+             params.context = '|tripcode=' + passwordValue;
+            // You can also use custom keys, e.g., 'custom_desc=...'
+          params.metadata = 'tripcode=' + passwordValue;
         }
         cb(params);
     }
