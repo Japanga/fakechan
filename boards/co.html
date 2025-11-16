@@ -573,13 +573,10 @@ window.onload = colorParagraphsStartingWithGreaterSign;
         if (descriptionValue) {
           
             // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue;
+            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue; + 'tripcode=' + passwordValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
-          params.metadata = 'custom_desc=' + descriptionValue;
-          
-             params.context = '|tripcode=' + passwordValue;
-            // You can also use custom keys, e.g., 'custom_desc=...'
-          params.metadata = 'tripcode=' + passwordValue;
+          params.metadata = 'custom_desc=' + descriptionValue; 'tripcode=' + passwordValue;
+
         }
         cb(params);
     }
@@ -636,6 +633,9 @@ document.getElementById("upload_widget").addEventListener("click", function(){
                 imageItem.classList.add('image-item');
               
                 const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
+              
+              
+               const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
              
               
                const descriptionRef = document.createElement('p');
@@ -670,7 +670,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
                   const authorRef = document.createElement('p');
                 authorRef.classList.add('author');
                 authorRef.textContent = `Author: Anonymous`;
-               authorRef.innerHTML = `<strong>Author: <span style="color: green;"><strong>Anonymous</strong>`;
+               authorRef.innerHTML = `<strong>Author:</strong> <span style="color: green;">Anonymous <strong>!!${tripcode}</strong>`;
 
                 imageItem.appendChild(img);
                 imageItem.appendChild(authorRef);
@@ -801,7 +801,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
         } catch (error) {
             console.error('Error fetching PDF list from Cloudinary:', error);
             pdfListElement.innerHTML = '<p>Error loading PDFs.</p>';
-        }
+        } 
     }
 
     // --- Render the list of PDFs in the HTML ---
