@@ -573,9 +573,19 @@ window.onload = colorParagraphsStartingWithGreaterSign;
         if (descriptionValue) {
           
             // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue; + 'tripcode=' + passwordValue;
+            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
-          params.metadata = 'custom_desc=' + descriptionValue; 'tripcode=' + passwordValue;
+          params.metadata = 'custom_desc=' + descriptionValue;
+
+        }
+        cb(params);
+      
+          if (passwordValue) {
+          
+            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
+            params.context = '|tripcode=' + passwordValue;
+            // You can also use custom keys, e.g., 'custom_desc=...'
+          params.metadata = 'tripcode=' + passwordValue;
 
         }
         cb(params);
@@ -671,7 +681,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
                 authorRef.classList.add('author');
                 authorRef.textContent = `Author: Anonymous`;
                authorRef.innerHTML = `<strong>Author:</strong> <span style="color: green;">Anonymous <strong>!!${tripcode}</strong>`;
-
+ 
                 imageItem.appendChild(img);
                 imageItem.appendChild(authorRef);
                 imageItem.appendChild(postNumber);
