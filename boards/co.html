@@ -329,6 +329,12 @@ p {
     font-weight: bold;
     word-wrap: break-word;
 }
+  
+  </style>
+
+
+
+<style>
   .center-div {
     display: grid;
   place-content: center;
@@ -421,7 +427,7 @@ element.style.visibility = 'hidden';
                 password += allChars[randomIndex];
             }
 
-            outputField.value = password;
+            outputField.value = "!!" + password;
         }
     </script>
   
@@ -674,7 +680,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
                   const authorRef = document.createElement('p');
                 authorRef.classList.add('author');
                 authorRef.textContent = `Author: Anonymous`;
-               authorRef.innerHTML = `<strong>Author:</strong> <span style="color: green;">Anonymous <strong>!!${tripcode}</strong>`;
+               authorRef.innerHTML = `<strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</strong>`;
  
                 imageItem.appendChild(img);
                 imageItem.appendChild(authorRef);
