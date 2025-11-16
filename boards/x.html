@@ -420,7 +420,7 @@ p {
          cloudinary.openUploadWidget(
              {
                  cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
-                 uploadPreset: "occultUploader"// Replace with the name of your unsigned upload preset
+                 uploadPreset: "occultUploads"// Replace with the name of your unsigned upload preset
              },
            
              (error, result) => {
@@ -463,7 +463,7 @@ window.onload = colorParagraphsStartingWithGreaterSign;
 <script>
   var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
-    uploadPreset: 'occultUploader', // Replace with your upload preset
+    uploadPreset: 'occultUploads', // Replace with your upload preset
     // Use prepareUploadParams to add custom data
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');ccu
