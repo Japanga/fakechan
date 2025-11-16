@@ -57,30 +57,29 @@ function ensureTrailingSlash(url) {
      </div>
   
   
-  <b>  <p id="content-paragraph">Loading Cloudinary dashboard stats...</p> </b>
-  
+   <b> <p id="replace-me">Loading image views and storage data...</p></b>
+    
   <script>
-   window.onload = function() {
-    // Specify the path to your text file
-    const textFilePath = 'https://japanga.github.io/fakechan/server/statsdisplay.txt'; 
-    const paragraphElement = document.getElementById('content-paragraph');
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const paragraph = document.getElementById('replace-me');
+    const textFilePath = 'https://japanga.github.io/fakechan/boards/statsdisplay.txt'; // Make sure this path is correct
 
     fetch(textFilePath)
         .then(response => {
+            // Check if the request was successful
             if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.text(); // Read the response as plain text
+            return response.text(); // Get the response as plain text
         })
-        .then(data => {
-            // Update the paragraph with the content from the text file
-            paragraphElement.textContent = data; 
+        .then(text => {
+            paragraph.textContent = text; // Replace the paragraph's content
         })
         .catch(error => {
             console.error('Error fetching the text file:', error);
-            paragraphElement.textContent = 'Failed to load content.';
+            paragraph.textContent = 'Failed to load external content.'; // Display an error message
         });
-};
+});
   </script>
       
   
