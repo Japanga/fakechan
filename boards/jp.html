@@ -572,11 +572,13 @@ window.onload = colorParagraphsStartingWithGreaterSign;
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
         const descriptionValue = descriptionInput.value;
+        const passwordInput = document.getElementById('generatedPassword');
+        const passwordValue = passwordInput.value;
       context: true;
       
 
         if (descriptionValue) {
-            
+          
            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
             params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
@@ -694,6 +696,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
               
               
                  const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
+             
              
               
                const descriptionRef = document.createElement('p');
