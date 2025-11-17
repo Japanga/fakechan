@@ -541,6 +541,7 @@ element.style.visibility = 'hidden';
 
           </script>
 
+
 <script>
   function colorParagraphsStartingWithGreaterSign() {
     // Get all paragraph elements on the page
@@ -748,6 +749,45 @@ document.getElementById("upload_widget").addEventListener("click", function(){
         // Fetch images when the page loads
         fetchImages();
     </script>
+  
+  
+  
+  
+  <script>
+function linkifyYouTubeURLs() {
+    // Regular expression to find various YouTube URL formats
+    const youtubeRegex = /(https?:\/\/(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)(\w{11})(?:\S+)?)/gi;
+
+    // Get all paragraph elements on the page
+    const paragraphs = document.getElementsByTagName('p');
+
+    for (let i = 0; i < paragraphs.length; i++) {
+        const paragraph = paragraphs[i];
+        let innerHTML = paragraph.innerHTML;
+
+        // Check if the innerHTML contains any YouTube URLs
+        if (youtubeRegex.test(innerHTML)) {
+            // Replace the plain text URL with an anchor tag
+            innerHTML = innerHTML.replace(youtubeRegex, function(match, url) {
+                // Ensure the URL has a proper protocol (http or https) if not present
+                let fullURL = url;
+                if (!/^https?:\/\//i.test(fullURL)) {
+                    fullURL = 'http://' + fullURL;
+                }
+                return '<a href="' + fullURL + '" target="_blank">' + url + '</a>';
+            });
+
+            // Update the paragraph's innerHTML with the new links
+            paragraph.innerHTML = innerHTML;
+        }
+    }
+}
+
+// Call the function when the page loads
+window.onload = linkifyYouTubeURLs;
+   </script>
+  
+     
 <style>
   #my-gallery {
      display: block;
