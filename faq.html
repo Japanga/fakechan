@@ -120,7 +120,7 @@ Welcome to FakeChan's frequently asked questions page!
         <span style="color: darkblue;">
 <b>How do I post Anonymously?</b>
         <span style="color: black;">
-        <p>Namefagging/identities is generally not encouraged on FakeChan, all uploads are automatically classified as being from an "Anonymous" in the code. Users DO have access to a replica of the 4chan tripcodes eg. <span style="color: green;"><b>!!zy}6$CZx-*#:</b></span> if they wish for more than one of their posts to be visibly pinned on the same author. <span style="color: red;"><u><b>We are uncertain if the ability to append names on posts will ever actually be added even after knowing we easily could, to not break the spirit and culture of being an Anonymous website. </u></b></p>
+        <p>Namefagging/identities is generally not encouraged on FakeChan, all uploads are automatically classified as being from an "Anonymous" in the code with no options for setting custom usernames. Users DO have access to a replica of the 4chan tripcodes eg. <span style="color: green;"><b>!!zy}6$CZx-*#:</b></span> if they wish for more than one of their posts to be visibly pinned on the same author. </p>
       </span>
                  <hr class="long-line">
         <span style="color: darkblue;">
@@ -161,7 +161,7 @@ Welcome to FakeChan's frequently asked questions page!
         <span style="color: darkblue;">
 <b>What are "GETs"?</b>
         <span style="color: black;">
-        <p>GETS/digits are a well known phenomenon on 4chan where the numbers on the end of your post ID have a matching number like 00/88/666/7777/99999 etc. GETS often add more validity and truth to the post, with jokes like "Dubs confirm" as if the post having a GET signifies the quality and status of the post. Theories that web admins can rig them have existed for years but the truth is you can get them here as well as lots of other similar post ID-based sites like Rule 34. They are handled by the web admin approving/declining posts and could very likely be intentional or by pure luck and chance. Scripts exist to get all of the latest posts across all the 4chan boards to predict when the next GET is going to be. FakeChan has a special board designed solely for tracking GETs on image uploads called <a href="https://japanga.github.io/fakechan/boards/get">/get/</a>, and post ID numbers are assigned to each image upload on all boards to track GETS from there as well. </p>
+        <p>GETS/digits are a well known phenomenon on 4chan where the numbers on the end of your post ID have a matching number like 00/88/666/7777/99999 etc. GETS often add more validity and truth to the post, with jokes like "Dubs confirm" as if the post having a GET signifies the quality and status of the post. Theories that web admins can rig them have existed for years but the truth is you can get them here as well as lots of other similar post ID-based sites like Rule 34. They are handled by the web admin approving/declining posts and could very likely be intentional or by pure luck and chance. Scripts exist to get all of the latest posts across all the 4chan boards to predict when the next GET is going to be. Each image on all of the FakeChan boards is assigned a post number starting from the earliest upload to be able to track/detect GETS on the boards. </p>
           </section>
           
             <section id="target-section2">
@@ -215,11 +215,11 @@ Welcome to FakeChan's frequently asked questions page!
         <span style="color: darkblue;">
 <b>How does FakeChan run and operate?</b>
         <span style="color: black;">
-        <p>FakeChan has always been primarily powered on .HTML/JavaScript and .CSS with an external third party service called Cloudinary to host and retrieve user content and display it to the site. User content is sent in to Cloudinary and displayed back onto the site with accompanying metadata like post content. When first building the posting system we did manage to build an internal node.js Cloudflare infrastructure, called "FakeChan: Core" which could potentially be used to build our own file hosting systems in the future with their own size properties. FakeChan: Core remains a mostly background operation due to the manual operation behind it and the live server originally used to test board generation has long since gone abandoned and replaced for the automatic upload codes seen today, but is still openly used to generate GETS/digits on the special board made for them with a <span style="color: red;"><u><b>secret node .js script not available to the public. </u></b></p> <a href="https://gets.fakechancore.workers.dev/">https://gets.fakechancore.workers.dev</a>
+        <p>FakeChan has always been primarily powered on .HTML/JavaScript and .CSS with an external third party service called Cloudinary to host and retrieve user content and display it to the site. User content is sent in to Cloudinary and displayed back onto the site with accompanying custom metadata like post content and tripcodes.
       </span>
             </section>
             <p><img src="https://yourimageshare.com/ib/FYHlBMogKQ.jpg" alt="Smiley face" style="width:100px;height:100px;"> </p>
-         <p><img src="https://yourimageshare.com/ib/vCw0V2KbeU.png" alt="Smiley face" style="width:100px;height:100px;"> </p>
+      
            <hr class="long-line">
         <span style="color: darkblue;">
 <b>Are there limitations to how many files FakeChan can store?</b>
@@ -438,7 +438,7 @@ textarea {
   
   
    .grid-container5 {
-   height:730px;
+   height:600px;
    width:625px;
     border: 2px solid #141B69;
    background-color: lightblue;
