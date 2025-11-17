@@ -101,7 +101,7 @@ function ensureTrailingSlash(url) {
 
                         <div class="parent-container">
       <div id="imgDiv">
-    <img src="" data-random-image="/fakechan/boards/1.png /fakechan/boards/2.png /fakechan/boards/3.png /fakechan/boards/4.png /fakechan/boards/5.png /fakechan/boards/6.png /fakechan/boards/7.png /fakechan/boards/8.png /fakechan/boards/9.png /fakechan/boards/10.png /fakechan/boards/11.png /fakechan/boards/12.png /fakechan/boards/13.png /fakechan/boards/14.png /fakechan/boards/15.gif /fakechan/boards/16.png /fakechan/boards/17.png /fakechan/boards/18.png /fakechan/boards/19.png /fakechan/boards/20.png /fakechan/boards/21.png /fakechan/boards/22.png /fakechan/boards/23.png /fakechan/boards/24.png /fakechan/boards/25.png /fakechan/boards/26.png /fakechan/boards/27.png /fakechan/boards/28.png /fakechan/boards/29.png /fakechan/boards/30.png" alt="Loading random header..." width="300" height="100">
+    <img src="" data-random-image="/fakechan/boards/1.png /fakechan/boards/2.png /fakechan/boards/3.png /fakechan/boards/4.png /fakechan/boards/5.png /fakechan/boards/6.png /fakechan/boards/7.png /fakechan/boards/8.png /fakechan/boards/9.png /fakechan/boards/10.png /fakechan/boards/11.png /fakechan/boards/12.png /fakechan/boards/13.png /fakechan/boards/14.png /fakechan/boards/15.gif /fakechan/boards/16.png /fakechan/boards/17.png /fakechan/boards/18.png /fakechan/boards/19.png /fakechan/boards/20.png /fakechan/boards/21.png /fakechan/boards/22.png /fakechan/boards/23.png /fakechan/boards/24.png /fakechan/boards/25.png /fakechan/boards/26.png /fakechan/boards/27.png /fakechan/boards/28.png /fakechan/boards/29.png /fakechan/boards/30.png /fakechan/boards/31.png" alt="Loading random header..." width="300" height="100">
         </div>
                           </div>
 
@@ -460,6 +460,42 @@ p {
 window.onload = colorParagraphsStartingWithGreaterSign;
   </script>
 
+   
+
+<script>
+ function makeYouTubeLinksClickable() {
+    // Regular expression to find common YouTube URL formats
+    var youtubeRegex = /(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11}))/g;
+
+    // Find all paragraph elements on the page
+    var paragraphs = document.getElementsByTagName('p');
+
+    for (var i = 0; i < paragraphs.length; i++) {
+        var paragraph = paragraphs[i];
+        var originalText = paragraph.innerHTML;
+
+        // Replace the plain URL text with an anchor tag
+        var linkedText = originalText.replace(youtubeRegex, function(match, url) {
+            // The match is the full URL found by the regex
+            return '<a href="' + url + '">' + url + '</a>';
+        });
+
+        // Update the paragraph's HTML content only if a replacement was made
+        if (linkedText !== originalText) {
+            paragraph.innerHTML = linkedText;
+        }
+       // Check if the trimmed text content starts with '>'
+        if (paragraph.textContent.startsWith('>')) {
+            // If it does, change the text color to green
+            paragraph.style.color = 'green';
+        }
+    }
+}
+
+// Run the function when the window loads
+window.onload = makeYouTubeLinksClickable;
+  </script>
+
 <script>
   var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
@@ -763,3 +799,4 @@ height: 220px;
 
 </body>
 </html>
+
