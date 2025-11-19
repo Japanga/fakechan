@@ -589,6 +589,45 @@ element.style.visibility = 'hidden';
      });
 
           </script>
+  
+  
+  
+<script>
+  var myWidget = cloudinary.createUploadWidget({
+    cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
+    uploadPreset: 'videoUPLOADS', // Replace with your upload preset
+    // Use prepareUploadParams to add custom data
+    prepareUploadParams: (cb, params) => {
+        const descriptionInput = document.getElementById('imageDescription');
+        const descriptionValue = descriptionInput.value;
+        const passwordInput = document.getElementById('generatedPassword');
+        const passwordValue = passwordInput.value;
+      context: true;
+      
+
+        if (descriptionValue) {
+          
+           // Cloudinary uses pipe (|) separated key-value pairs for context metadata
+            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue;
+            // You can also use custom keys, e.g., 'custom_desc=...'
+          params.metadata = 'custom_desc=' + descriptionValue;
+            // You can also use custom keys, e.g., 'custom_desc=...'
+          params.metadata = 'tripcode=' + passwordValue;
+        }
+        cb(params);
+    }
+}, (error, result) => {
+    if (!error && result && result.event === "success") {
+        alert('Post was a success');
+        // Optional: Clear the input field after successful upload
+
+    }
+});
+
+document.getElementById("upload_widget").addEventListener("click", function(){
+    myWidget.open();
+}, false);
+   </script>
           
     
            </span>
