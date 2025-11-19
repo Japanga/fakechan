@@ -53,9 +53,8 @@ function ensureTrailingSlash(url) {
                   
                       <div class="inline-p">
         
-<b>[</b> <a href="/fakechan/boards/a"><b>/a/</b></a>  -  <a href="/fakechan/boards/an"><b>/an/</b></a> -  <a href="/fakechan/boards/b"><b>/b/</b></a> -  <a href="/fakechan/boards/co"><b>/co/</b></a> -  <a href="/fakechan/boards/c"><b>/c/</b></a> - <a href="/fakechan/boards/dbs"><b>/dbs/</b></a> - <a href="/fakechan/boards/get"><b>/get/</b></a> -  <a href="/fakechan/boards/gif"><b>/gif/</b></a> - <a href="/fakechan/boards/x"><b>/x/</b></a> -  <a href="/fakechan/boards/m"><b>/m/</b></a> -  <a href="/fakechan/boards/mu"><b>/mu/</b></a> - <a href="/fakechan/boards/p"><b>/p/</b></a> -  <a href="/fakechan/boards/v"><b>/v/</b></a> -  <a href="/fakechan/boards/vid"><b>/vid/</b></a> -  <a href="/fakechan/boards/tv"><b>/tv/</b></a> -  <a href="/fakechan/boards/pol"><b>/pol/</b></a> - <a href="/fakechan/boards/sp"><b>/sp/</b></a> - <a href="/fakechan/boards/jp"><b>/jp/</b></a> -  <a href="/fakechan/boards/h"><b>/h/</b></a> -  <a href="/fakechan/boards/hc"><b>/hc/</b></a> -  <a href="/fakechan/boards/w"><b>/w/</b></a> -  <a href="/fakechan/boards/wsg"><b>/wsg/</b></a> -  <a href="/fakechan/boards/pw"><b>/pw</b>/</a> -  <a href="/fakechan/boards/news"><b>/news/</b></b></a> <b>]</b>  <a href="/fakechan/index"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="/fakechan/boards/vpn"><b>VPN</b></a> - <a href="/fakechan/faq"><b>FAQ</b></a> 
+<b>[</b> <a href="/fakechan/boards/a"><b>/a/</b></a>  -  <a href="/fakechan/boards/an"><b>/an/</b></a> -  <a href="/fakechan/boards/b"><b>/b/</b></a> -  <a href="/fakechan/boards/co"><b>/co/</b></a> -  <a href="/fakechan/boards/c"><b>/c/</b></a> -  <a href="/fakechan/boards/get"><b>/get/</b></a> -  <a href="/fakechan/boards/x"><b>/x/</b></a> -  <a href="/fakechan/boards/m"><b>/m/</b></a> -  <a href="/fakechan/boards/mu"><b>/mu/</b></a> -  <a href="/fakechan/boards/v"><b>/v/</b></a> -  <a href="/fakechan/boards/vid"><b>/vid/</b></a> -  <a href="/fakechan/boards/tv"><b>/tv/</b></a> -  <a href="/fakechan/boards/pol"><b>/pol/</b></a> -  <a href="/fakechan/boards/gif"><b>/gif/</b></a> - <a href="/fakechan/boards/sp"><b>/sp/</b></a> - <a href="/fakechan/boards/jp"><b>/jp/</b></a> -  <a href="/fakechan/boards/h"><b>/h/</b></a> -  <a href="/fakechan/boards/hc"><b>/hc/</b></a> -  <a href="/fakechan/boards/w"><b>/w/</b></a> -  <a href="/fakechan/boards/wsg"><b>/wsg/</b></a> -  <a href="/fakechan/boards/pw"><b>/pw</b>/</a> -  <a href="/fakechan/boards/news"><b>/news/</b></b></a> <b>]</b>  <a href="/fakechan/index"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="/fakechan/boards/vpn"><b>VPN</b></a> - <a href="/fakechan/faq"><b>FAQ</b></a> 
      </div>
-  
   
    <b> <p id="replace-me">Loading image views and storage data...</p></b>
     
@@ -81,7 +80,6 @@ function ensureTrailingSlash(url) {
         });
 });
   </script>
-      
       
   
       
@@ -272,6 +270,8 @@ image.setAttribute('src', randomSource);
  
    
       </span>
+   
+      </span>
 <style>
   .tinytextcode {
   font-size: 9px; /* Adjust the pixel value to make it tinier or slightly larger */
@@ -286,6 +286,9 @@ image.setAttribute('src', randomSource);
             <h1>/dbs/ Dragon Ball Super</h1>
                           </span>
                           </div>
+
+                        <hr class="long-line">
+  
 
 <script>
   function saveAndDisplay() {
@@ -330,6 +333,7 @@ p {
     word-wrap: break-word;
 }
 </style>
+
 
 <style>
   .center-div {
@@ -517,7 +521,7 @@ element.style.visibility = 'hidden';
          cloudinary.openUploadWidget(
              {
                  cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
-                 uploadPreset: "dragonBallSuperUploader"// Replace with the name of your unsigned upload preset
+                 uploadPreset: "dbsUploadPreset"// Replace with the name of your unsigned upload preset
              },
            
              (error, result) => {
@@ -558,7 +562,6 @@ window.onload = colorParagraphsStartingWithGreaterSign;
   </script>
 
    
-
 <script>
  function makeYouTubeLinksClickable() {
     // Regular expression to find common YouTube URL formats
@@ -596,19 +599,18 @@ window.onload = makeYouTubeLinksClickable;
 <script>
   var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
-    uploadPreset: 'dragonBallSuperUploader', // Replace with your upload preset
+    uploadPreset: 'dbsUploadPreset', // Replace with your upload preset
     // Use prepareUploadParams to add custom data
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
         const descriptionValue = descriptionInput.value;
-         const passwordInput = document.getElementById('generatedPassword');
+           const passwordInput = document.getElementById('generatedPassword');
         const passwordValue = passwordInput.value;
       context: true;
       
 
         if (descriptionValue) {
-          
-           
+         
            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
             params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
@@ -652,7 +654,33 @@ document.getElementById("upload_widget").addEventListener("click", function(){
     hiddenGridButton.style.visibility = 'hidden';
       </script>
           
-           <style>
+          
+              <style>
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .gallery-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+        }
+        .gallery-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .details p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+    </style>
+
+ <style>
         .catalog-container {
             display: flex;
             flex-wrap: wrap;
@@ -723,9 +751,11 @@ document.getElementById("upload_widget").addEventListener("click", function(){
                 imageItem.classList.add('image-item');
               
                 const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
-             
+              
+              
               
                  const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
+             
               
                const descriptionRef = document.createElement('p');
                 descriptionRef.classList.add('${description}');
@@ -776,6 +806,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
         // Fetch images when the page loads
         fetchImages();
     </script>
+         
             
 <style>
   #my-gallery {
@@ -855,7 +886,6 @@ textarea {
 , #FFFDFC
 );
     
-    
 }
   #previewContainer {
   border: 2px dashed #ccc; /* A dashed border to indicate a drop zone */
@@ -902,3 +932,4 @@ height: 220px;
 
 </body>
 </html>
+
