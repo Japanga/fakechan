@@ -283,24 +283,233 @@ image.setAttribute('src', randomSource);
                           </div>
 <hr class="long-line">
 <div class="tinytextcode">
-   (This is the first new board created exclusively for FakeChan that does not appear on the original 4chan.)
+  <p> (This is the one of the first new boards created exclusively for FakeChan that does not appear on the original 4chan, along with <a href="https://japanga.github.io/fakechan/boards/get">/get/</a> and <a href="https://japanga.github.io/fakechan/boards/dbs">/dbs/</a>. It took a while to get /vid/ caught up to the rest of the site with the post numbering/text content/tripcodes/catalog views etc. but we have finally done so. /vid/ is easily one of our most popular boards</p>
 </div>
                         <hr class="long-line">
   
+
+
+
                    
+<style>
+  .center-div {
+    display: grid;
+  place-content: center;
+    gap: -50px;
+       flex-direction: column; 
+}
+  
+.item {
+    /* Optional: Remove default margins if they exist */
+    margin: 0;
+}
+</style>
+
+   <div class="center-div">
+       <div class="item">
+    <label for="seedWord">Enter a seed word:</label>
+    <input type="text" id="seedWord" style="width: 150px; height: 7px;">
+
+    <input type="number" id="passwordLength" value="12" min="1" style="width: 20px; height: 3px;">
+    <br><br>
+    <button onclick="generatePassword()">Generate Tripcode</button>
+    <br><br>
+    <label for="generatedPassword">Generated Tripcode:</label>
+    <input type="text" id="generatedPassword" readonly style="width: 150px; height: 7px;">
+          </div>
+      </div>
+
+   <script>
+     // Get the element
+var element = document.getElementById('passwordLength');
+
+
+element.style.visibility = 'hidden';
+      </script>
+    <script>
+        // A simple, public domain, seedable PRNG (cyrb128 hash and mulberry32 PRNG)
+        // From Stack Overflow
+        function cyrb128(str) {
+            let h1 = 1779033703, h2 = 3144134277, h3 = 1013904242, h4 = 2773480762;
+            for (let i = 0, k; i < str.length; i++) {
+                k = str.charCodeAt(i);
+                h1 = h2 ^ Math.imul(h1 ^ k, 597399067);
+                h2 = h3 ^ Math.imul(h2 ^ k, 2869860233);
+                h3 = h4 ^ Math.imul(h3 ^ k, 951274213);
+                h4 = h1 ^ Math.imul(h4 ^ k, 2716044179);
+            }
+            h1 = Math.imul(h3 ^ (h1 >>> 18), 597399067);
+            h2 = Math.imul(h4 ^ (h2 >>> 22), 2869860233);
+            h3 = Math.imul(h1 ^ (h3 >>> 17), 951274213);
+            h4 = Math.imul(h2 ^ (h4 >>> 19), 2716044179);
+            return [(h1^h2^h3^h4)>>>0, (h2^h1)>>>0, (h3^h1)>>>0, (h4^h1)>>>0];
+        }
+
+        function mulberry32(a) {
+            return function() {
+                var t = a += 0x6D2B79F5;
+                t = Math.imul(t ^ t >>> 15, t | 1);
+                t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+                return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            }
+        }
+        
+        function generatePassword() {
+            const seedWord = document.getElementById('seedWord').value;
+            const passwordLength = document.getElementById('passwordLength').value;
+            const outputField = document.getElementById('generatedPassword');
+
+            if (!seedWord) {
+                outputField.value = "Please enter a seed word";
+                return;
+            }
+
+            // Generate seed from the input word
+            const seed = cyrb128(seedWord)[0]; // Use the first part of the hash as the seed
+
+            // Create a seeded random number generator function
+            const seededRandom = mulberry32(seed);
+
+            // Define character sets
+            const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+            const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            const symbols = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+            const allChars = lowercase + uppercase + numbers + symbols;
+
+            let password = '';
+            for (let i = 0; i < passwordLength; i++) {
+                // Use the seeded random function to pick characters
+                const randomIndex = Math.floor(seededRandom() * allChars.length);
+                password += allChars[randomIndex];
+            }
+
+            outputField.value = "!!" + password;
+        }
+    </script>
+    <div class="parent-container">
+<input type="text"  style="width: 300px; height: 100px;" id="imageDescription" placeholder="Enter text content to accompany your post...">
+ </div>
+  <div class="parent-container">
+<form method="POST">
+  <div class="h-captcha" data-sitekey="33045dda-670e-4626-b55c-49ee0dbadd76" data-callback="onRecaptchaSuccess"></div>
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+</form>
+     
+ </div>
+
+   <script>
+
+          function onRecaptchaSuccess(token) {
+       const hiddenGridButton = document.getElementById('upload_widget');
+     hiddenGridButton.style.visibility = 'visible';
+    }
+    </script>
+
                         <div class="parent-container">
  <div class="parent-div">
             <div class="item">
                <button id="upload_widget" class="cloudinary-button">Upload files</button>
-       
+   
              </div>
-        
-   <div class="item">
-  <a href="https://cloudinary.com/"><img src="https://yourimageshare.com/ib/5JDVcid1uo.png" alt="Flowers in Chania" width="100" height="73"></a>
-   </div>
+                <hr class="long-line">
+       
+
           </div>
                            </div>
-            <hr class="long-line">
+    <style>
+        .video-catalog {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .video-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+            text-align: center;
+        }
+        .video-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        video {
+            width: 300px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-catalog" id="video-list">
+        <!-- Videos will be dynamically inserted here -->
+    </div>
+
+    <script>
+        // *** REPLACE WITH YOUR CLOUD NAME AND TAG NAME ***
+        const CLOUD_NAME = 'dussuas34';
+        const TAG_NAME = 'video_uploads'; 
+
+        async function fetchVideos() {
+            // URL to fetch resources by tag as a JSON list (cached for 1 hour)
+            const url = `https://res.cloudinary.com/${CLOUD_NAME}/video/list/${TAG_NAME}.json`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                // Sort videos by creation date (oldest first)
+                const sortedVideos = data.resources.sort((a, b) => {
+                    // created_at is a timestamp string, compare as Date objects
+                    return new Date(a.created_at) - new Date(b.created_at);
+                });
+
+                displayVideos(sortedVideos);
+
+            } catch (error) {
+                console.error("Could not fetch videos:", error);
+                document.getElementById('video-list').innerHTML = `<p>Error loading videos: ${error.message}. Please check your Cloudinary settings (Security > Resource list) and cloud name.</p>`;
+            }
+        }
+
+        function displayVideos(videos) {
+            const videoListElement = document.getElementById('video-list');
+            videoListElement.innerHTML = ''; // Clear loading message
+
+             videos.forEach((video, index) => {
+                const videoItem = document.createElement('div');
+                videoItem.classList.add('video-item');
+
+                // Create the video element
+                const videoElement = document.createElement('video');
+                videoElement.controls = true;
+                // Generate the video URL using the public ID
+                videoElement.src = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}.mp4`;
+               
+                   const description = video.context && video.context.custom && video.context.custom.custom_desc ? video.context.custom.custom_desc : 'No description available';
+               
+
+                // Add info (public ID and creation date)
+                const infoElement = document.createElement('div');
+                infoElement.classList.add('video-info');
+                infoElement.innerHTML = `Post No. #${index + 1} Filename: ${video.public_id}<br>Created: ${new Date(video.created_at).toLocaleDateString()} Dimensions: ${video.width}x${video.height} Author: <span style="color: green;">Anonymous</span> Post: ${description}`;
+
+              
+
+                videoItem.appendChild(videoElement);
+                videoItem.appendChild(infoElement);
+                videoListElement.appendChild(videoItem);
+            });
+        }
+
+        // Call the function to fetch and display videos when the page loads
+        fetchVideos();
+    </script>
            
 
     <script>
@@ -381,12 +590,6 @@ image.setAttribute('src', randomSource);
 
           </script>
           
-            
-
-  <span style="color: darkred;">
-<b><i><p>Anyone can upload to FakeChan image feeds, so start doing it!</p></i></b>
-    
-    <hr class="long-line">
     
            </span>
 <script src="https://product-gallery.cloudinary.com/latest/all.js" type="text/javascript">
@@ -396,58 +599,18 @@ image.setAttribute('src', randomSource);
    <div class="bg-image" style="background-image: url('path/to/image.jpg');"></div>
 </div>
 
-<div class="video-container">
- <video
-       class="video-fixed-size" 
-        id="my-video-player"
-        controls
-        class="cld-video-player cld-fluid"
-    >
-</video>
-        </div>
 
-              
-<!-- begin wwww.htmlcommentbox.com -->
- <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
- <link rel="stylesheet" type="text/css" href="https://www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
- <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=hcb_user.PAGE || (""+window.location).replace(/'/g,"%27"), h="https://www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&mod=%241%24wq1rdBcg%24dJ43Tl5IByJdqspQippWg1"+"&opts=16798&num=10&ts=1762281024694");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
-<!-- end www.htmlcommentbox.com -->
 
-       
-         <script>
-        var player = cloudinary.videoPlayer('my-video-player', {
-            cloud_name: 'dussuas34' // Replace with your Cloudinary cloud name
-        });
-
-        player.playlistByTag('video_uploads', { // Replace with your desired tag
-            // Optional: Add more playlist options here, e.g., 'autoAdvance', 'repeat'
-        });
-    </script>
-          
+   
    <script>
      const hiddenGridButton = document.getElementById('upload_widget');
-     //hiddenGridButton.style.visibility = 'hidden';
+     hiddenGridButton.style.visibility = 'hidden';
       </script>
           
          
 <style>
   
-  #my-video-player{
-      transform: scale(0.7);
-  }
-  .video-container {
-  width: 640px;
-  height: 360px;
-}
-
-.video-fixed-size {
-  width: 100%;
-  height: 100%;
-  
-  /* Determines how the video fits into the container */
-  object-fit: cover; /* Fills the container, cropping excess */
-  /* object-fit: contain; */ /* Fits inside, leaving empty space if needed */
-}
+ 
   #my-gallery {
      display: block;
      object-fit: cover;
