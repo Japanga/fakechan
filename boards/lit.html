@@ -388,7 +388,22 @@ element.style.visibility = 'hidden';
      
  </div>
 
+
+
+   <script>
+
+          function onRecaptchaSuccess(token) {
+       const hiddenGridButton = document.getElementById('upload_widget');
+     hiddenGridButton.style.visibility = 'visible';
+    }
+    </script>
+
+
      <hr class="long-line">
+
+  <div class="parent-container">
+    <button id="upload_widget" class="cloudinary-button">Upload files</button>
+             </div>
 
 
 
