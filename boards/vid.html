@@ -70,7 +70,7 @@ function ensureTrailingSlash(url) {
   <script>
    window.onload = function() {
     // Specify the path to your text file
-    const textFilePath = 'https://japanga.github.io/fakechan/server/statsdisplay.txt'; 
+    const textFilePath = 'https://japanga.github.io/fakechan/boards/statsdisplay.txt'; 
     const paragraphElement = document.getElementById('content-paragraph');
 
     fetch(textFilePath)
@@ -496,12 +496,28 @@ element.style.visibility = 'hidden';
                 // Add info (public ID and creation date)
                 const infoElement = document.createElement('div');
                 infoElement.classList.add('video-info');
-                infoElement.innerHTML = `Post No. #${index + 1} Filename: ${video.public_id}<br>Created: ${new Date(video.created_at).toLocaleDateString()} Dimensions: ${video.width}x${video.height} Author: <span style="color: green;">Anonymous</span> Post: ${description}`;
+                infoElement.innerHTML = `No. #${index + 1} Filename: <a href="https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}">${video.public_id}.mp4</a><br>`;
+               
+               const infoElement2 = document.createElement('div');
+                infoElement2.classList.add('video-info');
+                infoElement2.innerHTML = `<br>Created: ${new Date(video.created_at).toLocaleDateString()} Dimensions: ${video.width}x${video.height}`;
 
+               
+                const infoElement3 = document.createElement('div');
+                infoElement3.classList.add('video-info');
+                     infoElement3.innerHTML = `Author: <span style="color: green;">Anonymous</span>`;
+               
+                     const infoElement4 = document.createElement('div');
+                infoElement4.classList.add('video-info');
+                     infoElement4.innerHTML = `Post: ${description}`;
+              
               
 
                 videoItem.appendChild(videoElement);
                 videoItem.appendChild(infoElement);
+               videoItem.appendChild(infoElement2);
+                videoItem.appendChild(infoElement3);
+               videoItem.appendChild(infoElement4);
                 videoListElement.appendChild(videoItem);
             });
         }
