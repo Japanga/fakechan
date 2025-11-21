@@ -764,7 +764,11 @@ document.getElementById("upload_widget").addEventListener("click", function(){
                 img.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
                 img.alt = image.public_id;
               
-                     const creationDate = new Date(image.created_at).toLocaleDateString();
+                                 // The 'created_at' field is available in the JSON response
+                const creationDate = new Date(image.created_at);
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
+                const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
+              
               
                 const fileURL = document.createElement('p');
                 fileURL.classList.add('dimensions');
@@ -776,8 +780,8 @@ document.getElementById("upload_widget").addEventListener("click", function(){
               dimRef.innerHTML = `<strong>Dimensions:</strong> ${image.width}x${image.height}`;
                     const dateRef = document.createElement('p');
                 dateRef.classList.add('dateofcreation');
-                dateRef.textContent = `Date: ${creationDate}`;
-              dateRef.innerHTML = `<strong>Date:</strong> ${creationDate}`;
+                dateRef.textContent = `Date: (${dayOfWeek}) ${dateString}`;
+              dateRef.innerHTML = `<strong>Date:</strong> (${dayOfWeek}) ${dateString}`;
 
                 // Assign a post number (1-based index)
                 const postNumber = document.createElement('p');
