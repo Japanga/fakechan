@@ -535,29 +535,48 @@ sessionStorage.clear();
                
                    const description = video.context && video.context.custom && video.context.custom.custom_desc ? video.context.custom.custom_desc : 'No description available';
                
+                
+                         // The 'created_at' field is available in the JSON response
+                const creationDate = new Date(video.created_at);
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
+                const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
+               
 
                 // Add info (public ID and creation date)
                 const infoElement = document.createElement('div');
                 infoElement.classList.add('video-info');
-                infoElement.innerHTML = `No. #${index + 1} Filename: <a href="https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}">${video.public_id}.mp4</a><br>`;
+                infoElement.innerHTML = `<strong>No. #${index + 1}</strong>`;
+               
+               
+                 // Add info (public ID and creation date)
+                const infoElement5 = document.createElement('div');
+                infoElement5.classList.add('video-info');
+                infoElement5.innerHTML = `<strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}">${video.public_id}.mp4</a><br>`;
+               
+                   // Add info (public ID and creation date)
+                const infoElement6 = document.createElement('div');
+                infoElement6.classList.add('video-info');
+                infoElement6.innerHTML = `<strong>Date: </strong>(${dayOfWeek}) ${dateString}`;
                
                const infoElement2 = document.createElement('div');
                 infoElement2.classList.add('video-info');
-                infoElement2.innerHTML = `<br>Created: ${new Date(video.created_at).toLocaleDateString()} Dimensions: ${video.width}x${video.height}`;
+                infoElement2.innerHTML = `<strong>Dimensions: </strong>${video.width}x${video.height}`;
 
                
                 const infoElement3 = document.createElement('div');
                 infoElement3.classList.add('video-info');
-                     infoElement3.innerHTML = `Author: <span style="color: green;">Anonymous</span>`;
+                     infoElement3.innerHTML = `<strong>Author:</strong> <span style="color: green;">Anonymous</span>`;
                
                      const infoElement4 = document.createElement('div');
                 infoElement4.classList.add('video-info');
-                     infoElement4.innerHTML = `Post: ${description}`;
+                     infoElement4.innerHTML = `${description}`;
               
               
 
                 videoItem.appendChild(videoElement);
                 videoItem.appendChild(infoElement);
+                videoItem.appendChild(infoElement5);
+                videoItem.appendChild(infoElement6);
                videoItem.appendChild(infoElement2);
                 videoItem.appendChild(infoElement3);
                videoItem.appendChild(infoElement4);
