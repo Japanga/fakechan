@@ -251,7 +251,7 @@ changeGradientBtn.addEventListener('click', () => {
     // Check if at least two valid colors were provided
     if (colors.length >= 2) {
         // Construct the linear gradient CSS string
-        const gradientString = `linear-gradient(to right, ${colors[0]}, ${colors[1]})`;
+        const gradientString = `linear-gradient(${colors[0]}, ${colors[1]})`;
         
         // Apply the new gradient to the body background
         document.body.style.background = gradientString;
@@ -940,6 +940,7 @@ height: 220px;
 
 </body>
 </html>
+
 
 
 
