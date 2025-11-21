@@ -286,6 +286,7 @@ image.setAttribute('src', randomSource);
                         <div class="parent-container">
                         <span style="color: darkred;">
             <h1>/w/ Anime/Wallpapers</h1>
+                           <hr class="long-line">
                           </span>
                           </div>
 
@@ -679,9 +680,130 @@ document.getElementById("upload_widget").addEventListener("click", function(){
      const hiddenGridButton = document.getElementById('upload_widget');
     hiddenGridButton.style.visibility = 'hidden';
       </script>
-          
-           <style>
-        .catalog-container {
+
+
+   <ul class="image-list" id="image-list">
+        <!-- Images will be listed here -->
+    </ul>
+
+    <script>
+        // !! IMPORTANT: Replace with your Cloudinary cloud name and target tag !!
+        const CLOUD_NAME = "dussuas34"; 
+        const TAG_NAME = "anime_wallpapers"; // The tag you want to list
+
+     
+
+        /**
+         * Converts bytes to a human-readable format (KB, MB, etc.).
+         * @param {number} bytes File size in bytes.
+         * @returns {string} Human-readable file size.
+         */
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        /**
+         * Fetches the file size of a given image URL using an HTTP HEAD request.
+         * @param {string} url The image URL.
+         * @returns {Promise<number|string>} The file size in bytes or an error message.
+         */
+        function getFileSize(url) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('HEAD', url, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            // The Content-Length header provides the size in bytes
+                            const size = xhr.getResponseHeader('Content-Length');
+                            resolve(size ? parseInt(size, 10) : 'N/A');
+                        } else {
+                            reject('Failed to get size');
+                        }
+                    }
+                };
+                xhr.send(null);
+            });
+        }
+
+        /**
+         * Main function to fetch the list of images and display them with sizes.
+         */
+        async function fetchImages() {
+            const listUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG_NAME}.json`;
+            const imageListElement = document.getElementById('image-list');
+
+            try {
+                const response = await fetch(listUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}. Check Cloudinary security settings.`);
+                }
+                const data = await response.json();
+
+                if (data.resources && data.resources.length > 0) {
+                      data.resources.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+                    for (const resource of data.resources) {
+                        const publicId = resource.public_id;
+                        // Construct the full image URL
+                        const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${publicId}.${resource.format}`;
+                        
+                        // Fetch file size
+                        let fileSize = 'Fetching...';
+                        try {
+                            const sizeInBytes = await getFileSize(imageUrl);
+                            fileSize = formatBytes(sizeInBytes);
+                        } catch (error) {
+                            fileSize = 'Size unavailable';
+                        }
+
+                       
+                     const creationDate = new Date(resource.created_at);
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
+                const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
+                      
+                           
+                const description = resource.context && resource.context.custom && resource.context.custom.custom_desc ? resource.context.custom.custom_desc : 'No description available';
+              
+                 const tripcode = resource.context && resource.context.custom && resource.context.custom.tripcode ? resource.context.custom.tripcode : '';
+             
+
+                        // Display the information
+                        const listItem = document.createElement('p');
+                        listItem.className = 'image-item';
+                        listItem.innerHTML = `
+                            <img src="${imageUrl}" alt="${publicId}">
+                            <strong>File:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${resource.public_id}">${publicId}</a><br>
+                            <strong>Size:</strong> ${resource.width}x${resource.height} ${fileSize}
+                            
+                              <div id="date"><strong>Date:</strong> (${dayOfWeek}) ${dateString}</div>
+                              
+                              <strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong>
+                              
+                            <p>${description}</p>
+                        `;
+                        imageListElement.appendChild(listItem);
+                    }
+                } else {
+                    imageListElement.innerHTML = '<li>No images found with this tag.</li>';
+                }
+
+            } catch (error) {
+                console.error("Error fetching images:", error);
+                imageListElement.innerHTML = `<li>Error: ${error.message}</li>`;
+            }
+        }
+
+        fetchImages();
+    </script>
+
+
+  
+   <style>
+        .image-list {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
@@ -695,7 +817,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
             text-align: center;
             width: 200px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-           overflow-wrap: break-word; /* Standard property name */
+             overflow-wrap: break-word; /* Standard property name */
   word-wrap: break-word;  
         }
         .image-item img {
@@ -709,105 +831,8 @@ document.getElementById("upload_widget").addEventListener("click", function(){
             color: #333;
         }
     </style>
-</head>
-<body>
-
-    <div class="catalog-container" id="catalog">
-        <!-- Images will be loaded here by JavaScript -->
-    </div>
-
-    <script>
-        // REPLACE WITH YOUR CLOUD NAME AND TAG NAME
-        const CLOUD_NAME = 'dussuas34'; 
-        const TAG_NAME = 'anime_wallpapers'; 
-
-        const catalogContainer = document.getElementById('catalog');
-
-        async function fetchImages() {
-            // Construct the URL to the client-side asset list JSON
-            const url = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG_NAME}.json`;
-
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                displayImages(data.resources);
-            } catch (error) {
-                console.error("Error fetching images:", error);
-                catalogContainer.innerHTML = `<p>Error loading images. Check your cloud name, tag name, and ensure client-side listing is enabled in Cloudinary security settings.</p>`;
-            }
-        }
-
-        function displayImages(images) {
-            catalogContainer.innerHTML = ''; // Clear loading message
-
-            // Sort images by creation date for consistent post numbering (optional)
-            images.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-            
-            images.forEach((image, index) => {
-                const imageItem = document.createElement('div');
-                imageItem.classList.add('image-item');
-              
-                const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
-             
-              
-                 const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
-              
-               const descriptionRef = document.createElement('p');
-                descriptionRef.classList.add('${description}');
-                descriptionRef.textContent = `${description}`;
-                // Create the image element using the public ID and dynamic URL
-                const img = document.createElement('img');
-                // You can add transformations to the URL, e.g., width 200, crop fill
-                img.src = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
-                img.alt = image.public_id;
-              
-                                 // The 'created_at' field is available in the JSON response
-                const creationDate = new Date(image.created_at);
-                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
-                const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
-              
-              
-                const fileURL = document.createElement('p');
-                fileURL.classList.add('dimensions');
-                fileURL.textContent = `File: ${image.public_id}`;
-              fileURL.innerHTML = `<strong>File:</strong>  <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}</a>`;
-                    const dimRef = document.createElement('p');
-                dimRef.classList.add('dimensions');
-                dimRef.textContent = `Dimensions: ${image.width}x${image.height}`;
-              dimRef.innerHTML = `<strong>Dimensions:</strong> ${image.width}x${image.height}`;
-                    const dateRef = document.createElement('p');
-                dateRef.classList.add('dateofcreation');
-                dateRef.textContent = `Date: (${dayOfWeek}) ${dateString}`;
-              dateRef.innerHTML = `<strong>Date:</strong> (${dayOfWeek}) ${dateString}`;
-
-                // Assign a post number (1-based index)
-                const postNumber = document.createElement('p');
-                postNumber.classList.add('post-number');
-                postNumber.textContent = `No. #${index + 1}`;
-              
-                  const authorRef = document.createElement('p');
-                authorRef.classList.add('author');
-                authorRef.textContent = `Author: Anonymous`;
-               authorRef.innerHTML = `<strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</strong>`;
-
-                imageItem.appendChild(img);
-                imageItem.appendChild(authorRef);
-                imageItem.appendChild(postNumber);
-               imageItem.appendChild(fileURL);
-              imageItem.appendChild(dimRef);
-              imageItem.appendChild(dateRef);
-                            imageItem.appendChild(authorRef);
-              imageItem.appendChild(descriptionRef);
-                catalogContainer.appendChild(imageItem);
-            });
-        }
-
-        // Fetch images when the page loads
-        fetchImages();
-    </script>
+          
+        
             
 <style>
   #my-gallery {
