@@ -405,6 +405,49 @@ element.style.visibility = 'hidden';
     }
     </script>
 
+ <script>
+  function forceReloadOnce() {
+    // Check if the page was accessed by navigating into the history (e.g., back button)
+    // or by a normal reload using the browser's default behavior
+    if (window.performance.navigation.type === 0) {
+      // If so, force a full reload from the server, bypassing the cache
+      // The 'true' parameter is supported in all major browsers including Chrome, Firefox, Safari, and Edge
+      window.location.reload(true);
+      localStorage.clear();
+sessionStorage.clear();
+    }
+  }
+
+  // Add event listener for DOMContentLoaded to run the function when the initial
+  // HTML document has been completely loaded and parsed
+  window.addEventListener("DOMContentLoaded", forceReloadOnce);
+</script>
+
+<style>
+    /* Optional CSS to make the anchor look like a button */
+    .button-style {
+      background-color: #ffffff; /* White background */
+  border: 1px solid #636363; /* Grey border (hex code #cccccc is a light grey) */
+  color: #333333;           /* Dark grey text color for contrast */
+      font-family: Arial;
+  padding: 10px 20px;       /* Adds space around the text */
+  font-size: 14px;          /* Adjusts text size */
+  cursor: pointer;          /* Changes cursor to a hand on hover */
+  /* Ensures the button remains square or rectangular, overriding default browser styles */
+  border-radius: 0;   
+      text-decoration: none;
+    }
+
+    /* Optional CSS for smooth scrolling behavior across the entire page's anchor links */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+
+
+<a href="https://japanga.github.io/fakechan/boards/vid" class="button-style">Refresh</a>
+
+
                         <div class="parent-container">
  <div class="parent-div">
             <div class="item">
