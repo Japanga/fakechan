@@ -175,6 +175,32 @@ button {
         </div>
     </div>
     <button id="open-popup-btn">Settings</button>
+  
+  
+<style>
+    /* Optional CSS to make the anchor look like a button */
+    .button-style {
+      background-color: #ffffff; /* White background */
+  border: 1px solid #636363; /* Grey border (hex code #cccccc is a light grey) */
+  color: #333333;           /* Dark grey text color for contrast */
+      font-family: Arial;
+  padding: 10px 20px;       /* Adds space around the text */
+  font-size: 14px;          /* Adjusts text size */
+  cursor: pointer;          /* Changes cursor to a hand on hover */
+  /* Ensures the button remains square or rectangular, overriding default browser styles */
+  border-radius: 0;   
+      text-decoration: none;
+    }
+
+    /* Optional CSS for smooth scrolling behavior across the entire page's anchor links */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+
+
+<a href="https://japanga.github.io/fakechan/boards/a" class="button-style">Refresh</a>
+
       
   <script>
     // Function to change the font color
@@ -326,7 +352,7 @@ image.setAttribute('src', randomSource);
  </style>
 <div class="center-text">
     <span style="color: darkred;"> 
-<b><i><p>FakeChan uses a JavaScript function called trailingSlash to add the extra "/" at the end of the board names in the URL, which occasionally makes it harder to refresh pages or go back to the previous one after visiting another. (although our coding is very smooth, and it does not even say that you triggered a 404 error in the URL.) </p></i></b>
+<b><i><p>FakeChan uses a JavaScript function called trailingSlash to add the extra "/" at the end of the board names in the URL, which occasionally makes it harder to refresh pages or go back to the previous one after visiting another. (although our coding is very smooth, and it does not even say that you triggered a 404 error in the URL.) Do not refresh with your browser, refresh with the "Refresh" button visible on every page.</p></i></b>
       </span>
   </div>
     
