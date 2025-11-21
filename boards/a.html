@@ -250,7 +250,7 @@ changeGradientBtn.addEventListener('click', () => {
     // Check if at least two valid colors were provided
     if (colors.length >= 2) {
         // Construct the linear gradient CSS string
-        const gradientString = `linear-gradient(to right, ${colors[0]}, ${colors[1]})`;
+        const gradientString = `linear-gradient(${colors[0]}, ${colors[1]})`;
         
         // Apply the new gradient to the body background
         document.body.style.background = gradientString;
@@ -473,6 +473,8 @@ element.style.visibility = 'hidden';
 </style>
 
 <a href="#bottom" class="button-style">Bottom</a>
+
+<a href="https://japanga.github.io/fakechan/boards/a" class="button-style">Refresh</a>
 
 
    <script>
@@ -943,7 +945,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
