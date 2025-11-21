@@ -451,6 +451,32 @@ element.style.visibility = 'hidden';
     </script>
 
 
+<style>
+    /* Optional CSS to make the anchor look like a button */
+    .button-style {
+      background-color: #ffffff; /* White background */
+  border: 1px solid #636363; /* Grey border (hex code #cccccc is a light grey) */
+  color: #333333;           /* Dark grey text color for contrast */
+      font-family: Arial;
+  padding: 10px 20px;       /* Adds space around the text */
+  font-size: 14px;          /* Adjusts text size */
+  cursor: pointer;          /* Changes cursor to a hand on hover */
+  /* Ensures the button remains square or rectangular, overriding default browser styles */
+  border-radius: 0;   
+      text-decoration: none;
+    }
+
+    /* Optional CSS for smooth scrolling behavior across the entire page's anchor links */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+
+
+<a href="https://japanga.github.io/fakechan/boards/wg" class="button-style">Refresh</a>
+
+
+
                         <div class="parent-container">
     <button id="upload_widget" class="cloudinary-button">Upload files</button>
              </div>
