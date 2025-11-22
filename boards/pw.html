@@ -687,155 +687,158 @@ document.getElementById("upload_widget").addEventListener("click", function(){
       </script>
           
 
-    <ul class="image-list" id="image-list">
-        <!-- Images will be listed here -->
-    </ul>
+     <style>
+    .gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.gallery-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+     overflow-wrap: break-word; /* Standard property name */
+  word-wrap: break-word;  
+}
+
+.gallery-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.image-info {
+    font-size: 0.9em;
+    color: #555;
+}
+    </style>
+    <div class="gallery-container" id="gallery-container">
+        <!-- Images will be injected here by JavaScript -->
+    </div>
 
     <script>
-        // !! IMPORTANT: Replace with your Cloudinary cloud name and target tag !!
-        const CLOUD_NAME = "dussuas34"; 
-        const TAG_NAME = "wrestling_uploads"; // The tag you want to list
+      // --- Configuration ---
+const CLOUD_NAME = 'dussuas34'; // Replace with your Cloudinary cloud name
+const TAG = 'wrestling_uploads'; // Replace with the tag you assigned to your images
+const GALLERY_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG}.json`;
+const galleryContainer = document.getElementById('gallery-container');
 
-     
+// --- Helper Function 1: Format file size bytes ---
+/**
+ * Formats bytes into a human-readable string (KB, MB, GB).
+ * @param {number} bytes - The file size in bytes.
+ * @returns {string} The formatted file size string.
+ */
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
 
-        /**
-         * Converts bytes to a human-readable format (KB, MB, etc.).
-         * @param {number} bytes File size in bytes.
-         * @returns {string} Human-readable file size.
-         */
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        /**
-         * Fetches the file size of a given image URL using an HTTP HEAD request.
-         * @param {string} url The image URL.
-         * @returns {Promise<number|string>} The file size in bytes or an error message.
-         */
-        function getFileSize(url) {
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('HEAD', url, true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            // The Content-Length header provides the size in bytes
-                            const size = xhr.getResponseHeader('Content-Length');
-                            resolve(size ? parseInt(size, 10) : 'N/A');
-                        } else {
-                            reject('Failed to get size');
-                        }
-                    }
-                };
-                xhr.send(null);
-            });
-        }
-
-        /**
-         * Main function to fetch the list of images and display them with sizes.
-         */
-        async function fetchImages() {
-            const listUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG_NAME}.json`;
-            const imageListElement = document.getElementById('image-list');
-
-            try {
-                const response = await fetch(listUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}. Check Cloudinary security settings.`);
+// --- Helper Function 2: Get file size for an image using XHR (Asynchronous) ---
+/**
+ * Uses XHR to fetch the file size for a given image URL.
+ * @param {string} url - The URL of the image.
+ * @returns {Promise<number>} The file size in bytes.
+ */
+function getFileSize(url) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('HEAD', url, true); // Use HEAD request to get headers without downloading the full image
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const fileSize = xhr.getResponseHeader('Content-Length');
+                    resolve(parseInt(fileSize, 10) || 0);
+                } else {
+                    reject(new Error(`Failed to get file size for ${url}: Status ${xhr.status}`));
                 }
-                const data = await response.json();
+            }
+        };
+        xhr.send();
+    });
+}
 
-                if (data.resources && data.resources.length > 0) {
-                      data.resources.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-                    for (const resource of data.resources) {
-                        const publicId = resource.public_id;
-                        // Construct the full image URL
-                        const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${publicId}.${resource.format}`;
-                        
-                        // Fetch file size
-                        let fileSize = 'Fetching...';
-                        try {
-                            const sizeInBytes = await getFileSize(imageUrl);
-                            fileSize = formatBytes(sizeInBytes);
-                        } catch (error) {
-                            fileSize = 'Size unavailable';
-                        }
+// --- Main Gallery Logic ---
+async function loadGallery() {
+    try {
+        const response = await fetch(GALLERY_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        let images = data.resources;
 
-                       
-                     const creationDate = new Date(resource.created_at);
+        // Sort images by creation date: oldest first (ascending order)
+        // Cloudinary provides a 'created_at' timestamp
+        images.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+        // Process and display images
+        for (let i = 0; i < images.length; i++) {
+            const image = images[i];
+            const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
+          
+            const creationDate = new Date(image.created_at);
                 const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
                 const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
-                      
-                           
-                const description = resource.context && resource.context.custom && resource.context.custom.custom_desc ? resource.context.custom.custom_desc : 'No description available';
+          
+             const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
               
-                 const tripcode = resource.context && resource.context.custom && resource.context.custom.tripcode ? resource.context.custom.tripcode : '';
-             
+                 const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
+            
+            // Create image element immediately
+            const galleryItem = document.createElement('div');
+            galleryItem.classList.add('gallery-item');
 
-                        // Display the information
-                        const listItem = document.createElement('p');
-                        listItem.className = 'image-item';
-                        listItem.innerHTML = `
-                            <img src="${imageUrl}" alt="${publicId}">
-                            <strong>File:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${resource.public_id}">${publicId}</a><br>
-                            <strong>Size:</strong> ${resource.width}x${resource.height} ${fileSize}
-                            
-                              <div id="date"><strong>Date:</strong> (${dayOfWeek}) ${dateString}</div>
-                              
-                              <strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong>
-                              
-                            <p>${description}</p>
-                        `;
-                        imageListElement.appendChild(listItem);
-                    }
-                } else {
-                    imageListElement.innerHTML = '<li>No images found with this tag.</li>';
-                }
+            const imgElement = document.createElement('img');
+            imgElement.src = imageUrl;
+            imgElement.alt = image.public_id;
+            galleryItem.appendChild(imgElement);
 
+            const infoDiv = document.createElement('div');
+            infoDiv.classList.add('image-info');
+            infoDiv.innerHTML = `
+                <p><strong>No:</strong> ${i + 1}</p>
+                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}</a></p>
+                <p id="size-${image.public_id}">Size: Fetching...</p>
+       
+                  <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
+                  <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
+                  <div>
+                  <p>${description}</p>
+            `;
+            galleryItem.appendChild(infoDiv);
+            galleryContainer.appendChild(galleryItem);
+
+            // Fetch file size asynchronously and update the display
+            try {
+                // Use the original image URL for accurate size (without transformations)
+                const originalUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
+                const size = await getFileSize(originalUrl);
+                document.getElementById(`size-${image.public_id}`).textContent = `Size: ${formatBytes(size)}`;
+               document.getElementById(`size-${image.public_id}`).innerHTML = `<strong>Size:</strong> ${image.width}x${image.height} ${formatBytes(size)}`;
             } catch (error) {
-                console.error("Error fetching images:", error);
-                imageListElement.innerHTML = `<li>Error: ${error.message}</li>`;
+                console.error(error);
+                document.getElementById(`size-${image.public_id}`).textContent = 'Size: N/A';
             }
         }
+    } catch (error) {
+        console.error('Error loading gallery:', error);
+        galleryContainer.innerHTML = '<p>Error loading images. Check console for details and ensure your Cloudinary settings are correct.</p>';
+    }
+}
 
-        fetchImages();
-    </script>
-
-
+// Initialize the gallery
+loadGallery();
+  </script>
   
-   <style>
-        .image-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            padding: 20px;
-        }
-        .image-item {
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            width: 200px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-             overflow-wrap: break-word; /* Standard property name */
-  word-wrap: break-word;  
-        }
-        .image-item img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-        .post-number {
-            margin-top: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-    </style>
 
 <style>
   #my-gallery {
