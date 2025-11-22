@@ -573,6 +573,7 @@ element.style.visibility = 'hidden';
 
           </script>
 
+
 <script>
   function colorParagraphsStartingWithGreaterSign() {
     // Get all paragraph elements on the page
@@ -789,7 +790,7 @@ async function loadGallery() {
             const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
           
             const creationDate = new Date(image.created_at);
-                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'short' });
                 const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
           
              const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
@@ -813,6 +814,7 @@ async function loadGallery() {
                 <p id="size-${image.public_id}">Size: Fetching...</p>
        
                   <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
+        
                   <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
                   <div>
                  <p>${description}</p>
@@ -843,43 +845,6 @@ loadGallery();
   </script>
 
 
-  <script>
-    function shortenDayNames() {
-      const dayMap = {
-        "Monday": "Mon",
-        "Tuesday": "Tue",
-        "Wednesday": "Wed",
-        "Thursday": "Thu",
-        "Friday": "Fri",
-        "Saturday": "Sat",
-        "Sunday": "Sun"
-      };
- 
-      // Function to recursively search and replace text
-      function traverseAndReplace(node) {
-        if (node.nodeType === Node.TEXT_NODE) {
-          let text = node.textContent;
-          for (const fullDay in dayMap) {
-            const shortDay = dayMap[fullDay];
-            // Use a regular expression to find all occurrences of the day name,
-            // ignoring case, and replace them with the short version.
-            const regex = new RegExp(`\\b${fullDay}\\b`, 'gi');
-            text = text.replace(regex, shortDay);
-          }
-          node.textContent = text;
-        } else if (node.nodeType === Node.ELEMENT_NODE) {
-          // Recursively call for child nodes
-          node.childNodes.forEach(traverseAndReplace);
-        }
-      }
-
-      // Start the process from the document body
-      traverseAndReplace(document.body);
-    }
-
-    // Call the function when the page loads
-    window.onload = shortenDayNames;
-  </script>
 
           
          <!-- ... other content ... -->
@@ -887,7 +852,7 @@ loadGallery();
     <h2 id="bottom"></h2>
     <p> -</p>
 </div>
-            
+
 <style>
   #my-gallery {
      display: block;
