@@ -809,7 +809,7 @@ async function loadGallery() {
             infoDiv.classList.add('image-info');
             infoDiv.innerHTML = `
                 <p><strong>No:</strong> ${i + 1}</p>
-                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}</a></p>
+                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
                 <p id="size-${image.public_id}">Size: Fetching...</p>
        
                   <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
@@ -841,6 +841,46 @@ async function loadGallery() {
 // Initialize the gallery
 loadGallery();
   </script>
+
+
+  <script>
+    function shortenDayNames() {
+      const dayMap = {
+        "Monday": "Mon",
+        "Tuesday": "Tue",
+        "Wednesday": "Wed",
+        "Thursday": "Thur",
+        "Friday": "Fri",
+        "Saturday": "Sat",
+        "Sunday": "Sun"
+      };
+
+      // Function to recursively search and replace text
+      function traverseAndReplace(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          let text = node.textContent;
+          for (const fullDay in dayMap) {
+            const shortDay = dayMap[fullDay];
+            // Use a regular expression to find all occurrences of the day name,
+            // ignoring case, and replace them with the short version.
+            const regex = new RegExp(`\\b${fullDay}\\b`, 'gi');
+            text = text.replace(regex, shortDay);
+          }
+          node.textContent = text;
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          // Recursively call for child nodes
+          node.childNodes.forEach(traverseAndReplace);
+        }
+      }
+
+      // Start the process from the document body
+      traverseAndReplace(document.body);
+    }
+
+    // Call the function when the page loads
+    window.onload = shortenDayNames;
+  </script>
+
           
          <!-- ... other content ... -->
 <div style="margin-top: 20vh;"> 
