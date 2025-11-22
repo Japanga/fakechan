@@ -792,7 +792,7 @@ async function loadGallery() {
             infoDiv.classList.add('image-info');
             infoDiv.innerHTML = `
                 <p><strong>No:</strong> ${i + 1}</p>
-                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}</a></p>
+                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
                 <p id="size-${image.public_id}">Size: Fetching...</p>
        
                   <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
