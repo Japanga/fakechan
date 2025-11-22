@@ -454,39 +454,9 @@ sessionStorage.clear();
     hiddenGridButton.style.visibility = 'hidden';
       </script>
           
-          
-
-
-     <style>
-    .gallery-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-}
-
-.gallery-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-    width: 200px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-     overflow-wrap: break-word; /* Standard property name */
-  word-wrap: break-word;  
-}
-
-.gallery-item img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.image-info {
-    font-size: 0.9em;
-    color: #555;
-}
-    </style>
+    
+  
+            
     <div class="gallery-container" id="gallery-container">
         <!-- Images will be injected here by JavaScript -->
     </div>
@@ -556,7 +526,7 @@ async function loadGallery() {
             const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
           
             const creationDate = new Date(image.created_at);
-                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'short' });
                 const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
           
              const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
@@ -576,7 +546,7 @@ async function loadGallery() {
             infoDiv.classList.add('image-info');
             infoDiv.innerHTML = `
                 <p><strong>No:</strong> ${i + 1}</p>
-                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}</a></p>
+                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
                 <p id="size-${image.public_id}">Size: Fetching...</p>
        
                   <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
@@ -719,7 +689,38 @@ window.onload = makeYouTubeLinksClickable;
     
     
     
-              
+               
+            
+     <style>
+    .gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.gallery-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    width: 200px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+     overflow-wrap: break-word; /* Standard property name */
+  word-wrap: break-word;  
+}
+
+.gallery-item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.image-info {
+    font-size: 1.0em;
+    color: #383838;
+}
+    </style> 
           
           <script>
          
@@ -1091,7 +1092,6 @@ height: 220px;
 </style>
 </body>
 </html>
-
 
 
 
