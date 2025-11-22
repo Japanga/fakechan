@@ -772,7 +772,7 @@ async function loadGallery() {
             const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
           
             const creationDate = new Date(image.created_at);
-                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'short' });
                 const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
           
              const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
@@ -960,7 +960,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
