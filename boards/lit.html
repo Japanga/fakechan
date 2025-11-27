@@ -727,7 +727,7 @@ window.onload = makeYouTubeLinksClickable;
           
           <script>
          
-   document.getElementById("upload_widget").addEventListener("click", function() {
+   document.getElementById("upload_widget2").addEventListener("click", function() {
          const inputElement = document.getElementById('textInput');
     
     // 2. Get the value (string) from the input field
@@ -736,7 +736,7 @@ window.onload = makeYouTubeLinksClickable;
          cloudinary.openUploadWidget(
              {
                  cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
-                 uploadPreset: "bookPhotoUploads"// Replace with the name of your unsigned upload preset
+                 uploadPreset: "pdfUploader"// Replace with the name of your unsigned upload preset
              },
            
              (error, result) => {
@@ -809,6 +809,38 @@ document.getElementById("upload_widget").addEventListener("click", function(){
             </div>
         </main>
     </div>
+
+  <div class="parent-container">
+    <button id="upload_widget2" class="cloudinary-button">Upload files</button>
+             </div>
+
+  <script>
+         
+   document.getElementById("upload_widget2").addEventListener("click", function() {
+         const inputElement = document.getElementById('textInput');
+    
+    // 2. Get the value (string) from the input field
+    const inputValue = inputElement.value;
+    
+         cloudinary.openUploadWidget(
+             {
+                 cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
+                 uploadPreset: "bookPhotoUploads"// Replace with the name of your unsigned upload preset
+             },
+           
+             (error, result) => {
+                 if (!error && result && result.event === "success") {
+                     console.log('Done! Here is the image info: ', result.info);
+     
+                     // You can access the uploaded image URL here: result.info.secure_url
+                     // Perform actions like displaying the image or saving the URL to your database
+                 }
+             }    
+        
+         );
+     });
+
+          </script>
 
 
 
@@ -1095,7 +1127,6 @@ height: 220px;
 </style>
 </body>
 </html>
-
 
 
 
