@@ -461,188 +461,115 @@ sessionStorage.clear();
 
           </div>
                            </div>
-    <style>
-        .video-catalog {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
+
+  <style>
         .video-item {
             border: 1px solid #ccc;
-            padding: 10px;
-            width: 300px;
-            text-align: center;
-        }
-        .video-info {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #555;
+            padding: 15px;
+            margin-bottom: 10px;
         }
         video {
-            width: 300px;
-            height: 200px;
+            max-width: 20%;
+            height: auto;
         }
     </style>
-</head>
-<body>
-
-    <div class="video-catalog" id="video-list">
-        <!-- Videos will be dynamically inserted here -->
-    </div>
+          
+           <div id="video-catalog">Loading videos...</div>
 
     <script>
-        // *** REPLACE WITH YOUR CLOUD NAME AND TAG NAME ***
-        const CLOUD_NAME = 'dussuas34';
-        const TAG_NAME = 'video_uploads'; 
+      const CLOUD_NAME = 'dussuas34';
+const TAG_NAME = 'video_uploads'; // e.g., 'my_video_catalog'
+const CATALOG_URL = `https://res.cloudinary.com/${CLOUD_NAME}/video/list/${TAG_NAME}.json`;
 
-        async function fetchVideos() {
-            // URL to fetch resources by tag as a JSON list (cached for 1 hour)
-            const url = `https://res.cloudinary.com/${CLOUD_NAME}/video/list/${TAG_NAME}.json`;
+// Function to fetch the video list
+function fetchVideoCatalog() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', CATALOG_URL, true);
 
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                
-                // Sort videos by creation date (oldest first)
-                const sortedVideos = data.resources.sort((a, b) => {
-                    // created_at is a timestamp string, compare as Date objects
-                    return new Date(a.created_at) - new Date(b.created_at);
-                });
-
-                displayVideos(sortedVideos);
-
-            } catch (error) {
-                console.error("Could not fetch videos:", error);
-                document.getElementById('video-list').innerHTML = `<p>Error loading videos: ${error.message}. Please check your Cloudinary settings (Security > Resource list) and cloud name.</p>`;
-            }
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const data = JSON.parse(xhr.responseText);
+            displayVideos(data.resources);
+        } else {
+            console.error('Failed to fetch video list:', xhr.statusText);
+            document.getElementById('video-catalog').innerHTML = '<p>Error loading videos. Check console for details.</p>';
         }
+    };
 
-        function displayVideos(videos) {
-            const videoListElement = document.getElementById('video-list');
-            videoListElement.innerHTML = ''; // Clear loading message
+    xhr.onerror = function () {
+        console.error('Network error occurred');
+        document.getElementById('video-catalog').innerHTML = '<p>Network error occurred while fetching videos.</p>';
+    };
 
-             videos.forEach((video, index) => {
-                const videoItem = document.createElement('div');
-                videoItem.classList.add('video-item');
+    xhr.send();
+}
 
-                // Create the video element
-                const videoElement = document.createElement('video');
-                videoElement.controls = true;
-                // Generate the video URL using the public ID
-                videoElement.src = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}.mp4`;
-               
-                   const description = video.context && video.context.custom && video.context.custom.custom_desc ? video.context.custom.custom_desc : 'No description available';
-               
-                
-                         // The 'created_at' field is available in the JSON response
-                const creationDate = new Date(video.created_at);
-                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'long' });
+// Function to get video file size (using a HEAD request)
+function getVideoSize(url, callback) {
+    const xhrSize = new XMLHttpRequest();
+    xhrSize.open('HEAD', url, true);
+    xhrSize.onload = function () {
+        if (xhrSize.status === 200) {
+            const size = xhrSize.getResponseHeader('content-length');
+            callback(size ? (size / 1024 / 1024).toFixed(2) + ' MB' : 'N/A');
+        } else {
+            callback('N/A');
+        }
+    };
+    xhrSize.send();
+}
+
+// Function to display the videos in the DOM
+function displayVideos(videos) {
+    const catalogContainer = document.getElementById('video-catalog');
+    catalogContainer.innerHTML = ''; // Clear loading message
+
+    // Sort videos from oldest to newest based on the 'created_at' timestamp
+    videos.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+
+    videos.forEach((video, index) => {
+        // Construct the video URL
+        const videoUrl = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}.mp4`;
+        const postNumber = index + 1;
+
+            const creationDate = new Date(video.created_at);
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'short' });
                 const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
-               
+      
+        const videoItem = document.createElement('div');
+        videoItem.classList.add('video-item');
+      
+          const description = video.context && video.context.custom && video.context.custom.custom_desc ? video.context.custom.custom_desc : 'No description available';
+      
+       const tripcode = video.context && video.context.custom && video.context.custom.tripcode ? video.context.custom.tripcode : '';
+        
+        videoItem.innerHTML = `
+            <h3>No. ${postNumber}</h3>
+               <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}">${video.public_id}.${video.format}</a></p>
+            <p><strong>Created:</strong> ${new Date(video.created_at).toLocaleDateString()}</p>
+             <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
+            <p><strong>Size:</strong> <span id="size-${video.public_id}">Fetching size...</span></p>
+            <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
+                  <div>
+            <p>${description}</p>
+            <video controls>
+                <source src="${videoUrl}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        `;
 
-                // Add info (public ID and creation date)
-                const infoElement = document.createElement('div');
-                infoElement.classList.add('video-info');
-                infoElement.innerHTML = `<strong>No. #${index + 1}</strong>`;
-               
-               
-                 // Add info (public ID and creation date)
-                const infoElement5 = document.createElement('div');
-                infoElement5.classList.add('video-info');
-                infoElement5.innerHTML = `<strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${video.public_id}">${video.public_id}.mp4</a><br>`;
-               
-                   // Add info (public ID and creation date)
-                const infoElement6 = document.createElement('div');
-                infoElement6.classList.add('video-info');
-                infoElement6.innerHTML = `<strong>Date: </strong>(${dayOfWeek}) ${dateString}`;
-               
-               const infoElement2 = document.createElement('div');
-                infoElement2.classList.add('video-info');
-                infoElement2.innerHTML = `<strong>Dimensions: </strong>${video.width}x${video.height}`;
+        catalogContainer.appendChild(videoItem);
 
-               
-                const infoElement3 = document.createElement('div');
-                infoElement3.classList.add('video-info');
-                     infoElement3.innerHTML = `<strong>Author:</strong> <span style="color: green;">Anonymous</span>`;
-               
-                     const infoElement4 = document.createElement('div');
-                infoElement4.classList.add('video-info');
-                     infoElement4.innerHTML = `${description}`;
-              
-              
-
-                videoItem.appendChild(videoElement);
-                videoItem.appendChild(infoElement);
-                videoItem.appendChild(infoElement5);
-                videoItem.appendChild(infoElement6);
-               videoItem.appendChild(infoElement2);
-                videoItem.appendChild(infoElement3);
-               videoItem.appendChild(infoElement4);
-                videoListElement.appendChild(videoItem);
-            });
-        }
-
-        // Call the function to fetch and display videos when the page loads
-        fetchVideos();
-    </script>
-           
-
-    <script>
-         // Get references to the HTML elements
-    const paragraph1 = document.getElementById('limeIcon');
-      const paragraph2 = document.getElementById('limeIcon2');
-            const paragraph3 = document.getElementById('limeIcon3');
-            const paragraph4 = document.getElementById('limeIcon4');
-            const paragraph5 = document.getElementById('limeIcon5');
-            const paragraph6 = document.getElementById('limeIcon6');
-            const paragraph7 = document.getElementById('limeIcon7');
-            const paragraph8 = document.getElementById('limeIcon8');
-            const paragraph9 = document.getElementById('limeIcon9');
-            const paragraph10 = document.getElementById('limeIcon10');
-      const paragraph11 = document.getElementById('limeIcon11');
-      const paragraph12 = document.getElementById('limeIcon12');
-      const paragraph13 = document.getElementById('limeIcon13');
-       const paragraph14 = document.getElementById('limeIcon14');
-      const paragraph15 = document.getElementById('limeIcon15');
-      const paragraph16 = document.getElementById('limeIcon16');
-      const paragraph17 = document.getElementById('limeIcon17');
-      const paragraph18 = document.getElementById('limeIcon18');
-      const paragraph18 = document.getElementById('limeIcon19');
-    const button = document.getElementById('mobileButton');
-
-    // Add a click event listener to the button
-    button.addEventListener('click', function() {
-        // Change the id of the paragraph element
-        paragraph1.textContent = '🍋‍🟩';
-        paragraph2.textContent = '🍋‍🟩';
-      paragraph3.textContent = '🍋‍🟩';
-      paragraph4.textContent = '🍋‍🟩';
-      paragraph5.textContent = '🍋‍🟩';
-      paragraph6.textContent = '🍋‍🟩';
-      paragraph7.textContent = '🍋‍🟩';
-      paragraph8.textContent = '🍋‍🟩';
-      paragraph9.textContent = '🍋‍🟩';
-      paragraph10.textContent = '🍋‍🟩';
-      paragraph11.textContent = '🍋‍🟩';
-      paragraph12.textContent = '🍋‍🟩';
-      paragraph13.textContent = '🍋‍🟩';
-      paragraph14.textContent = '🍋‍🟩';
-       paragraph15.textContent = '🍋‍🟩';
-      paragraph16.textContent = '🍋‍🟩';
-      paragraph17.textContent = '🍋‍🟩';
-      paragraph18.textContent = '🍋‍🟩';
-       paragraph19.textContent = '🍋‍🟩';
+        // Fetch and display file size using the HEAD method
+        getVideoSize(videoUrl, (size) => {
+            document.getElementById(`size-${video.public_id}`).textContent = size;
+        });
     });
-          </script>
-    
-    
-    
-          
-          
+}
+
+// Initial fetch call
+fetchVideoCatalog();
+  </script>
           
           
           <script>
