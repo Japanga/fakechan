@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cloudinary Uploader</title>
+</head>
+<body>
+    <input type="button" id="upload_widget" value="Upload Image">
+    <div id="gallery">
+        <!-- Uploaded images will be displayed here -->
+    </div>
+
+    <script src="widget.cloudinary.com" type="text/javascript"></script>
+    <script>
+        document.getElementById("upload_widget").addEventListener("click", function(){
+          // Cloudinary upload widget configuration
+          cloudinary.openUploadWidget({
+            cloud_name: "dussuas34", // Replace with your Cloud Name
+            upload_preset: "threadTester" // Replace with your preset name
+          }, function(error, result) {
+            if (!error && result && result.event === "success") {
+              console.log("Uploaded:", result.info);
+              // Get the public ID from the upload result
+              var publicId = result.info.public_id;
+              // Call the function to create a link to the new page
+              createImageLink(publicId);
+            }
+          });
+        }, false);
+
+        function createImageLink(publicId) {
+          var gallery = document.getElementById('gallery');
+          var imageLink = document.createElement('a');
+          // Assuming your new page will be named "image_page.html"
+          // The ID will be passed in the URL or via local storage to create a dynamic page
+          imageLink.href = "image_page.html?id=" + publicId; 
+          var img = document.createElement('img');
+          // The image URL is constructed using the public ID
+          img.src = "res.cloudinary.com" + publicId + ".jpg"; 
+          img.style.width = "150px";
+          imageLink.appendChild(img);
+          gallery.appendChild(imageLink);
+        }
+    </script>
+</body>
+</html>
