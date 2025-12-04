@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Page</title>
+</head>
+<body>
+    <div id="image-container">
+        <!-- The image will be displayed here -->
+    </div>
+    
+    <script>
+        // Get the public ID from the URL query string
+        var urlParams = new URLSearchParams(window.location.search);
+        var publicId = urlParams.get('id');
+        
+        // Construct the full image URL
+        var imageUrl = "res.cloudinary.com" + publicId + ".jpg";
+        
+        // Create an image element and set its source
+        var img = document.createElement('img');
+        img.src = imageUrl;
+        img.style.maxWidth = "90%"; // Adjust as needed
+        
+        // Append the image to the container
+        document.getElementById('image-container').appendChild(img);
+    </script>
+</body>
+</html>
