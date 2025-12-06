@@ -2,44 +2,80 @@
 <html>
 <head>
     <title>Cloudinary Uploader</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <input type="button" id="upload_widget" value="Upload Image">
-    <div id="gallery">
-        <!-- Uploaded images will be displayed here --> 
-    </div>
+    <h1>Upload & View Images</h1>
+    <button id="upload_widget">Upload Image</button>
+    <div id="image-grid"></div>
 
-    <script src="widget.cloudinary.com" type="text/javascript"></script>
+  
+  <style>
+    body { font-family: sans-serif; }
+#image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+.grid-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    transition: transform 0.2s;
+}
+.grid-image:hover {
+    transform: scale(1.05);
+}
+    </style>
+    <!-- Cloudinary Upload Widget Script -->
+    <script src="upload-widget.cloudinary.com" type="text/javascript"></script>
     <script>
-        document.getElementById("upload_widget").addEventListener("click", function(){
-          // Cloudinary upload widget configuration
-          cloudinary.openUploadWidget({
-            cloud_name: "dussuas34", // Replace with your Cloud Name
-            upload_preset: "threadTester" // Replace with your preset name
-          }, function(error, result) {
-            if (!error && result && result.event === "success") {
-              console.log("Uploaded:", result.info);
-              // Get the public ID from the upload result
-              var publicId = result.info.public_id;
-              // Call the function to create a link to the new page
-              createImageLink(publicId);
-            }
-          });
-        }, false);
+      // Replace with your actual cloud name and preset
+const cloudName = "dussuas34"; // e.g., "demodemo"
+const uploadPreset = "threadTester";
+const imageGrid = document.getElementById('image-grid');
+let uploadedImageUrls = []; // Store URLs for the grid
 
-        function createImageLink(publicId) {
-          var gallery = document.getElementById('gallery');
-          var imageLink = document.createElement('a');
-          // Assuming your new page will be named "image_page.html"
-          // The ID will be passed in the URL or via local storage to create a dynamic page
-          imageLink.href = "image_page.html?id=" + publicId; 
-          var img = document.createElement('img');
-          // The image URL is constructed using the public ID
-          img.src = "res.cloudinary.com" + publicId + ".jpg"; 
-          img.style.width = "150px";
-          imageLink.appendChild(img);
-          gallery.appendChild(imageLink);
-        }
+// --- Cloudinary Widget Setup ---
+var myWidget = cloudinary.createUploadWidget({
+    cloudName: cloudName,
+    uploadPreset: uploadPreset,
+}, (error, result) => {
+    if (!error && result.event === 'success') {
+        console.log('Done! Here is the image URL:', result.info.secure_url);
+        const imageUrl = result.info.secure_url;
+        uploadedImageUrls.push(imageUrl);
+        renderImageGrid(); // Re-render the grid with the new image
+    }
+});
+
+document.getElementById("upload_widget").addEventListener("click", function() {
+    myWidget.open();
+}, false);
+
+// --- Grid Rendering & Click Handlers ---
+function renderImageGrid() {
+    imageGrid.innerHTML = ''; // Clear existing grid
+    uploadedImageUrls.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Uploaded Image';
+        img.classList.add('grid-image');
+        // Add click event to open a new page with a larger view
+        img.addEventListener('click', () => {
+            // Open a new tab/window with the image URL
+            window.open(url, '_blank'); 
+            // Or navigate the current page: window.location.href = url;
+        });
+        imageGrid.appendChild(img);
+    });
+}
+
+// Initial render (if any pre-loaded images)
+renderImageGrid();
     </script>
 </body>
 </html>
