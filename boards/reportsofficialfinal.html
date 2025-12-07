@@ -16,14 +16,14 @@
 
 </head>
 <body>
-    <button id="openPopupBtn">🏁 🎌 🚩 Report this content
+    <button id="openPopupBtn">🏁 Report this content
 </button>
 
     <div id="myPopup" class="popup">
         <div class="popup-content">
-            <h2>Pop-up Form</h2>
+            <h2>Report this content</h2>
             <input type="input" id="inputField2" placeholder="Enter number 2">
-            <button id="executeFunctionBtn">Execute Function</button>
+            <button id="executeFunctionBtn">Send Report</button>
             <button id="closePopupBtn">Close</button>
         </div>
     </div>
@@ -93,18 +93,23 @@
 }
 
 .popup-content {
-    background-color: #fff;
+    background: linear-gradient(#050505
+, #5C5C5C
+);
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 500px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+  color:red;
     text-align: center;
     border-radius: 8px;
 }
 
 .popup-content input {
+  background:black;
+  color:red;
     width: calc(100% - 20px);
     padding: 10px;
     margin: 10px 0;
@@ -114,7 +119,7 @@
 }
 
 .popup-content button {
-    background-color: #4CAF50;
+     background: linear-gradient(#190A05, #870000);
     color: white;
     padding: 10px 20px; 
     border: none;
