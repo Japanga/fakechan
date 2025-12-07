@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pop-up Example</title>
+    <link rel="stylesheet" href="style.css">
+  
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
+     <script type="text/javascript">
+     (function(){
+        emailjs.init("xLOqPiwfdAHHY5nyn"); // Replace YOUR_PUBLIC_KEY
+     })();
+   </script>
+
+</head>
+<body>
+    <button id="openPopupBtn">🏁 🎌 🚩 Report this content
+</button>
+
+    <div id="myPopup" class="popup">
+        <div class="popup-content">
+            <h2>Pop-up Form</h2>
+            <input type="input" id="inputField2" placeholder="Enter number 2">
+            <button id="executeFunctionBtn">Execute Function</button>
+            <button id="closePopupBtn">Close</button>
+        </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    const openPopupBtn = document.getElementById('openPopupBtn');
+    const closePopupBtn = document.getElementById('closePopupBtn');
+    const executeFunctionBtn = document.getElementById('executeFunctionBtn');
+    const myPopup = document.getElementById('myPopup');
+    const inputField1 = document.getElementById('inputField1');
+    const inputField2 = document.getElementById('inputField2');
+
+    openPopupBtn.addEventListener('click', () => {
+        myPopup.style.display = 'flex'; // Show the pop-up
+    });
+
+    closePopupBtn.addEventListener('click', () => {
+        myPopup.style.display = 'none'; // Hide the pop-up
+    });
+
+    // Close the pop-up if the user clicks outside the content
+    window.addEventListener('click', (event) => {
+        if (event.target === myPopup) {
+            myPopup.style.display = 'none';
+        }
+    });
+
+    executeFunctionBtn.addEventListener('click', () => {
+        const value1 = inputField1.value;
+        const value2 = inputField2.value;
+      
+      emailjs.send("service_5lfdh8p","template_5au6hk6");
+
+
+        // Example function: display the input values
+        alert(`Input 1: ${value1}\nInput 2: ${value2}`);
+
+        // You can add more complex logic here, e.g., send data to a server
+    });
+});
+  </script>
+  
+     <style>
+       body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    text-align: center;
+    border-radius: 8px;
+}
+
+.popup-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+   min-height: 90px; /* Ensures a minimum height */
+}
+
+.popup-content button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px; 
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.popup-content button#closePopupBtn {
+    background-color: #f44336;
+}
+  </style>
+</body>
+</html>
