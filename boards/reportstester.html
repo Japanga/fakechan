@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Sender</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="openPopupBtn">Send Email</button>
+
+    <div id="emailPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h2>Send Email</h2>
+            <input type="email" id="recipientEmail" placeholder="Recipient Email" value="killthemall9991@hotmail.com" readonly>
+            <textarea id="emailMessage" placeholder="Enter your message"></textarea>
+            <button id="sendEmailBtn">Send</button>
+            <button id="closePopupBtn">Close</button>
+        </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    const openPopupBtn = document.getElementById('openPopupBtn');
+    const emailPopup = document.getElementById('emailPopup');
+    const closePopupBtn = document.getElementById('closePopupBtn');
+    const sendEmailBtn = document.getElementById('sendEmailBtn');
+    const recipientEmailInput = document.getElementById('recipientEmail');
+    const emailMessageInput = document.getElementById('emailMessage');
+
+    openPopupBtn.addEventListener('click', () => {
+        emailPopup.style.display = 'flex'; // Show the popup
+    });
+
+    closePopupBtn.addEventListener('click', () => {
+        emailPopup.style.display = 'none'; // Hide the popup
+    });
+
+    sendEmailBtn.addEventListener('click', () => {
+        const recipient = recipientEmailInput.value;
+        const message = emailMessageInput.value;
+        const subject = "Message from your website"; // You can customize this
+
+        if (recipient && message) {
+            // Using mailto: protocol to open the user's default email client
+            window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+            emailPopup.style.display = 'none'; // Hide the popup after sending
+            emailMessageInput.value = ''; // Clear the message field
+        } else {
+            alert('Please enter a message to send.');
+        }
+    });
+});
+  </script>
+  
+    <style>
+      body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.popup-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.popup-content input,
+.popup-content textarea {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.popup-content button {
+    margin: 5px;
+}
+      </style>
+</body>
+</html>
