@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudinary Image Uploader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Upload Images</h1>
+    <input type="file" id="imageUpload" multiple accept="image/*">
+    <button id="uploadButton">Upload to Cloudinary</button>
+
+    <h2>Uploaded Images</h2>
+    <div id="imageGrid" class="image-grid">
+        <!-- Images will be dynamically added here -->
+    </div>
+
+    <script>
+      // script.js
+const imageUpload = document.getElementById('imageUpload');
+const uploadButton = document.getElementById('uploadButton');
+const imageGrid = document.getElementById('imageGrid');
+
+// Replace with your actual Cloudinary credentials and upload preset
+const CLOUDINARY_URL = 'dussuas34';  
+const CLOUDINARY_UPLOAD_PRESET = 'threadTester';
+
+uploadButton.addEventListener('click', async () => {
+    const files = imageUpload.files;
+    if (!files.length) return;
+
+    for (const file of files) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        try {
+            const response = await fetch(CLOUDINARY_URL, {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            const imageUrl = data.secure_url;
+            const publicId = data.public_id; // Get public_id for individual page
+
+            // Create image element and link
+            const imageWrapper = document.createElement('a');
+            imageWrapper.href = `image-details.html?public_id=${publicId}`; // Link to details page
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            imageWrapper.appendChild(img);
+            imageGrid.appendChild(imageWrapper);
+
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+    }
+});
+
+  </script>
+  
+  
+   <style>
+     .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+    padding: 20px;
+}
+
+.image-grid img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+  </style>
+</body>
+</html>
