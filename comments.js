@@ -1,52 +1,49 @@
 // comments.js
-     // JavaScript for dynamic functionality
-        const commentContainer = document.getElementById('allComments');
-        const addCommentBtn = document.getElementById('addCommentBtn');
-        const newCommentTextarea = document.getElementById('newComment');
+     document.addEventListener('DOMContentLoaded', () => {
+    const commentInput = document.getElementById('comment-input');
+    const postButton = document.getElementById('post-comment-btn');
+    const commentsList = document.getElementById('comments-list');
 
-        // Function to create a new comment element
-        function createCommentElement(commentText) {
-            const commentDiv = document.createElement('div');
-            commentDiv.classList.add('comment');
+    // Function to create a new comment div element
+    function createCommentElement(commentText) {
+        const commentDiv = document.createElement('div');
+        commentDiv.className = 'comment'; // Add a class for potential styling
+        commentDiv.innerHTML = `<div class="comment-text">${commentText}</div>`;
+        return commentDiv;
+    }
 
-            const authorPara = document.createElement('p');
-            authorPara.classList.add('comment-author');
-            authorPara.textContent = 'Anonymous User'; // You could add user input for this
-
-            const bodyPara = document.createElement('p');
-            bodyPara.classList.add('comment-body');
-            bodyPara.textContent = commentText;
-
-            commentDiv.appendChild(authorPara);
-            commentDiv.appendChild(bodyPara);
-
-            return commentDiv;
+    // Function to handle posting a new comment
+    function postComment() {
+        const text = commentInput.value.trim();
+        if (text !== '') {
+            const newComment = createCommentElement(text);
+            // Append the new comment to the comments list
+            commentsList.appendChild(newComment);
+            // Clear the input area
+            commentInput.value = '';
+            // Optional: save to localStorage (comments will persist on refresh)
+            saveCommentsToLocalStorage(); 
         }
+    }
 
-        // Function to add a new comment to the DOM and local storage
-        function addComment() {
-            const commentText = newCommentTextarea.value.trim();
+    // Event listener for the post button
+    postButton.addEventListener('click', postComment);
 
-            if (commentText !== '') {
-                const commentElement = createCommentElement(commentText);
-                commentContainer.appendChild(commentElement); // Append new comment
-                newCommentTextarea.value = ''; // Clear textarea
+    // --- Optional: Persistence using localStorage ---
 
-                // Optional: Save comments to localStorage (as a simple innerHTML string)
-                localStorage.setItem('commentListing', commentContainer.innerHTML);
-            }
+    // Function to save comments innerHTML to localStorage
+    function saveCommentsToLocalStorage() {
+        localStorage.setItem('pageComments', commentsList.innerHTML);
+    }
+
+    // Function to load comments from localStorage on page load
+    function loadCommentsFromLocalStorage() {
+        const savedCommentsHTML = localStorage.getItem('pageComments');
+        if (savedCommentsHTML) {
+            commentsList.innerHTML = savedCommentsHTML;
         }
+    }
 
-        // Function to load comments from local storage on page load
-        function loadComments() {
-            const savedComments = localStorage.getItem('commentListing');
-            if (savedComments) {
-                commentContainer.innerHTML = savedComments;
-            }
-        }
-
-        // Event listener for the add comment button
-        addCommentBtn.addEventListener('click', addComment);
-
-        // Load existing comments when the page loads
-        loadComments();
+    // Load existing comments when the script runs (page loads)
+    loadCommentsFromLocalStorage();
+});
