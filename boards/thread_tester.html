@@ -793,7 +793,7 @@ async function loadGallery() {
           
           function attachScriptToNewPage(scriptUrl) {
     // 1. Open a new window and get a reference to it
-    const newWindow = window.open("", "_blank");
+    const newWindow = window.open("");
     if (!newWindow) {
         alert("Please allow pop-ups for this function to work.");
         return;
@@ -892,7 +892,7 @@ function imageClickHandler() {
 <div class="grid-container">
         <a href="/fakechan/boards/thrdtst">Return to Board</a>
         <h1 id="image-title"></h1>
-        <img id="main-image" class="details-image" src="https://res.cloudinary.com/dussuas34/image/upload/1765205620106_ivbcr5.jpg" alt="Selected image">
+        <img id="main-image" class="details-image" src="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">
     <div class="sidebar-info-grid">
      <p><strong>No:</strong> ${i + 1}</p>
                 <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
@@ -905,19 +905,17 @@ function imageClickHandler() {
   </div>
 </div>
   
-      <div class="container">
-        <h2>Reply to Thread</h2>
-        <form id="comment-form">
-            <textarea id="comment-text" placeholder="Add your comment" required></textarea>
-            <button type="submit">Post Comment</button>
-        </form>
-        <div class="comments-section">
-            <h2>Posts</h2>
-            <div id="comments-container">
-                <!-- Comments will be appended here by JavaScript -->
-            </div>
+       <div class="container">
+        <h2>Leave a comment</h2>
+        <textarea id="newComment" placeholder="Add your comment..."></textarea>
+        <button id="addCommentBtn">Add Comment</button>
+
+        <h2>Comments</h2>
+        <div id="allComments">
+            <!-- Dynamically generated comments will be appended here -->
         </div>
     </div>
+
    
 </body>
 </html>
@@ -932,7 +930,7 @@ function imageClickHandler() {
 
     // Update the URL in the address bar and add a new history entry
     newWindow.pushState(newWindow, '', newUrl);
-    newWindow.attachScriptToNewPage('comments.js');
+    newWindow.attachScriptToNewPage('https://japanga.github.io/fakechan/comments.js');
     alert('The dynamically created image was clicked!');
     console.log('You can perform other actions here.');
 }
