@@ -782,6 +782,14 @@ async function loadGallery() {
             const image = images[i];
             const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
           
+            const creationDate = new Date(image.created_at);
+                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'short' });
+                const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
+          
+             const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
+              
+                 const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
+            
                       
       // 1. Define the function you want to run on click
 function imageClickHandler() {
@@ -795,12 +803,12 @@ function imageClickHandler() {
 
     // 2. Define the full HTML content as a string
     const newPageContent = `
-        <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FakeChan Thread</title>
+    <title>Image Details</title>
     <link rel="stylesheet" href="style.css">
     <style>
         /* Specific styles for the details page */
@@ -808,20 +816,48 @@ function imageClickHandler() {
             padding: 20px;
         }
         .details-image {
-            max-width: 100%;
+            max-width: 90%;
             height: auto;
             border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 15px;
         }
+      .grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Creates two columns: one for the image (1 part) and one for the sidebar (2 parts) */
+  gap: 20px; /* Adds space between columns */
+}
+
+.grid-container img {
+  width: 100%; /* Ensures the image fits within its grid column */
+  height: auto;
+}
+
+.sidebar-info-grid h2 {
+    margin-top: 0;
+}
     </style>
+  
 </head>
 <body>
-    <div class="details-container">
+<div class="grid-container">
         <a href="gallery.html">Return to Board</a>
         <h1 id="image-title"></h1>
-        <img id="main-image" class="details-image" src="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}" alt="Selected image">
+        <img id="main-image" class="details-image" src="https://res.cloudinary.com/dussuas34/image/upload/1765205620106_ivbcr5.jpg" alt="Selected image">
+    <div class="sidebar-info-grid">
+     <p><strong>No:</strong> ${i + 1}</p>
+                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
+       
+                  <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
+                  <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
+                  <p><strong>Thread Title:</strong></p>
+                  <div>
+                  <p>${description}</p>
+  </div>
+</div>
+  
      
+      
    
 </body>
 </html>
@@ -835,14 +871,6 @@ function imageClickHandler() {
     console.log('You can perform other actions here.');
 }
 
-            const creationDate = new Date(image.created_at);
-                const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'short' });
-                const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
-          
-             const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
-              
-                 const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
-            
             // Create image element immediately
             const galleryItem = document.createElement('div');
             galleryItem.classList.add('gallery-item');
