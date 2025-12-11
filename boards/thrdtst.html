@@ -811,6 +811,7 @@ function imageClickHandler() {
     <title>FakeChan Thread</title>
     <link rel="stylesheet" href="style.css">
     <style>
+
         /* Specific styles for the details page */
         .details-container {
             padding: 20px;
@@ -835,6 +836,17 @@ function imageClickHandler() {
     box-sizing: border-box;
 }
 
+     body {
+  min-height: 200vh;
+  margin: 0; /* Remove default body margin */
+  background-image: linear-gradient(#F7B48D
+, #FFFDFC
+);
+}
+  /* Default link color */
+a {
+  color: darkred; /* Example: Sets all links to blue */
+}
 
 
 .comment {
@@ -868,8 +880,15 @@ function imageClickHandler() {
                   <p><strong>Thread Title:</strong></p>
                   <div>
                   <p style="font-size: 20px;">${description}</p>
+                     <iframe src="https://japanga.github.io/fakechan/boards/thrdcmnts.html?id=${i + 1}" width="600" height="450">
+        Your browser does not support iframes.
+    </iframe>
   </div>
 </div>
+
+    <!-- The iframe element. The 'src' attribute points to the comments page. -->
+ 
+
   
    
 </body>
@@ -880,13 +899,7 @@ function imageClickHandler() {
     newWindow.document.open();
     newWindow.document.write(newPageContent);
     newWindow.document.close();
-     const stateObj = { itemId: 123, view: 'item-detail' };
-    const newUrl = '/items/123';
-
-    // Update the URL in the address bar and add a new history entry
-    newWindow.pushState(newWindow, '', newUrl);
-
-    alert('The dynamically created image was clicked!');
+    alert('You succesfully used the "threading" sytem to dynamically create a new .html page for your thread!');
     console.log('You can perform other actions here.');
 }
 
