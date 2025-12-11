@@ -646,6 +646,8 @@ window.onload = makeYouTubeLinksClickable;
   var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
     uploadPreset: 'threadTester', // Replace with your upload preset
+        asset_folder: "my_folder",
+    use_asset_folder_as_public_id_prefix: true
     // Use prepareUploadParams to add custom data
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
@@ -905,14 +907,9 @@ function imageClickHandler() {
   </div>
 </div>
   
-         <h1>Local Comments (User-only visibility)</h1>
-    <div id="comment-box">
-        <form id="comment-form">
-            <textarea id="comment-input" rows="4" cols="50" placeholder="Add a comment..."></textarea><br>
-            <button type="submit">Post Comment</button>
-        </form>
-        <h3>Comments:</h3>
-        <div id="comments-display"></div>
+     <!-- The container for your comment section -->
+    <div id="comment-section-container">
+        <!-- The script will populate this area -->
     </div>
 
    
@@ -929,7 +926,7 @@ function imageClickHandler() {
 
     // Update the URL in the address bar and add a new history entry
     newWindow.pushState(newWindow, '', newUrl);
-    newWindow.attachScriptToNewPage('fakechan/comments.js');
+    newWindow.attachScriptToNewPage('./comments.js');
     alert('The dynamically created image was clicked!');
     console.log('You can perform other actions here.');
 }
