@@ -446,7 +446,10 @@ element.style.visibility = 'hidden';
         }
     </script>
     <div class="parent-container">
-<input type="text"  style="width: 300px; height: 100px;" id="imageDescription" placeholder="Enter text content to accompany your post...">
+      <input type="text"  style="width: 300px; height: 30px;" id="threadTitle" placeholder="Enter a title for your thread...">
+       </div>
+  <div class="parent-container">
+<input type="text"  style="width: 300px; height: 100px;" id="imageDescription" placeholder="Enter text content to accompany your thread...">
  </div>
   <div class="parent-container">
 <form method="POST">
@@ -650,6 +653,8 @@ window.onload = makeYouTubeLinksClickable;
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
         const descriptionValue = descriptionInput.value;
+       const titleInput = document.getElementById('threadTitle');
+        const titleValue = titleInput.value;
            const passwordInput = document.getElementById('generatedPassword');
         const passwordValue = passwordInput.value;
       context: true;
@@ -658,11 +663,13 @@ window.onload = makeYouTubeLinksClickable;
         if (descriptionValue) {
          
            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue;
+            params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'tripcode=' + passwordValue;
+          
+           params.metadata = 'thread_title=' + titleValue;
         }
         cb(params);
     }
@@ -787,6 +794,8 @@ async function loadGallery() {
                 const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
           
              const description = image.context && image.context.custom && image.context.custom.custom_desc ? image.context.custom.custom_desc : 'No description available';
+          
+            const threadtitle = image.context && image.context.custom && image.context.custom.thread_title ? image.context.custom.thread_title : 'No title available';
               
                  const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
             
@@ -877,7 +886,7 @@ a {
        
                   <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
                   <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
-                  <p><strong>Thread Title:</strong></p>
+                  <p><strong>Thread Title: ${threadtitle}</strong></p>
                   <div>
                   <p style="font-size: 20px;">${description}</p>
                      <iframe src="https://japanga.github.io/fakechan/boards/thrdcmnts.html?id=${i + 1}" width="600" height="450">
@@ -923,7 +932,7 @@ a {
        
                   <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
                   <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
-                  <p><strong>Thread Title:</strong></p>
+                  <p><strong>Thread Title: ${threadtitle}</strong></p>
                   <div>
                   <p>${description}</p>
             `;
