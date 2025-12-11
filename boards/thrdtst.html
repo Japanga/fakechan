@@ -550,39 +550,7 @@ element.style.visibility = 'hidden';
 
   <script>
     function createAndOpenNewPage() {
-    // 1. Open a new, blank window/tab
-    const newWindow = window.open("", "_blank");
-
-    if (!newWindow) {
-        alert("Pop-ups blocked. Please allow pop-ups for this site.");
-        return;
-    }
-
-    // 2. Define the full HTML content as a string
-    const newPageContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Dynamically Created Page</title>
-            <style>
-                body { font-family: sans-serif; background-color: #f0f0f0; padding: 20px; }
-                h1 { color: blue; }
-            </style>
-        </head>
-        <body>
-            <h1>Hello from a New Page!</h1>
-            <p>This content was generated entirely by JavaScript.</p>
-            <button onclick="window.close()">Close this window</button>
-        </body>
-        </html>
-    `;
-
-    // 3. Write the content to the new document stream
-    newWindow.document.open();
-    newWindow.document.write(newPageContent);
-    newWindow.document.close();
+   
 }
   </script>
           
@@ -751,7 +719,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
     <script>
       // --- Configuration ---
 const CLOUD_NAME = 'dussuas34'; // Replace with your Cloudinary cloud name
-const TAG = 'threadTester'; // Replace with the tag you assigned to your images
+const TAG = 'random_uploads'; // Replace with the tag you assigned to your images
 const GALLERY_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG}.json`;
 const galleryContainer = document.getElementById('gallery-container');
 
@@ -792,6 +760,45 @@ function getFileSize(url) {
         xhr.send();
     });
 }
+      
+      // 1. Define the function you want to run on click
+function imageClickHandler() {
+   // 1. Open a new, blank window/tab
+    const newWindow = window.open("", "_blank");
+
+    if (!newWindow) {
+        alert("Pop-ups blocked. Please allow pop-ups for this site.");
+        return;
+    }
+
+    // 2. Define the full HTML content as a string
+    const newPageContent = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Dynamically Created Page</title>
+            <style>
+                body { font-family: sans-serif; background-color: #f0f0f0; padding: 20px; }
+                h1 { color: blue; }
+            </style>
+        </head>
+        <body>
+            <h1>Hello from a New Page!</h1>
+            <p>This content was generated entirely by JavaScript.</p>
+            <button onclick="window.close()">Close this window</button>
+        </body>
+        </html>
+    `;
+
+    // 3. Write the content to the new document stream
+    newWindow.document.open();
+    newWindow.document.write(newPageContent);
+    newWindow.document.close();
+    alert('The dynamically created image was clicked!');
+    console.log('You can perform other actions here.');
+}
 
 // --- Main Gallery Logic ---
 async function loadGallery() {
@@ -827,6 +834,7 @@ async function loadGallery() {
             const imgElement = document.createElement('img');
             imgElement.src = imageUrl;
             imgElement.alt = image.public_id;
+           imgElement.addEventListener('click', imageClickHandler);
             galleryItem.appendChild(imgElement);
 
             const infoDiv = document.createElement('div');
