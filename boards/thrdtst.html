@@ -1,6 +1,6 @@
 <!-- Start writing your code here -->
 <!-- Start writing your code here -->
-<!-- Start writing your code here --> 
+<!-- Start writing your code here -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -905,9 +905,14 @@ function imageClickHandler() {
   </div>
 </div>
   
-         <!-- The comments section container -->
-    <div id="comments-container">
-        <!-- The external script will load the comments widget here -->
+         <h1>Local Comments (User-only visibility)</h1>
+    <div id="comment-box">
+        <form id="comment-form">
+            <textarea id="comment-input" rows="4" cols="50" placeholder="Add a comment..."></textarea><br>
+            <button type="submit">Post Comment</button>
+        </form>
+        <h3>Comments:</h3>
+        <div id="comments-display"></div>
     </div>
 
    
