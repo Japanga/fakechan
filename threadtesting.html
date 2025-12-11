@@ -3,79 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloudinary Image Uploader</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Cloudinary Thread Creator</title>
+    <!-- Include the Cloudinary Upload Widget script -->
+    <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        .new-thread-form { margin-bottom: 20px; padding: 20px; border: 1px solid #ccc; }
+        #threadTitle { width: 100%; padding: 10px; margin-bottom: 10px; }
+        #open-widget-btn { padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        #threadList { margin-top: 20px; }
+        .thread { border: 1px solid #eee; padding: 15px; margin-bottom: 10px; }
+        .thread h3 { margin-top: 0; }
+        .thread img, .thread video { max-width: 100%; margin-top: 10px; }
+    </style>
 </head>
 <body>
-    <h1>Upload Images</h1>
-    <input type="file" id="imageUpload" multiple accept="image/*">
-    <button id="uploadButton">Upload to Cloudinary</button>
+    <div class="container">
+        <h1>Frontend Thread Page Creator</h1>
 
-    <h2>Uploaded Images</h2>
-    <div id="imageGrid" class="image-grid">
-        <!-- Images will be dynamically added here -->
+        <div class="new-thread-form">
+            <h2>Create a New Thread</h2>
+            <input type="text" id="threadTitle" placeholder="Enter thread title">
+            <button id="open-widget-btn">Upload Image/Video and Post</button>
+        </div>
+
+        <h2>Existing Threads</h2>
+        <div id="threadList">
+            <!-- Threads will be dynamically added here -->
+        </div>
     </div>
 
-    <script>
-      // script.js
-const imageUpload = document.getElementById('imageUpload');
-const uploadButton = document.getElementById('uploadButton');
-const imageGrid = document.getElementById('imageGrid');
+    <script type="text/javascript">
+        // !!! REPLACE WITH YOUR CLOUD NAME AND UNSIGNED UPLOAD PRESET NAME !!!
+        const CLOUD_NAME = 'dussuas34'; 
+        const UPLOAD_PRESET = 'threadTester';
 
-// Replace with your actual Cloudinary credentials and upload preset
-const CLOUDINARY_URL = 'dussuas34';  
-const CLOUDINARY_UPLOAD_PRESET = 'threadTester';
+        const threadListEl = document.getElementById('threadList');
+        const threadTitleInput = document.getElementById('threadTitle'); 
 
-uploadButton.addEventListener('click', async () => {
-    const files = imageUpload.files;
-    if (!files.length) return;
+        // Function to handle the upload and thread creation
+        const myWidget = cloudinary.createUploadWidget(
+            {
+                cloudName: CLOUD_NAME,
+                uploadPreset: UPLOAD_PRESET,
+                sources: ['local', 'url', 'camera']
+            },
+            (error, result) => {
+                if (!error && result && result.event === "success") {
+                    console.log('Done uploading:', result.info);
+                    const mediaUrl = result.info.secure_url;
+                    const mediaType = result.info.resource_type;
+                    const title = threadTitleInput.value || 'Untitled Thread';
+                    
+                    addThread(title, mediaUrl, mediaType);
+                    saveThreadToLocalStorage(title, mediaUrl, mediaType);
+                    threadTitleInput.value = ''; // Clear input after posting
+                }
+            }
+        );
 
-    for (const file of files) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+        // Function to open the widget
+        document.getElementById("open-widget-btn").addEventListener("click", function(e){
+            e.preventDefault();
+            if (!CLOUD_NAME || CLOUD_NAME === 'YOUR_CLOUD_NAME') {
+                alert("Please replace YOUR_CLOUD_NAME and YOUR_UNSIGNED_UPLOAD_PRESET in the script.");
+                return;
+            }
+            myWidget.open();
+        }, false);
 
-        try {
-            const response = await fetch(CLOUDINARY_URL, {
-                method: 'POST',
-                body: formData,
-            });
-            const data = await response.json();
-            const imageUrl = data.secure_url;
-            const publicId = data.public_id; // Get public_id for individual page
+        // Function to display a new thread on the page
+        function addThread(title, mediaUrl, mediaType) {
+            const threadDiv = document.createElement('div');
+            threadDiv.classList.add('thread');
+            
+            let mediaHtml = '';
+            if (mediaType === 'image') {
+                mediaHtml = `<img src="${mediaUrl}" alt="${title}">`;
+            } else if (mediaType === 'video') {
+                mediaHtml = `<video controls src="${mediaUrl}"></video>`;
+            }
 
-            // Create image element and link
-            const imageWrapper = document.createElement('a');
-            imageWrapper.href = `image-details.html?public_id=${publicId}`; // Link to details page
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            imageWrapper.appendChild(img);
-            imageGrid.appendChild(imageWrapper);
-
-        } catch (error) {
-            console.error('Error uploading image:', error);
+            threadDiv.innerHTML = `
+                <h3>${title}</h3>
+                ${mediaHtml}
+                <p><small>URL: <a href="${mediaUrl}" target="_blank">${mediaUrl}</a></small></p>
+            `;
+            threadListEl.prepend(threadDiv); // Add to the top
         }
-    }
-});
 
-  </script>
-  
-  
-   <style>
-     .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    padding: 20px;
-}
+        // Functions for very basic persistence without a backend (localStorage)
+        function saveThreadToLocalStorage(title, mediaUrl, mediaType) {
+            const threads = JSON.parse(localStorage.getItem('forumThreads')) || [];
+            threads.push({ title, mediaUrl, mediaType });
+            localStorage.setItem('forumThreads', JSON.stringify(threads));
+        }
 
-.image-grid img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-  </style>
+        function loadThreadsFromLocalStorage() {
+            const threads = JSON.parse(localStorage.getItem('forumThreads')) || [];
+            // Display threads in reverse order (newest first)
+            for (let i = threads.length - 1; i >= 0; i--) {
+                const thread = threads[i];
+                addThread(thread.title, thread.mediaUrl, thread.mediaType);
+            }
+        }
+
+        // Load existing threads on page load
+        loadThreadsFromLocalStorage();
+    </script>
+
 </body>
 </html>
