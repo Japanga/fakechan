@@ -835,6 +835,7 @@ async function loadGallery() {
             imgElement.src = imageUrl;
             imgElement.alt = image.public_id;
            imgElement.addEventListener('click', imageClickHandler);
+          imgElement.style.cursor = 'pointer';
             galleryItem.appendChild(imgElement);
 
             const infoDiv = document.createElement('div');
