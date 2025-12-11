@@ -1,29 +1,52 @@
 // comments.js
+     // JavaScript for dynamic functionality
+        const commentContainer = document.getElementById('allComments');
+        const addCommentBtn = document.getElementById('addCommentBtn');
+        const newCommentTextarea = document.getElementById('newComment');
 
-function loadComments(pageId) {
-    // 1. Fetch comments for the specific pageId from your API
-    // (e.g., fetch(`/api/comments?pageId=${pageId}`).then(...) )
+        // Function to create a new comment element
+        function createCommentElement(commentText) {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
 
-    // 2. Once fetched, create the HTML elements and append them
-    const commentContainer = document.getElementById('comment-section-container');
-    if (!commentContainer) return;
+            const authorPara = document.createElement('p');
+            authorPara.classList.add('comment-author');
+            authorPara.textContent = 'Anonymous User'; // You could add user input for this
 
-    // Example: Create an input form
-    const form = document.createElement('form');
-    // Add form elements like textarea, submit button, and event listeners
-    // ...
+            const bodyPara = document.createElement('p');
+            bodyPara.classList.add('comment-body');
+            bodyPara.textContent = commentText;
 
-    // Example: Display existing comments
-    const commentsList = document.createElement('div');
-    commentsList.id = 'allComments';
-    // Loop through fetched comments and create div/li elements for each
-    // ...
+            commentDiv.appendChild(authorPara);
+            commentDiv.appendChild(bodyPara);
 
-    commentContainer.appendChild(form);
-    commentContainer.appendChild(commentsList);
-}
+            return commentDiv;
+        }
 
-function submitComment(pageId, commentText) {
-    // 1. Send the new comment data to your server-side API
-    // 2. On success, dynamically add the new comment to the commentsList in the DOM
-}
+        // Function to add a new comment to the DOM and local storage
+        function addComment() {
+            const commentText = newCommentTextarea.value.trim();
+
+            if (commentText !== '') {
+                const commentElement = createCommentElement(commentText);
+                commentContainer.appendChild(commentElement); // Append new comment
+                newCommentTextarea.value = ''; // Clear textarea
+
+                // Optional: Save comments to localStorage (as a simple innerHTML string)
+                localStorage.setItem('commentListing', commentContainer.innerHTML);
+            }
+        }
+
+        // Function to load comments from local storage on page load
+        function loadComments() {
+            const savedComments = localStorage.getItem('commentListing');
+            if (savedComments) {
+                commentContainer.innerHTML = savedComments;
+            }
+        }
+
+        // Event listener for the add comment button
+        addCommentBtn.addEventListener('click', addComment);
+
+        // Load existing comments when the page loads
+        loadComments();
