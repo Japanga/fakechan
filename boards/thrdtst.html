@@ -924,7 +924,7 @@ function imageClickHandler() {
 
     // Update the URL in the address bar and add a new history entry
     newWindow.pushState(newWindow, '', newUrl);
-    newWindow.attachScriptToNewPage('comments.js');
+    newWindow.attachScriptToNewPage('fakechan/comments.js');
     alert('The dynamically created image was clicked!');
     console.log('You can perform other actions here.');
 }
