@@ -1,4 +1,4 @@
-// comments-loader.js (example conceptual structure)
+// comments.js (example conceptual structure)
 (function() {
     // Code provided by the third-party service (e.g., Disqus, Utterances)
     // This script typically creates an iframe or fetches comments via an API 
