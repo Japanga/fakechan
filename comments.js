@@ -1,19 +1,38 @@
-// comments.js (example conceptual structure)
-(function() {
-    // Code provided by the third-party service (e.g., Disqus, Utterances)
-    // This script typically creates an iframe or fetches comments via an API 
-    // and injects them into the 'comments-container' div.
-    
-    // Example for Utterances (you need to replace with your repo details):
-    var scriptEl = document.createElement("script");
-    scriptEl.setAttribute("src", "https://utteranc.es/client.js");
-    scriptEl.setAttribute("crossorigin", "anonymous");
-    scriptEl.setAttribute("async", true);
-    scriptEl.setAttribute("repo", "yourgithubusername/yourrepositoryname"); // Replace with your info
-    scriptEl.setAttribute("issue-term", "pathname");
-    scriptEl.setAttribute("theme", "github-light");
-    var container = document.getElementById("comments-container");
-    if (container) {
-        container.appendChild(scriptEl);
+// comments.js
+document.getElementById('comment-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevents the page from reloading
+
+    const commentInput = document.getElementById('comment-input');
+    const commentText = commentInput.value;
+
+    if (commentText.trim() !== '') {
+        // Retrieve existing comments or initialize an empty array
+        const existingComments = JSON.parse(localStorage.getItem('pageComments')) || [];
+
+        // Add new comment
+        existingComments.push(commentText);
+
+        // Save back to localStorage (must stringify for storage)
+        localStorage.setItem('pageComments', JSON.stringify(existingComments));
+
+        // Display the new comment without reloading
+        displayComments();
+        commentInput.value = ''; // Clear input
     }
-})();
+});
+
+function displayComments() {
+    const commentsDisplay = document.getElementById('comments-display');
+    commentsDisplay.innerHTML = ''; // Clear current display
+
+    const storedComments = JSON.parse(localStorage.getItem('pageComments')) || [];
+
+    storedComments.forEach(comment => {
+        const commentPara = document.createElement('p');
+        commentPara.textContent = comment;
+        commentsDisplay.appendChild(commentPara);
+    });
+}
+
+// Load comments when the script first runs
+displayComments();
