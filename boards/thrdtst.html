@@ -905,19 +905,20 @@ function imageClickHandler() {
   </div>
 </div>
   
-      <div class="container">
-        <h2>Reply to Thread</h2>
+        <div id="comment-section">
+        <h3>Leave a Comment</h3>
         <form id="comment-form">
-            <textarea id="comment-text" placeholder="Add your comment" required></textarea>
+            <label for="comment-input">Your Comment:</label><br>
+            <textarea id="comment-input" rows="4" required></textarea><br>
             <button type="submit">Post Comment</button>
         </form>
-        <div class="comments-section">
-            <h2>Posts</h2>
-            <div id="comments-container">
-                <!-- Comments will be appended here by JavaScript -->
-            </div>
+        
+        <h4>Comments:</h4>
+        <div id="comments-container">
+            <!-- New comments will be added here by JavaScript -->
         </div>
     </div>
+
    
 </body>
 </html>
