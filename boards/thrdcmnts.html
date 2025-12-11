@@ -67,7 +67,7 @@
                 // Add new comments at the top
                 commentsSection.insertBefore(commentDiv, commentsSection.firstChild); 
             });
-        }
+        } 
 
         // 5. Add a new comment
         function addComment() {
@@ -80,6 +80,7 @@
             displayComments(); // Refresh the display
 
             newCommentText.value = ''; // Clear the input field
+           location.reload(true);
         }
 
         // Initialize the page on load
