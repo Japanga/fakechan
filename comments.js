@@ -1,38 +1,29 @@
 // comments.js
-document.getElementById('comment-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevents the page from reloading
 
-    const commentInput = document.getElementById('comment-input');
-    const commentText = commentInput.value;
+function loadComments(pageId) {
+    // 1. Fetch comments for the specific pageId from your API
+    // (e.g., fetch(`/api/comments?pageId=${pageId}`).then(...) )
 
-    if (commentText.trim() !== '') {
-        // Retrieve existing comments or initialize an empty array
-        const existingComments = JSON.parse(localStorage.getItem('pageComments')) || [];
+    // 2. Once fetched, create the HTML elements and append them
+    const commentContainer = document.getElementById('comment-section-container');
+    if (!commentContainer) return;
 
-        // Add new comment
-        existingComments.push(commentText);
+    // Example: Create an input form
+    const form = document.createElement('form');
+    // Add form elements like textarea, submit button, and event listeners
+    // ...
 
-        // Save back to localStorage (must stringify for storage)
-        localStorage.setItem('pageComments', JSON.stringify(existingComments));
+    // Example: Display existing comments
+    const commentsList = document.createElement('div');
+    commentsList.id = 'allComments';
+    // Loop through fetched comments and create div/li elements for each
+    // ...
 
-        // Display the new comment without reloading
-        displayComments();
-        commentInput.value = ''; // Clear input
-    }
-});
-
-function displayComments() {
-    const commentsDisplay = document.getElementById('comments-display');
-    commentsDisplay.innerHTML = ''; // Clear current display
-
-    const storedComments = JSON.parse(localStorage.getItem('pageComments')) || [];
-
-    storedComments.forEach(comment => {
-        const commentPara = document.createElement('p');
-        commentPara.textContent = comment;
-        commentsDisplay.appendChild(commentPara);
-    });
+    commentContainer.appendChild(form);
+    commentContainer.appendChild(commentsList);
 }
 
-// Load comments when the script first runs
-displayComments();
+function submitComment(pageId, commentText) {
+    // 1. Send the new comment data to your server-side API
+    // 2. On success, dynamically add the new comment to the commentsList in the DOM
+}
