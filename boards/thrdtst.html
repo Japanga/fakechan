@@ -724,7 +724,7 @@ const GALLERY_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG}.
 const galleryContainer = document.getElementById('gallery-container');
 
 // --- Helper Function 1: Format file size bytes ---
-/**
+/** 
  * Formats bytes into a human-readable string (KB, MB, GB).
  * @param {number} bytes - The file size in bytes.
  * @returns {string} The formatted file size string.
@@ -760,45 +760,6 @@ function getFileSize(url) {
         xhr.send();
     });
 }
-      
-      // 1. Define the function you want to run on click
-function imageClickHandler() {
-   // 1. Open a new, blank window/tab
-    const newWindow = window.open("", "_blank");
-
-    if (!newWindow) {
-        alert("Pop-ups blocked. Please allow pop-ups for this site.");
-        return;
-    }
-
-    // 2. Define the full HTML content as a string
-    const newPageContent = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Dynamically Created Page</title>
-            <style>
-                body { font-family: sans-serif; background-color: #f0f0f0; padding: 20px; }
-                h1 { color: blue; }
-            </style>
-        </head>
-        <body>
-            <h1>Hello from a New Page!</h1>
-            <p>This content was generated entirely by JavaScript.</p>
-            <button onclick="window.close()">Close this window</button>
-        </body>
-        </html>
-    `;
-
-    // 3. Write the content to the new document stream
-    newWindow.document.open();
-    newWindow.document.write(newPageContent);
-    newWindow.document.close();
-    alert('The dynamically created image was clicked!');
-    console.log('You can perform other actions here.');
-}
 
 // --- Main Gallery Logic ---
 async function loadGallery() {
@@ -813,12 +774,67 @@ async function loadGallery() {
         // Sort images by creation date: oldest first (ascending order)
         // Cloudinary provides a 'created_at' timestamp
         images.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      
+
 
         // Process and display images
         for (let i = 0; i < images.length; i++) {
             const image = images[i];
             const imageUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
           
+                      
+      // 1. Define the function you want to run on click
+function imageClickHandler() {
+   // 1. Open a new, blank window/tab
+    const newWindow = window.open("", "_blank");
+
+    if (!newWindow) {
+        alert("Pop-ups blocked. Please allow pop-ups for this site.");
+        return;
+    }
+
+    // 2. Define the full HTML content as a string
+    const newPageContent = `
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeChan Thread</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific styles for the details page */
+        .details-container {
+            padding: 20px;
+        }
+        .details-image {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="details-container">
+        <a href="gallery.html">Return to Board</a>
+        <h1 id="image-title"></h1>
+        <img id="main-image" class="details-image" src="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}" alt="Selected image">
+     
+   
+</body>
+</html>
+    `;
+
+    // 3. Write the content to the new document stream
+    newWindow.document.open();
+    newWindow.document.write(newPageContent);
+    newWindow.document.close();
+    alert('The dynamically created image was clicked!');
+    console.log('You can perform other actions here.');
+}
+
             const creationDate = new Date(image.created_at);
                 const dayOfWeek = creationDate.toLocaleString('en-US', { weekday: 'short' });
                 const dateString = creationDate.toLocaleString(); // Includes date, day, and hour
