@@ -37,7 +37,7 @@
             const params = new URLSearchParams(window.location.search);
             // Default to 'general' if no ID is provided in the URL
             currentPublicId = params.get('id') || 'general';
-            publicIdDisplay.textContent = 'Viewing all replies in thread No. : ' + currentPublicId;
+            publicIdDisplay.textContent = 'Viewing all replies in thread No: ' + currentPublicId;
         }
 
         // 2. Load comments for the current public_id from localStorage
