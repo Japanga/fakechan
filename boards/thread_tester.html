@@ -790,11 +790,45 @@ async function loadGallery() {
               
                  const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
             
+          
+          function attachScriptToNewPage(scriptUrl) {
+    // 1. Open a new window and get a reference to it
+    const newWindow = window.open("", "_blank");
+    if (!newWindow) {
+        alert("Please allow pop-ups for this function to work.");
+        return;
+    }
+
+    // 2. Write the initial HTML content
+    newWindow.document.open();
+    newWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Dynamically Created Page</title>
+        </head>
+        <body>
+            <h1>This is the new page.</h1>
+            <p id="content">The script will add content here.</p>
+        </body>
+        </html>
+    `);
+    newWindow.document.close(); // Close the document to finish writing the initial structure
+
+    // 3. Create a new script element for the new document
+    const script = newWindow.document.createElement('script');
+    script.src = scriptUrl;
+    script.defer = true; // Use 'defer' for best performance
+
+    // 4. Append the script element to the new document's body
+    // Appending to the body ensures all elements are available when the script runs
+    newWindow.document.body.appendChild(script);
+}
                       
       // 1. Define the function you want to run on click
 function imageClickHandler() {
    // 1. Open a new, blank window/tab
-    const newWindow = window.open("", "_blank");
+    const newWindow = window.open("");
 
     if (!newWindow) {
         alert("Pop-ups blocked. Please allow pop-ups for this site.");
@@ -827,6 +861,21 @@ function imageClickHandler() {
   grid-template-columns: 1fr 2fr; /* Creates two columns: one for the image (1 part) and one for the sidebar (2 parts) */
   gap: 20px; /* Adds space between columns */
 }
+      textarea {
+    width: 180%;
+        height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+
+
+.comment {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
 
 .grid-container img {
   width: 100%; /* Ensures the image fits within its grid column */
@@ -841,7 +890,7 @@ function imageClickHandler() {
 </head>
 <body>
 <div class="grid-container">
-        <a href="gallery.html">Return to Board</a>
+        <a href="/fakechan/boards/thrdtst">Return to Board</a>
         <h1 id="image-title"></h1>
         <img id="main-image" class="details-image" src="https://res.cloudinary.com/dussuas34/image/upload/1765205620106_ivbcr5.jpg" alt="Selected image">
     <div class="sidebar-info-grid">
@@ -856,8 +905,19 @@ function imageClickHandler() {
   </div>
 </div>
   
-     
-      
+      <div class="container">
+        <h2>Reply to Thread</h2>
+        <form id="comment-form">
+            <textarea id="comment-text" placeholder="Add your comment" required></textarea>
+            <button type="submit">Post Comment</button>
+        </form>
+        <div class="comments-section">
+            <h2>Posts</h2>
+            <div id="comments-container">
+                <!-- Comments will be appended here by JavaScript -->
+            </div>
+        </div>
+    </div>
    
 </body>
 </html>
@@ -867,6 +927,12 @@ function imageClickHandler() {
     newWindow.document.open();
     newWindow.document.write(newPageContent);
     newWindow.document.close();
+     const stateObj = { itemId: 123, view: 'item-detail' };
+    const newUrl = '/items/123';
+
+    // Update the URL in the address bar and add a new history entry
+    newWindow.pushState(newWindow, '', newUrl);
+    newWindow.attachScriptToNewPage('comments.js');
     alert('The dynamically created image was clicked!');
     console.log('You can perform other actions here.');
 }
