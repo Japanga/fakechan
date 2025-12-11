@@ -3,72 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Comments Section</title>
+    <title>Dynamic Comments Section</title>
     <style>
         body { font-family: sans-serif; max-width: 600px; margin: 20px auto; }
-        .comment-container { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-        textarea { width: 100%; height: 80px; margin-bottom: 10px; }
-        button { padding: 8px 12px; }
-        #comment-list { margin-top: 20px; }
+        .comment-container { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+        textarea { width: 100%; height: 60px; margin-bottom: 10px; }
+        button { padding: 5px 10px; }
+        .comment { padding: 5px 0; border-bottom: 1px solid #eee; }
+        #publicIdDisplay { font-weight: bold; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <h1>Reply to thread</h1>
-
-    <textarea id="comment-input" placeholder="Write your comment..."></textarea>
-    <button onclick="addComment()">Add Comment</button>
+    <div id="publicIdDisplay"></div>
 
     <h2>Comments</h2>
-    <div id="comment-list">
-        <!-- Comments will be loaded here by JavaScript -->
+    <div id="commentsSection">
+        <!-- Comments will be dynamically inserted here -->
     </div>
 
-    <script>
-        const COMMENT_STORAGE_KEY = 'pageComments';
-        const commentInput = document.getElementById('comment-input');
-        const commentList = document.getElementById('comment-list');
+    <h3>Add a comment</h3>
+    <textarea id="newCommentText" placeholder="Write your comment here..."></textarea>
+    <button onclick="addComment()">Post Comment</button>
 
-        // Function to load comments from localStorage
+    <script>
+        const commentsSection = document.getElementById('commentsSection');
+        const newCommentText = document.getElementById('newCommentText');
+        const publicIdDisplay = document.getElementById('publicIdDisplay');
+        let currentPublicId = '';
+
+        // 1. Get the current public_id from the URL
+        function getPublicId() {
+            const params = new URLSearchParams(window.location.search);
+            // Default to 'general' if no ID is provided in the URL
+            currentPublicId = params.get('id') || 'general';
+            publicIdDisplay.textContent = 'Current Public ID: ' + currentPublicId;
+        }
+
+        // 2. Load comments for the current public_id from localStorage
         function loadComments() {
-            const comments = JSON.parse(localStorage.getItem(COMMENT_STORAGE_KEY)) || [];
-            commentList.innerHTML = ''; // Clear existing comments
+            const storedComments = localStorage.getItem('comments_' + currentPublicId);
+            return storedComments ? JSON.parse(storedComments) : [];
+        }
+
+        // 3. Save comments to localStorage
+        function saveComments(comments) {
+            localStorage.setItem('comments_' + currentPublicId, JSON.stringify(comments));
+        }
+
+        // 4. Display comments in the HTML
+        function displayComments() {
+            const comments = loadComments();
+            commentsSection.innerHTML = '';
             comments.forEach(commentText => {
-                displayComment(commentText);
+                const commentDiv = document.createElement('div');
+                commentDiv.classList.add('comment');
+                commentDiv.textContent = commentText;
+                // Add new comments at the top
+                commentsSection.insertBefore(commentDiv, commentsSection.firstChild); 
             });
         }
 
-        // Function to display a single comment
-        function displayComment(text) {
-            const div = document.createElement('div');
-            div.className = 'comment-container';
-            div.textContent = text;
-            commentList.appendChild(div);
-        }
-
-        // Function to add a new comment
+        // 5. Add a new comment
         function addComment() {
-            const newComment = commentInput.value.trim();
+            const commentText = newCommentText.value.trim();
+            if (commentText === '') return;
 
-            if (newComment !== '') {
-                // 1. Get existing comments
-                const comments = JSON.parse(localStorage.getItem(COMMENT_STORAGE_KEY)) || [];
+            const comments = loadComments();
+            comments.push(commentText); // Add the new comment
+            saveComments(comments); // Save the updated list
+            displayComments(); // Refresh the display
 
-                // 2. Add the new comment
-                comments.push(newComment);
-
-                // 3. Save the updated list back to localStorage
-                localStorage.setItem(COMMENT_STORAGE_KEY, JSON.stringify(comments));
-
-                // 4. Display the new comment and clear the input
-                displayComment(newComment);
-                commentInput.value = '';
-            }
+            newCommentText.value = ''; // Clear the input field
         }
 
-        // Load comments when the page loads
-        window.onload = loadComments;
-    </script>
+        // Initialize the page on load
+        getPublicId();
+        displayComments();
 
+    </script>
 </body>
 </html>
