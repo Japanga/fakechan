@@ -851,17 +851,14 @@ a {
 .grid-container img {
   width: 100%; /* Ensures the image fits within its grid column */
   height: auto;
+  transform: scale(1.2);
+
 }
 
 .sidebar-info-grid h2 {
     margin-top: 0;
 }
-.scale-down-item {
 
-   position: relative; /* or absolute, fixed, or sticky */
-  top: -10px; /* Moves the element 20px UP (negative value) */
-  left: -20px; 
-}
     </style>
   
 </head>
@@ -881,14 +878,14 @@ a {
                   <p style="font-size: 20px;">${description}</p>
            </div>       
            
-    <div class="scale-down-item">       
+  
    <iframe src="https://japanga.github.io/fakechan/boards/thrdcmnts2.html?id=${i + 1}" width="600" height="450">
         Your browser does not support iframes.
     </iframe>
     <!-- The iframe element. The 'src' attribute points to the comments page. -->
     </div>  
   </div>
-</div>
+
 
 
 
