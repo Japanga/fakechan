@@ -801,7 +801,7 @@ function imageClickHandler() {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image and Text Layout</title>
+    <title>FakeChan Thread</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -828,7 +828,7 @@ function imageClickHandler() {
             </p>
           
             
-   <iframe src="https://japanga.github.io/fakechan/boards/thrdcmnts2.html?id=${i + 1}" width="400" height="300">
+   <iframe src="https://japanga.github.io/fakechan/boards/thrdcmnts2.html?id=${i + 1}" width="450" height="300">
         Your browser does not support iframes.
     </iframe>
      
@@ -860,7 +860,7 @@ a {
     display: flex;
     flex-direction: column; /* Stacks the image and text vertically */
     line-height: 0.9; /* A unitless value of 1 sets the line height equal to the font size */
-  font-size: 11px; 
+  font-size: 12px; 
 }
 
 .image-section img {
@@ -970,6 +970,17 @@ loadGallery();
 
             
 <style>
+  /* State when the user hovers over the image */
+.gallery-item:hover {
+  /* Example Effect 1: Scale (zoom in) */
+  transform: scale(1.1);
+
+  /* Example Effect 2: Change opacity */
+  opacity: 0.8;
+
+  /* Example Effect 3: Add a shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+}
   #my-gallery {
      display: block;
      object-fit: cover;
