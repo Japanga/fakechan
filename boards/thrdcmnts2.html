@@ -8,14 +8,17 @@
 </head>
 <body>
     <div class="container">
-        <h1>Comments for Page ID: <span id="page-id-display"></span></h1>
-        <div id="comment-section">
-            <h2>Add a Comment</h2>
-            <textarea id="new-comment-text" placeholder="Write a comment..."></textarea>
-            <button id="add-comment-btn">Post Comment</button>
-            <h2>Comments</h2>
-            <div id="all-comments">
-                <!-- Comments will be loaded here by JavaScript -->
+  
+  <div id="cusdis_thread"
+  data-host="https://cusdis.com"
+  data-app-id="120fe0d1-658b-4678-bb5b-802b42ece623"
+  data-page-id="{{ PAGE_ID }}"
+  data-page-url="{{ PAGE_URL }}"
+  data-page-title="{{ PAGE_TITLE }}"
+></div>
+<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+ 
+
             </div>
         </div>
     </div>
@@ -67,91 +70,6 @@ button {
 }
 
   </style>
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-    const commentBtn = document.getElementById('add-comment-btn');
-    const commentTextarea = document.getElementById('new-comment-text');
-    const commentsContainer = document.getElementById('all-comments');
-    const pageIdDisplay = document.getElementById('page-id-display');
-
-    // 1. Get the current page ID from the URL query parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const pageId = urlParams.get('id');
-
-    if (!pageId) {
-        pageIdDisplay.textContent = 'N/A (No ID found in URL)';
-        // Disable comment functionality if no ID is present
-        commentBtn.disabled = true;
-        commentTextarea.disabled = true;
-        commentTextarea.placeholder = "Cannot post comments without a valid page ID in the URL (e.g., ?id=1)";
-        return;
-    }
-
-    pageIdDisplay.textContent = pageId;
-    const localStorageKey = `comments_${pageId}`;
-
-    // 2. Load comments from localStorage
-    function loadComments() {
-        commentsContainer.innerHTML = ''; // Clear existing comments
-        const storedComments = JSON.parse(localStorage.getItem(localStorageKey)) || [];
-
-        storedComments.forEach(commentData => {
-            addCommentToDOM(commentData, false);
-        });
-    }
-
-    // 3. Add a new comment (to DOM and localStorage)
-    function addComment(event) {
-        const commentText = commentTextarea.value.trim();
-
-        if (commentText === '') return;
-
-        const newCommentData = {
-            text: commentText,
-            date: new Date().toISOString() // Append current date
-        };
-
-        // Save to localStorage
-        const storedComments = JSON.parse(localStorage.getItem(localStorageKey)) || [];
-        storedComments.push(newCommentData);
-        localStorage.setItem(localStorageKey, JSON.stringify(storedComments));
-
-        // Add to DOM
-        addCommentToDOM(newCommentData, true);
-
-        // Clear textarea
-        commentTextarea.value = '';
-    }
-
-    // 4. Create and append comment element to the page
-    function addCommentToDOM(commentData, prepend) {
-        const commentDiv = document.createElement('div');
-        commentDiv.classList.add('comment');
-
-        const textPara = document.createElement('p');
-        textPara.textContent = commentData.text;
-
-        const dateSpan = document.createElement('span');
-        // Format the date nicely for display
-        dateSpan.textContent = new Date(commentData.date).toLocaleString();
-        dateSpan.classList.add('comment-date');
-
-        commentDiv.appendChild(textPara);
-        commentDiv.appendChild(dateSpan);
-
-        if (prepend) {
-            commentsContainer.insertBefore(commentDiv, commentsContainer.firstChild);
-        } else {
-            commentsContainer.appendChild(commentDiv);
-        }
-    }
-
-    // Event Listener for the button
-    commentBtn.addEventListener('click', addComment);
-
-    // Initial load of comments when the page loads
-    loadComments();
-});
-  </script>
+   
 </body>
 </html>
