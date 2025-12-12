@@ -2,97 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Comments Section</title>
-    <style>
-        .comment {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .comment-header {
-            font-size: 0.8em;
-            color: #666;
-        }
-        .comment-text {
-            margin-top: 5px;
-        }
-    </style>
+    <title>Comments Section</title>
 </head>
 <body>
-    <h1>Comments Section</h1>
+    <h1>Comments for Page ID: <span id="page-id-display"></span></h1>
     
+    <div id="comments-container">
+        <!-- Comments will be loaded here by JavaScript -->
+    </div>
+
     <form id="comment-form">
-        <textarea id="comment-input" placeholder="Add a comment..." rows="4" required></textarea><br>
+        <textarea id="comment-input" placeholder="Add a comment..." required></textarea><br>
         <button type="submit">Post Comment</button>
     </form>
 
-    <div id="comments-container">
-        <!-- Comments will be dynamically inserted here -->
-    </div>
-
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+    const commentsContainer = document.getElementById('comments-container');
     const commentForm = document.getElementById('comment-form');
     const commentInput = document.getElementById('comment-input');
-    const commentsContainer = document.getElementById('comments-container');
-    const STORAGE_KEY = 'frontend_comments';
+    const pageIdDisplay = document.getElementById('page-id-display');
 
-    // Function to retrieve comments from localStorage
-    function getComments() {
-        const commentsString = localStorage.getItem(STORAGE_KEY);
-        return commentsString ? JSON.parse(commentsString) : [];
+    // 1. Get the current page ID from the URL (e.g., ?id=1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageId = urlParams.get('id') || 'general'; // Default to 'general' if no ID
+    pageIdDisplay.textContent = pageId;
+    const STORAGE_KEY = `comments_${pageId}`;
+
+    // 2. Load comments from localStorage
+    function loadComments() {
+        commentsContainer.innerHTML = ''; // Clear existing comments
+        const storedComments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        
+        storedComments.forEach(commentData => {
+            displayComment(commentData);
+        });
     }
 
-    // Function to save comments to localStorage
-    function saveComments(comments) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
-    }
-
-    // Function to render a single comment
-    function renderComment(comment) {
+    // 3. Display a single comment
+    function displayComment(commentData) {
         const commentDiv = document.createElement('div');
         commentDiv.classList.add('comment');
-        commentDiv.setAttribute('data-id', comment.id);
+        commentDiv.style.border = '1px solid #ccc';
+        commentDiv.style.padding = '10px';
+        commentDiv.style.marginBottom = '10px';
 
-        const headerDiv = document.createElement('div');
-        headerDiv.classList.add('comment-header');
-        headerDiv.textContent = `Posted on: ${new Date(comment.date).toLocaleString()}`;
-
-        const textDiv = document.createElement('div');
-        textDiv.classList.add('comment-text');
-        textDiv.textContent = comment.text;
-
-        commentDiv.appendChild(headerDiv);
-        commentDiv.appendChild(textDiv);
-        commentsContainer.prepend(commentDiv); // Add new comments to the top
+        commentDiv.innerHTML = `
+            <p>${commentData.text}</p>
+            <small>Posted on: ${new Date(commentData.date).toLocaleString()}</small>
+        `;
+        commentsContainer.appendChild(commentDiv);
     }
 
-    // Function to render all stored comments on page load
-    function loadComments() {
-        const comments = getComments();
-        comments.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
-        comments.forEach(renderComment);
-    }
-
-    // Event listener for form submission
+    // 4. Handle form submission and save new comments
     commentForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const commentText = commentInput.value.trim();
+        const newCommentText = commentInput.value;
+        if (!newCommentText.trim()) return;
 
-        if (commentText !== '') {
-            const newComment = { 
-                id: Date.now(), // Use timestamp as a simple unique ID
-                text: commentText,
-                date: new Date().toISOString(),
-            };
+        const commentData = {
+            text: newCommentText,
+            date: new Date().toISOString(), // Use ISO string for consistent storage
+            id: Date.now() // Simple unique ID
+        };
 
-            const comments = getComments();
-            comments.push(newComment);
-            saveComments(comments);
-            renderComment(newComment);
-            commentInput.value = ''; // Clear the input field
-        }
+        // Save to localStorage
+        const storedComments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        storedComments.push(commentData);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(storedComments));
+
+        // Display the new comment and clear the input
+        displayComment(commentData);
+        commentInput.value = '';
     });
 
     // Initial load
