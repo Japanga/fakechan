@@ -3,90 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Comments Section</title>
+    <title>Frontend Comments Section</title>
     <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 20px auto;    background-image: linear-gradient(#F7B48D
-, #FFFDFC
-); }
-        .comment-container { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
-        textarea { width: 100%; height: 60px; margin-bottom: 10px; }
-        button { padding: 5px 10px; }
-        .comment { padding: 5px 0; border-bottom: 1px solid #eee; }
-        #publicIdDisplay { font-weight: bold; margin-bottom: 10px; }
+        .comment {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .comment-header {
+            font-size: 0.8em;
+            color: #666;
+        }
+        .comment-text {
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
-  
-  
- <span style="color: darkred;">
-   <i> <p>(Each board has their own respective post comments feed, assigned the numbers data system to create a unique feed for each image)</p></i>
-    <div id="publicIdDisplay"></div>
+    <h1>Comments Section</h1>
+    
+    <form id="comment-form">
+        <textarea id="comment-input" placeholder="Add a comment..." rows="4" required></textarea><br>
+        <button type="submit">Post Comment</button>
+    </form>
 
-    <h2>Posts:</h2>
-    <div id="commentsSection">
+    <div id="comments-container">
         <!-- Comments will be dynamically inserted here -->
     </div>
 
-    <h3>Add a reply</h3>
-    <textarea id="newCommentText" placeholder="Write your comment here..."></textarea>
-    <button onclick="addComment()">Post Comment</button>
-
     <script>
-        const commentsSection = document.getElementById('commentsSection');
-        const newCommentText = document.getElementById('newCommentText');
-        const publicIdDisplay = document.getElementById('publicIdDisplay');
-        let currentPublicId = '';
+      document.addEventListener('DOMContentLoaded', () => {
+    const commentForm = document.getElementById('comment-form');
+    const commentInput = document.getElementById('comment-input');
+    const commentsContainer = document.getElementById('comments-container');
+    const STORAGE_KEY = 'frontend_comments';
 
-        // 1. Get the current public_id from the URL
-        function getPublicId() {
-            const params = new URLSearchParams(window.location.search);
-            // Default to 'general' if no ID is provided in the URL
-            currentPublicId = params.get('id') || 'general';
-            publicIdDisplay.textContent = 'Viewing all replies in thread No: ' + currentPublicId;
+    // Function to retrieve comments from localStorage
+    function getComments() {
+        const commentsString = localStorage.getItem(STORAGE_KEY);
+        return commentsString ? JSON.parse(commentsString) : [];
+    }
+
+    // Function to save comments to localStorage
+    function saveComments(comments) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+    }
+
+    // Function to render a single comment
+    function renderComment(comment) {
+        const commentDiv = document.createElement('div');
+        commentDiv.classList.add('comment');
+        commentDiv.setAttribute('data-id', comment.id);
+
+        const headerDiv = document.createElement('div');
+        headerDiv.classList.add('comment-header');
+        headerDiv.textContent = `Posted on: ${new Date(comment.date).toLocaleString()}`;
+
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('comment-text');
+        textDiv.textContent = comment.text;
+
+        commentDiv.appendChild(headerDiv);
+        commentDiv.appendChild(textDiv);
+        commentsContainer.prepend(commentDiv); // Add new comments to the top
+    }
+
+    // Function to render all stored comments on page load
+    function loadComments() {
+        const comments = getComments();
+        comments.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
+        comments.forEach(renderComment);
+    }
+
+    // Event listener for form submission
+    commentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const commentText = commentInput.value.trim();
+
+        if (commentText !== '') {
+            const newComment = { 
+                id: Date.now(), // Use timestamp as a simple unique ID
+                text: commentText,
+                date: new Date().toISOString(),
+            };
+
+            const comments = getComments();
+            comments.push(newComment);
+            saveComments(comments);
+            renderComment(newComment);
+            commentInput.value = ''; // Clear the input field
         }
+    });
 
-        // 2. Load comments for the current public_id from localStorage
-        function loadComments() {
-            const storedComments = localStorage.getItem('comments_' + currentPublicId);
-            return storedComments ? JSON.parse(storedComments) : [];
-        }
-
-        // 3. Save comments to localStorage
-        function saveComments(comments) {
-            localStorage.setItem('comments_' + currentPublicId, JSON.stringify(comments));
-        }
-
-        // 4. Display comments in the HTML
-        function displayComments() {
-            const comments = loadComments();
-            commentsSection.innerHTML = '';
-            comments.forEach(commentText => {
-                const commentDiv = document.createElement('div');
-                commentDiv.classList.add('comment');
-                commentDiv.textContent = commentText;
-                // Add new comments at the top
-                commentsSection.insertBefore(commentDiv, commentsSection.firstChild); 
-            });
-        } 
-
-        // 5. Add a new comment
-        function addComment() {
-            const commentText = newCommentText.value.trim();
-            if (commentText === '') return;
-
-            const comments = loadComments();
-            comments.push(commentText); // Add the new comment
-            saveComments(comments); // Save the updated list
-            displayComments(); // Refresh the display
-
-            newCommentText.value = ''; // Clear the input field
-           location.reload(true);
-        }
-
-        // Initialize the page on load
-        getPublicId();
-        displayComments();
-
-    </script>
+    // Initial load
+    loadComments();
+});
+  </script>
 </body>
 </html>
