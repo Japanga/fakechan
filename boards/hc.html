@@ -294,7 +294,7 @@ image.setAttribute('src', randomSource);
   </style>
                         <div class="parent-container">
                         <span style="color: darkred;">
-            <h1>/h/ Hentai</h1>
+            <h1>/hc/ Hardcore</h1>
                           <hr class="long-line">
                           </span>
                           </div>
@@ -559,7 +559,7 @@ element.style.visibility = 'hidden';
          cloudinary.openUploadWidget(
              {
                  cloudName: "dussuas34", // Replace with your Cloudinary Cloud Name
-                 uploadPreset: "hentaiUploads"// Replace with the name of your unsigned upload preset
+                 uploadPreset: "hardcoreUploads"// Replace with the name of your unsigned upload preset
              },
            
              (error, result) => {
@@ -738,7 +738,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
     <script>
       // --- Configuration ---
 const CLOUD_NAME = 'dussuas34'; // Replace with your Cloudinary cloud name
-const TAG = 'hentai_uploads'; // Replace with the tag you assigned to your images
+const TAG = 'hardcore_uploads'; // Replace with the tag you assigned to your images
 const GALLERY_URL = `https://res.cloudinary.com/${CLOUD_NAME}/image/list/${TAG}.json`;
 const galleryContainer = document.getElementById('gallery-container');
 
@@ -810,6 +810,44 @@ async function loadGallery() {
             const threadtitle = image.context && image.context.custom && image.context.custom.thread_title ? image.context.custom.thread_title : 'No title available';
               
                  const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
+          
+               
+          function attachInlineScript(windowObj, scriptCode) {
+    const script = windowObj.document.createElement('script'); // Create a new script element
+    script.textContent = scriptCode; // Set the script's content directly
+    // Note: innerHTML does not execute scripts when inserted
+
+    windowObj.document.body.appendChild(script); // Append the script to the <head> or <body>
+}
+
+// Usage:
+   const inlineCode = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
+    script.onerror = () => alert("No script data was added to the page.");
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentexts.js');
+`;
+       
+          
+         
+   const inlineCode2 = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
+    script.onerror = () => alert("No script data was added to the page.");
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentextandyoutube.js');
+`;
+                
+            
             
       
       // 1. Define the function you want to run on click
@@ -849,14 +887,14 @@ function imageClickHandler() {
 
         <!-- Right Section: Title and description -->
         <div class="description-section">
-                <a href="/fakechan/boards/h">Return to Board</a>
+                <a href="/fakechan/boards/hc">Return to Board</a>
             <h1>${threadtitle}</h1>
             <p>
                 ${description}
             </p>
           
             
-   <iframe src="https://japanga.github.io/fakechan/boards/h_coms.html?id=${i + 1}" width="450" height="300">
+   <iframe src="https://japanga.github.io/fakechan/boards/hc_coms.html?id=${i + 1}" width="450" height="300">
         Your browser does not support iframes.
     </iframe>
      
@@ -925,6 +963,8 @@ a {
     newWindow.document.open();
     newWindow.document.write(newPageContent);
     newWindow.document.close();
+       attachInlineScript(newWindow, inlineCode);
+  attachInlineScript(newWindow, inlineCode2);
     alert('You succesfully used the "threading" sytem to dynamically create a new .html page for your thread!');
     console.log('You can perform other actions here.');
 }
@@ -1122,7 +1162,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
