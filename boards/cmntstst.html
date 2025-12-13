@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments Box</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- The ID number would typically be dynamic here, e.g., ?id=1 -->
+        <h1>Comments for Article ID: <span id="article-id">1</span></h1>
+        
+        <div class="comment-section">
+            <h2>Leave a Comment</h2>
+            <form id="comment-form">
+                <textarea id="comment-input" placeholder="Write your comment..." required></textarea>
+                <button type="submit">Post Comment</button>
+            </form>
+            
+            <h2>Comments (<span id="comment-count">0</span>)</h2>
+            <div id="comments-container">
+                <!-- Comments will be injected here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    const commentsContainer = document.getElementById('comments-container');
+    const commentForm = document.getElementById('comment-form');
+    const commentInput = document.getElementById('comment-input');
+    const commentCountSpan = document.getElementById('comment-count');
+
+    // 1. Determine the Article ID from the URL or static element
+    // A real system would use: const articleId = new URLSearchParams(window.location.search).get('id') || 'default';
+    const articleId = document.getElementById('article-id').textContent; 
+    const STORAGE_KEY = `comments_article_${articleId}`;
+
+    // 2. Load existing comments from localStorage on page load
+    function loadComments() {
+        const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        commentsContainer.innerHTML = '';
+        comments.forEach(displayComment);
+        commentCountSpan.textContent = comments.length;
+    }
+
+    // 3. Display a single comment element
+    function displayComment(comment) {
+        const commentDiv = document.createElement('div');
+        commentDiv.classList.add('comment');
+        commentDiv.innerHTML = `
+            <p>${comment.text}</p>
+            <div class="comment-date">Posted on ${new Date(comment.date).toLocaleString()}</div>
+        `;
+        // Add new comments to the top (or bottom, depending on preference)
+        commentsContainer.prepend(commentDiv); 
+    }
+
+    // 4. Handle form submission
+    commentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const newCommentText = commentInput.value;
+        const newComment = {
+            id: Date.now(), // Use a timestamp for a unique ID
+            text: newCommentText,
+            date: new Date().toISOString()
+        };
+
+        // Get current comments, add new one, and save back to localStorage
+        const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        comments.push(newComment);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+
+        // Display the new comment immediately and clear the input
+        displayComment(newComment);
+        commentInput.value = '';
+        commentCountSpan.textContent = comments.length;
+    });
+
+    // Initial load
+    loadComments();
+});
+  </script>
+  
+    <style>
+      body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+.container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; }
+button { padding: 10px 15px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 4px; }
+.comment { border-bottom: 1px solid #eee; padding: 10px 0; }
+.comment:last-child { border-bottom: none; }
+.comment-date { font-size: 0.8em; color: #888; margin-top: 5px; }
+    </style>
+</body>
+</html>
