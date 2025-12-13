@@ -24,7 +24,7 @@ function openCustomBlankPage() {
          
         };
     } else {
-        alert('Pop-ups blocked! Please allow pop-ups for this site.');
+       // alert('Pop-ups blocked! Please allow pop-ups for this site.');
     }
 }
 
