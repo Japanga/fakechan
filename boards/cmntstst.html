@@ -7,91 +7,131 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- The ID number would typically be dynamic here, e.g., ?id=1 -->
-        <h1>Comments for Article ID: <span id="article-id">1</span></h1>
-        
-        <div class="comment-section">
-            <h2>Leave a Comment</h2>
-            <form id="comment-form">
-                <textarea id="comment-input" placeholder="Write your comment..." required></textarea>
-                <button type="submit">Post Comment</button>
-            </form>
-            
-            <h2>Comments (<span id="comment-count">0</span>)</h2>
-            <div id="comments-container">
-                <!-- Comments will be injected here by JavaScript -->
-            </div>
+    <h1>Replies in thread no. <span id="page-id-display"></span></h1>
+    
+    <div class="comment-section">
+        <h2>Comments</h2>
+        <div id="comments-container">
+            <!-- Comments will be dynamically loaded here -->
         </div>
+        
+        <form id="comment-form">
+            <textarea id="comment-input" placeholder="Add a comment..." required></textarea><br>
+            <button type="submit">Post Comment</button>
+        </form>
     </div>
 
+      <style>
+        body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.comment-section {
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+#comments-container {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.comment {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.comment-date {
+    font-size: 0.8em;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+#comment-input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+  </style>
+  
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-    const commentsContainer = document.getElementById('comments-container');
-    const commentForm = document.getElementById('comment-form');
-    const commentInput = document.getElementById('comment-input');
-    const commentCountSpan = document.getElementById('comment-count');
+      // Function to get a URL parameter by name
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
-    // 1. Determine the Article ID from the URL or static element
-    // A real system would use: const articleId = new URLSearchParams(window.location.search).get('id') || 'default';
-    const articleId = document.getElementById('article-id').textContent; 
-    const STORAGE_KEY = `comments_article_${articleId}`;
+// Get the URL ID (e.g., from ?id=1)
+const pageId = getParameterByName('id') || 'general'; // Default to 'general' if no ID
+document.getElementById('page-id-display').textContent = pageId;
 
-    // 2. Load existing comments from localStorage on page load
-    function loadComments() {
-        const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        commentsContainer.innerHTML = '';
-        comments.forEach(displayComment);
-        commentCountSpan.textContent = comments.length;
-    }
+const commentsContainer = document.getElementById('comments-container');
+const commentForm = document.getElementById('comment-form');
+const commentInput = document.getElementById('comment-input');
 
-    // 3. Display a single comment element
-    function displayComment(comment) {
+// Key for localStorage specific to this page
+const STORAGE_KEY = `comments_${pageId}`;
+
+// 1. Load comments from localStorage
+function loadComments() {
+    const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    commentsContainer.innerHTML = '';
+    
+    // Display comments (latest first)
+    comments.reverse().forEach(comment => {
         const commentDiv = document.createElement('div');
         commentDiv.classList.add('comment');
-        commentDiv.innerHTML = `
-            <p>${comment.text}</p>
-            <div class="comment-date">Posted on ${new Date(comment.date).toLocaleString()}</div>
-        `;
-        // Add new comments to the top (or bottom, depending on preference)
-        commentsContainer.prepend(commentDiv); 
-    }
 
-    // 4. Handle form submission
-    commentForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+        const dateSpan = document.createElement('div');
+        dateSpan.classList.add('comment-date');
+        dateSpan.textContent = new Date(comment.date).toLocaleString();
 
-        const newCommentText = commentInput.value;
+        const contentPara = document.createElement('p');
+        contentPara.textContent = comment.content;
+
+        commentDiv.appendChild(dateSpan);
+        commentDiv.appendChild(contentPara);
+        commentsContainer.appendChild(commentDiv);
+    });
+}
+
+// 2. Add a new comment
+function addComment(event) {
+    event.preventDefault();
+    const content = commentInput.value.trim();
+
+    if (content) {
+        const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         const newComment = {
-            id: Date.now(), // Use a timestamp for a unique ID
-            text: newCommentText,
-            date: new Date().toISOString()
+            content: content,
+            date: new Date().toISOString() // Store date in standard format
         };
 
-        // Get current comments, add new one, and save back to localStorage
-        const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         comments.push(newComment);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
-
-        // Display the new comment immediately and clear the input
-        displayComment(newComment);
         commentInput.value = '';
-        commentCountSpan.textContent = comments.length;
-    });
+        loadComments(); // Reload comments to update the display
+    }
+}
 
-    // Initial load
-    loadComments();
-});
+// 3. Event listeners
+commentForm.addEventListener('submit', addComment);
+window.addEventListener('load', loadComments);
   </script>
-  
-    <style>
-      body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
-.container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-textarea { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; }
-button { padding: 10px 15px; background: #007BFF; color: white; border: none; cursor: pointer; border-radius: 4px; }
-.comment { border-bottom: 1px solid #eee; padding: 10px 0; }
-.comment:last-child { border-bottom: none; }
-.comment-date { font-size: 0.8em; color: #888; margin-top: 5px; }
-    </style>
 </body>
 </html>
