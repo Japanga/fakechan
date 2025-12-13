@@ -31,6 +31,7 @@ function generateRandomContent() {
     // Update the innerHTML of the div with a random header (H3) and image (img)
     // We can use template literals for cleaner code
     contentDiv.innerHTML = `
+     <h3>${headers[randomHeaderIndex]}</h3>
         <img src="${images[randomImageIndex]}" alt="Random image">
     `;
 }
