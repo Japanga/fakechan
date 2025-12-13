@@ -1,40 +1,44 @@
 // randomheaders.js
-// 1. Define arrays of content
-const headers = [
-    "Welcome to the Mountain View!",
-    "Explore the Ocean Depths!",
-    "City Lights Await!",
-    "Desert Adventure Time!"
+/**
+ * Array of image paths. Replace with your own image URLs.
+ */
+const imageUrls = [
+    'https://japanga.github.io/fakechan/boards/1.png',
+    'https://japanga.github.io/fakechan/boards/2.png',
+    'https://japanga.github.io/fakechan/boards/3.png',
+    // Add more image URLs here
 ];
 
-const images = [
-    "https://japanga.github.io/fakechan/boards/1.png", // Example image URLs (use your own or a service like Picsum)
-    "https://japanga.github.io/fakechan/boards/2.png",
-    "https://japanga.github.io/fakechan/boards/3.png",
-    "https://japanga.github.io/fakechan/boards/4.png
-];
-
-// 2. Function to generate a random integer within a range
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
+/**
+ * Helper function to get a random image URL from the array.
+ * @returns {string} A randomly selected image URL.
+ */
+function getRandomImageUrl() {
+    const randomIndex = Math.floor(Math.random() * imageUrls.length);
+    return imageUrls[randomIndex];
 }
 
-// 3. Main function to update the div
-function generateRandomContent() {
-    // Get a random index
-    const randomHeaderIndex = getRandomInt(headers.length);
-    const randomImageIndex = getRandomInt(images.length);
+/**
+ * Looks for all elements with the class "content-box" and fills each
+ * with a randomly selected image by setting its background image style.
+ */
+function fillContentBoxesWithRandomImages() {
+    // Get all elements with the class "content-box"
+    const contentBoxes = document.getElementsByClassName('content-box');
 
-    // Get the HTML element by its ID
-    const contentDiv = document.getElementById("contentDiv");
+    // Loop through the collection of elements
+    for (let i = 0; i < contentBoxes.length; i++) {
+        const box = contentBoxes[i];
+        const randomImageUrl = getRandomImageUrl();
 
-    // Update the innerHTML of the div with a random header (H3) and image (img)
-    // We can use template literals for cleaner code
-    contentDiv.innerHTML = `
-     <h3>${headers[randomHeaderIndex]}</h3>
-        <img src="${images[randomImageIndex]}" alt="Random image">
-    `;
+        // Set the background image style
+        box.style.backgroundImage = `url('${randomImageUrl}')`;
+        // Optional: Add other background styles for better presentation
+        box.style.backgroundRepeat = 'no-repeat';
+        box.style.backgroundPosition = 'center';
+        box.style.backgroundSize = 'cover';
+    }
 }
 
-// Optional: Run the function once when the page loads
-window.onload = generateRandomContent;
+// Call the function automatically when the script loads
+fillContentBoxesWithRandomImages();
