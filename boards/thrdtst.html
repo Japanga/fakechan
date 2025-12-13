@@ -861,8 +861,21 @@ function loadScriptBySrc(url) {
 // 
 loadScriptBySrc('https://japanga.github.io/fakechan/boards/boardlinks.js');
 `; 
-                
+          
+              const inlineCode5 = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
+    script.onerror = () => alert("No script data was added to the page.");
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/displayfilesize.js');
+`; 
            
+                
+            
       
       
       // 1. Define the function you want to run on click
@@ -893,6 +906,7 @@ function imageClickHandler() {
     display: flex;
     justify-content: center; /* Centers horizontally */
     align-items: center;     /* Centers vertically */         /* Sets the container height (e.g., to the full viewport height) */
+      
 }
     .content-box {
   border: 1px solid #000;
@@ -904,6 +918,10 @@ function imageClickHandler() {
             height: auto;
             margin-top: 10px;
         }
+         .image-container {
+ word-spacing: 10px; /* Space between words */
+  letter-spacing: 1px; 
+}
      body {
   min-height: 200vh;
   margin: 0; /* Remove default body margin */
@@ -927,11 +945,20 @@ function imageClickHandler() {
         
         <!-- Left Section: Image and text below -->
         <div class="image-section">
-            <img src="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}"" alt="Descriptive Alt Text">
-        
+
+         
+        <div id="image-container">
+        <!-- The Cloudinary public ID is stored in a data attribute -->
+        <div id="image-data" data-public-id="${image.public_id}" data-cloud-name="dussuas34">
+            <!-- The image and details will be displayed here -->
+            <p>Loading image details...</p>
+        </div>
+    </div>
+    
+ <p><strong>Dimensions:</strong> ${image.width}x${image.height}</p>
+         
                  <p><strong>No:</strong> ${i + 1}</p>
-                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
-       
+                 
                   <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
                   <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
         
@@ -1006,7 +1033,7 @@ a {
 }
      </style>
 </body>
-</html>
+</html> 
     `;
 
     // 3. Write the content to the new document stream
@@ -1017,6 +1044,8 @@ a {
   attachInlineScript(newWindow, inlineCode2);
   attachInlineScript(newWindow, inlineCode3);
    attachInlineScript(newWindow, inlineCode4);
+  attachInlineScript(newWindow, inlineCode5);
+   attachInlineScript(newWindow, inlineCode6);
     alert('You succesfully used the "threading" sytem to dynamically create a new .html page for your thread!');
     console.log('You can perform other actions here.');
 }
@@ -1038,14 +1067,10 @@ a {
             infoDiv.classList.add('image-info');
             infoDiv.innerHTML = `
                 <p><strong>No:</strong> ${i + 1}</p>
-                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
-                <p id="size-${image.public_id}">Size: Fetching...</p>
-       
-                  <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
-                  <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
-                  <p><strong>Thread Title: ${threadtitle}</strong></p>
-                  <div>
-                  <p>${description}</p>
+           
+                  <p><strong>Title: ${threadtitle}</strong></p>
+                  <div> 
+                  <p>${description}</p> 
             `;
             galleryItem.appendChild(infoDiv);
             galleryContainer.appendChild(galleryItem);
@@ -1055,11 +1080,10 @@ a {
                 // Use the original image URL for accurate size (without transformations)
                 const originalUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
                 const size = await getFileSize(originalUrl);
-                document.getElementById(`size-${image.public_id}`).textContent = `Size: ${formatBytes(size)}`;
-               document.getElementById(`size-${image.public_id}`).innerHTML = `<strong>Size:</strong> ${image.width}x${image.height} ${formatBytes(size)}`;
+       
             } catch (error) {
                 console.error(error);
-                document.getElementById(`size-${image.public_id}`).textContent = 'Size: N/A';
+    
             }
         }
     } catch (error) {
