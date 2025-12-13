@@ -807,6 +807,30 @@ function loadScriptBySrc(url) {
 // 
 loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentextandyoutube.js');
 `;
+          
+             const inlineCode2 = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
+    script.onerror = () => alert("No script data was added to the page.");
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentexts.js');
+`;
+          
+              const inlineCode3 = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
+    script.onerror = () => alert("No script data was added to the page.");
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/randomheaders.js');
+`;
                 
            
       
@@ -949,6 +973,8 @@ a {
     newWindow.document.write(newPageContent);
     newWindow.document.close();
    attachInlineScript(newWindow, inlineCode);
+  attachInlineScript(newWindow, inlineCode2);
+  attachInlineScript(newWindow, inlineCode3);
     alert('You succesfully used the "threading" sytem to dynamically create a new .html page for your thread!');
     console.log('You can perform other actions here.');
 }
