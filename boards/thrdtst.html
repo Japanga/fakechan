@@ -818,8 +818,6 @@ async function loadGallery() {
 function loadScriptBySrc(url) {
     const script = document.createElement('script');
     script.src = url;
-    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
-    script.onerror = () => alert("No script data was added to the page.");
     document.body.appendChild(script);
 }
 // 
@@ -830,8 +828,6 @@ loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentextandyoutube.j
 function loadScriptBySrc(url) {
     const script = document.createElement('script');
     script.src = url;
-    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
-    script.onerror = () => alert("No script data was added to the page.");
     document.body.appendChild(script);
 }
 // 
@@ -842,8 +838,6 @@ loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentexts.js');
 function loadScriptBySrc(url) {
     const script = document.createElement('script');
     script.src = url;
-    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
-    script.onerror = () => alert("No script data was added to the page.");
     document.body.appendChild(script);
 }
 // 
@@ -854,8 +848,6 @@ loadScriptBySrc('https://japanga.github.io/fakechan/boards/randomheaders.js');
 function loadScriptBySrc(url) {
     const script = document.createElement('script');
     script.src = url;
-    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
-    script.onerror = () => alert("No script data was added to the page.");
     document.body.appendChild(script);
 }
 // 
@@ -866,12 +858,20 @@ loadScriptBySrc('https://japanga.github.io/fakechan/boards/boardlinks.js');
 function loadScriptBySrc(url) {
     const script = document.createElement('script');
     script.src = url;
-    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
-    script.onerror = () => alert("No script data was added to the page.");
     document.body.appendChild(script);
 }
 // 
 loadScriptBySrc('https://japanga.github.io/fakechan/boards/displayfilesize.js');
+`; 
+           
+             const inlineCode6 = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/threadicon.js');
 `; 
            
                 
@@ -897,6 +897,7 @@ function imageClickHandler() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FakeChan Thread</title>
     <link rel="stylesheet" href="styles.css">
+      <link id="favicon" rel="icon" href="https://japanga.github.io/fakechan/boards/fakechanthreads.png" type="image/x-icon">
 </head> 
 <body>
   
