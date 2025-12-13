@@ -1,67 +1,30 @@
-// commentsysstem.js
-// Function to get a URL parameter by name
-function getParameterByName(name, url = window.location.href) {
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
+// commentssystem.js
+document.addEventListener('DOMContentLoaded', () => {
+    const commentForm = document.getElementById('comment-form');
+    const commentsContainer = document.getElementById('comments-container');
 
-// Get the URL ID (e.g., from ?id=1)
-const pageId = getParameterByName('id') || 'general'; // Default to 'general' if no ID
-document.getElementById('page-id-display').textContent = pageId;
+    // Add an event listener for the form submission
+    commentForm.addEventListener('submit', function (event) {
+        // Prevent the default form submission behavior (which reloads the page)
+        event.preventDefault();
 
-const commentsContainer = document.getElementById('comments-container');
-const commentForm = document.getElementById('comment-form');
-const commentInput = document.getElementById('comment-input');
+        // Get values from the form inputs
+        const author = document.getElementById('comment-author').value;
+        const commentBody = document.getElementById('comment-body').value;
 
-// Key for localStorage specific to this page
-const STORAGE_KEY = `comments_${pageId}`;
+        // Create new HTML elements to display the comment
+        const newComment = document.createElement('div');
+        newComment.classList.add('comment'); // Add a class for potential styling
+        newComment.innerHTML = `
+            <strong>${author}</strong>
+            <p>${commentBody}</p>
+            <hr>
+        `;
 
-// 1. Load comments from localStorage
-function loadComments() {
-    const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    commentsContainer.innerHTML = '';
-    
-    // Display comments (latest first)
-    comments.reverse().forEach(comment => {
-        const commentDiv = document.createElement('div');
-        commentDiv.classList.add('comment');
+        // Append the new comment to the comments container
+        commentsContainer.appendChild(newComment);
 
-        const dateSpan = document.createElement('div');
-        dateSpan.classList.add('comment-date');
-        dateSpan.textContent = new Date(comment.date).toLocaleString();
-
-        const contentPara = document.createElement('p');
-        contentPara.textContent = comment.content;
-
-        commentDiv.appendChild(dateSpan);
-        commentDiv.appendChild(contentPara);
-        commentsContainer.appendChild(commentDiv);
+        // Clear the form fields for the next comment
+        commentForm.reset();
     });
-}
-
-// 2. Add a new comment
-function addComment(event) {
-    event.preventDefault();
-    const content = commentInput.value.trim();
-
-    if (content) {
-        const comments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        const newComment = {
-            content: content,
-            date: new Date().toISOString() // Store date in standard format
-        };
-
-        comments.push(newComment);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
-        commentInput.value = '';
-        loadComments(); // Reload comments to update the display
-    }
-}
-
-// 3. Event listeners
-commentForm.addEventListener('submit', addComment);
-window.addEventListener('load', loadComments);
+});
