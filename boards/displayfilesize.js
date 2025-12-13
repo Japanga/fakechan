@@ -34,7 +34,7 @@ async function displayImageDetails() {
         // Display the image and details in the div area
         dataDiv.innerHTML = `
             <img src="${objectURL}" alt="Cloudinary Image" style="max-width: 300px;">
-            <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${publicId}.${imageFormat}</a></p>
+            <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/dussuas34/image/upload/${publicId}">${publicId}.${imageFormat}</a></p>
             <p><strong>Size:</strong> ${width}x${height} ${fileSizeInBytes} bytes</p>
         `;
 
