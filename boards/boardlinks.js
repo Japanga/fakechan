@@ -333,13 +333,6 @@ function fillDivWithLinks() {
 
 
 
-
-
-
-
-
-
-
     // 4. Append the fully constructed paragraph to the div
     contentDiv.appendChild(paragraph);
 }
