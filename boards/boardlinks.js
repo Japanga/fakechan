@@ -5,9 +5,12 @@
 // This function fetches links from a text file and inserts them into the page.
 // Data for the links
 const linksData = [
-    { text: "/a/", url: "https://www.google.com" },
-    { text: "/an/", url: "https://developer.mozilla.org" },
-    { text: "/b/", url: "https://stackoverflow.com" }
+    { text: "/a/", url: "https://japanga.github.io/fakechan/boards/a" },
+    { text: "/an/", url: "https://japanga.github.io/fakechan/boards/an" },
+    { text: "/b/", url: "https://japanga.github.io/fakechan/boards/b" },
+    { text: "/co/", url: "https://japanga.github.io/fakechan/boards/co" },
+     { text: "/c/", url: "https://japanga.github.io/fakechan/boards/c" },
+     { text: "/ck/", url: "https://japanga.github.io/fakechan/boards/ck" }
 ];
 
 // Get the target div element by its ID
@@ -15,14 +18,14 @@ const container = document.getElementById('link-container');
 
 // Function to generate and insert the links
 function populateLinks() {
-    let htmlContent = '<ul>'; // Start an unordered list
+    let htmlContent = '['; // Start an unordered list
 
     // Loop through the data and create link elements
     linksData.forEach(link => {
-        htmlContent += `- <a href="${link.url}">${link.text}</a> -`;
+        htmlContent += `- <b><a href="${link.url}">${link.text}</a></b>`;
     });
 
-    htmlContent += '</ul>'; // End the list
+    htmlContent += ']'; // End the list
 
     // Set the innerHTML of the div to the generated content
     if (container) {
