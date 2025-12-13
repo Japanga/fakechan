@@ -29,4 +29,4 @@ function openCustomBlankPage() {
 }
 
 // You can call this function with a button click or other event
-// openCustomBlankPage();
+openCustomBlankPage();
