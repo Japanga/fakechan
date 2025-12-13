@@ -1,54 +1,61 @@
 // displayfilesize.js
 // Function to format bytes into a readable size (KB, MB)
 // Function to format bytes into a human-readable size
-function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return '0 Bytes';
-
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
-
-// Function to fetch the image and display its size
-async function getImageSize() {
-    const infoContainer = document.getElementById('image-info');
-    const publicId = infoContainer.dataset.publicId;
-    const cloudName = infoContainer.dataset.cloudName;
-    const sizeDisplay = document.getElementById('file-size-display');
-    const publicIdDisplay = document.getElementById('public-id-display');
-
-    if (!publicId || !cloudName) {
-        sizeDisplay.textContent = 'Error: Missing public ID or cloud name.';
+/**
+ * Fetches the file size of a Cloudinary image and displays it in a span element.
+ *
+ * @param {string} publicId - The public ID of the image in Cloudinary.
+ * @param {string} cloudName - Your Cloudinary cloud name.
+ */
+function getCloudinaryImageSize(publicId, cloudName) {
+    const spanElement = document.getElementById('file-size-display');
+    if (!spanElement) {
+        console.error('Span element with id "file-size-display" not found.');
         return;
     }
 
-    // Display public ID
-    publicIdDisplay.textContent = publicId;
+    // Construct the image URL. Using a simple delivery URL for the HEAD request.
+    const imageUrl = `res.cloudinary.com{cloudName}/image/upload/${publicId}`;
 
-    // Construct the Cloudinary delivery URL
-    const imageUrl = `res.cloudinary.com{cloudName}/image/upload/${publicId}.jpg`; // Assuming .jpg format
+    const xhr = new XMLHttpRequest();
+    xhr.open('HEAD', imageUrl, true); // Use HEAD method to only fetch headers
 
-    try {
-        // Fetch the image as a Blob
-        const response = await fetch(imageUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const fileSize = xhr.getResponseHeader('Content-Length');
+            if (fileSize) {
+                // Format the file size for display
+                const formattedSize = formatBytes(parseInt(fileSize, 10));
+                spanElement.textContent = formattedSize;
+            } else {
+                spanElement.textContent = 'Size not available';
+            }
+        } else {
+            spanElement.textContent = 'Error fetching size';
+            console.error('Error fetching image size:', xhr.statusText);
         }
-        const blob = await response.blob();
+    };
 
-        // Get the size from the blob object
-        const fileSizeInBytes = blob.size;
-        sizeDisplay.textContent = formatBytes(fileSizeInBytes);
+    xhr.onerror = function () {
+        spanElement.textContent = 'Network error';
+        console.error('Network error occurred during XHR request.');
+    };
 
-    } catch (error) {
-        console.error("Could not fetch image size:", error);
-        sizeDisplay.textContent = 'Error fetching size.';
-    }
+    xhr.send(null); // Send the request
 }
 
-// Run the function when the script loads
-getImageSize();
+/**
+ * Helper function to format bytes into a human-readable string (KB, MB).
+ * @param {number} bytes - The file size in bytes.
+ * @returns {string} The formatted file size.
+ */
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+window.onload = () => {
+  getCloudinaryImageSize('${image.public_id}', 'dussuas34');
+};
