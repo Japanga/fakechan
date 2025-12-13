@@ -5,9 +5,9 @@
 // This function fetches links from a text file and inserts them into the page.
 // Data for the links
 const linksData = [
-    { text: "Google", url: "https://www.google.com" },
-    { text: "MDN Web Docs", url: "https://developer.mozilla.org" },
-    { text: "Stack Overflow", url: "https://stackoverflow.com" }
+    { text: "/a/", url: "https://www.google.com" },
+    { text: "/an/", url: "https://developer.mozilla.org" },
+    { text: "/b/", url: "https://stackoverflow.com" }
 ];
 
 // Get the target div element by its ID
@@ -19,7 +19,7 @@ function populateLinks() {
 
     // Loop through the data and create link elements
     linksData.forEach(link => {
-        htmlContent += `<li><a href="${link.url}">${link.text}</a></li>`;
+        htmlContent += `- <a href="${link.url}">${link.text}</a> -`;
     });
 
     htmlContent += '</ul>'; // End the list
