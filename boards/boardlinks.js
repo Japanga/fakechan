@@ -48,7 +48,7 @@ function populateLinks() {
         htmlContent += `- <b><a href="${link.url}">${link.text}</a></b>`;
     });
 
-    htmlContent += '] <a href="https://japanga.github.io/fakechan/">Home</a> - <a href="https://japanga.github.io/chadsofa/">Wiki</a> - <a href="https://japanga.github.io/fakechanarchive/">Archive</a> - <a href="https://japanga.github.io/fakechan/boards/vpn">VPN</a> <a href="https://japanga.github.io/fakechan/faq">FAQ</a>'; // End the list
+    htmlContent += '] <a href="https://japanga.github.io/fakechan/"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="https://japanga.github.io/fakechan/boards/vpn"><b>VPN</b></a> - <a href="https://japanga.github.io/fakechan/faq"><b>FAQ</b></a>'; // End the list
 
     // Set the innerHTML of the div to the generated content
     if (container) {
