@@ -25,11 +25,6 @@ async function displayImageDetails() {
         // Get the file size in bytes from the Blob object
         const fileSizeInBytes = blob.size;
 
-        // Calculate size in Megabytes (MB)
-const megaBytes = fileSizeInBytes / (1024 * 1024);
-
-// To format the number to a specific number of decimal places (e.g., 2)
-const formattedSizeInMB = megaBytes.toFixed(2);
 
         // Get the format (MIME type) from the Blob object
         const imageFormat = blob.type.split('/')[1];
@@ -41,7 +36,7 @@ const formattedSizeInMB = megaBytes.toFixed(2);
         dataDiv.innerHTML = `
             <img src="${objectURL}" alt="Cloudinary Image" style="max-width: 300px;">
             <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/dussuas34/image/upload/${publicId}">${publicId}.${imageFormat}</a></p>
-            <p><strong>Size:</strong> ${formattedSizeInMB} bytes</p>
+            <p><strong>Size:</strong> ${fileSizeInBytes} bytes</p>
         `;
 
          dataDiv.style.lineHeight = '1.7';
