@@ -38,7 +38,7 @@ async function displayImageDetails() {
             <p><strong>Size:</strong> ${fileSizeInBytes} bytes</p>
         `;
 
-        dataDiv.style.letterSpacing = -1px;
+        dataDiv.style.letterSpacing = 2px;
 
         // Clean up the object URL after the image is loaded and displayed
         const imgElement = dataDiv.querySelector('img');
