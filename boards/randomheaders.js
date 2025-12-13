@@ -8,10 +8,10 @@ const headers = [
 ];
 
 const images = [
-    "fakechan/boards/1.png", // Example image URLs (use your own or a service like Picsum)
-    "fakechan/boards/2.png",
-    "fakechan/boards/3.png",
-    "fakechan/boards/4.png"
+    "https://japanga.github.io/fakechan/boards/1.png", // Example image URLs (use your own or a service like Picsum)
+    "https://japanga.github.io/fakechan/boards/2.png",
+    "https://japanga.github.io/fakechan/boards/3.png",
+    "https://japanga.github.io/fakechan/boards/4.png
 ];
 
 // 2. Function to generate a random integer within a range
@@ -31,7 +31,6 @@ function generateRandomContent() {
     // Update the innerHTML of the div with a random header (H3) and image (img)
     // We can use template literals for cleaner code
     contentDiv.innerHTML = `
-        <h3>${headers[randomHeaderIndex]}</h3>
         <img src="${images[randomImageIndex]}" alt="Random image">
     `;
 }
