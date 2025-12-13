@@ -25,6 +25,8 @@ async function displayImageDetails() {
         // Get the file size in bytes from the Blob object
         const fileSizeInBytes = blob.size;
 
+        const blobSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(2);
+
 
         // Get the format (MIME type) from the Blob object
         const imageFormat = blob.type.split('/')[1];
@@ -36,10 +38,10 @@ async function displayImageDetails() {
         dataDiv.innerHTML = `
             <img src="${objectURL}" alt="Cloudinary Image" style="max-width: 300px;">
             <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/dussuas34/image/upload/${publicId}">${publicId}.${imageFormat}</a></p>
-            <p><strong>Size:</strong> ${fileSizeInBytes} bytes</p>
+            <p><strong>Size:</strong> ${blobSizeInMB} MB</p>
         `;
 
-         dataDiv.style.lineHeight = '1.7';
+         dataDiv.style.lineHeight = '1.9';
 
         // Clean up the object URL after the image is loaded and displayed
         const imgElement = dataDiv.querySelector('img');
