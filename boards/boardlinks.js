@@ -11,7 +11,7 @@ function fillDivWithLinks() {
     const paragraph = document.createElement('p');
 
     // 3. Create text and link nodes and append them to the paragraph
-    paragraph.appendChild(document.createTextNode('For more information, please visit '));
+    paragraph.appendChild(document.createTextNode('['));
 
     const link1 = document.createElement('a');
     link1.href = 'https://japanga.github.io/fakechan/boards/a';
@@ -20,7 +20,7 @@ function fillDivWithLinks() {
     link1.target = '_blank'; // Opens link in a new tab
     paragraph.appendChild(link1);
 
-    paragraph.appendChild(document.createTextNode(' or check out the documentation on '));
+    paragraph.appendChild(document.createTextNode(' - '));
 
     const link2 = document.createElement('a');
     link2.href = 'https://japanga.github.io/fakechan/boards/an';
@@ -29,7 +29,16 @@ function fillDivWithLinks() {
     link2.target = '_blank';
     paragraph.appendChild(link2);
 
-    paragraph.appendChild(document.createTextNode('.'));
+       paragraph.appendChild(document.createTextNode(' - '));
+
+      const link3 = document.createElement('a');
+    link3.href = 'https://japanga.github.io/fakechan/boards/b';
+    link3.textContent = '/b/';
+    link3.innerHTML = '<b>/b/</b>';
+    link3.target = '_blank';
+    paragraph.appendChild(link3);
+
+       paragraph.appendChild(document.createTextNode(' - '));
 
     // 4. Append the fully constructed paragraph to the div
     contentDiv.appendChild(paragraph);
