@@ -3,25 +3,30 @@
  * Fills the 'targetDiv' with a new paragraph element.
  */
 // This function fetches links from a text file and inserts them into the page.
-const externalLinks = [
-    { name: "Google", url: "https://www.google.com" },
-    { name: "Stack Overflow", url: "https://stackoverflow.com" },
-    { name: "MDN Web Docs", url: "https://developer.mozilla.org" }
-];
+function replaceContent() {
+    // 1. Define the data for the links
+    const linksData = [
+        { text: 'Google', url: 'https://www.google.com' },
+        { text: 'OpenAI', url: 'https://www.openai.com' },
+        { text: 'GitHub', url: 'https://www.github.com' }
+    ];
 
-// Function to populate the div
-function populateLinksFromArray() {
-    const container = document.getElementById('links-container-js');
-    let htmlContent = '<h2>Links from JS Array:</h2>';
+    // 2. Find the target div by its ID
+    const targetDiv = document.getElementById('targetDiv');
 
-    externalLinks.forEach(link => {
-        // Use template literals to create a string of HTML for each link
-        htmlContent += `<p><a href="${link.url}">${link.name}</a></p>`;
-    });
+    // Check if the element actually exists before trying to modify it
+    if (!targetDiv) {
+        console.error("Error: Could not find element with ID 'targetDiv'");
+        return;
+    }
 
-    // Set the innerHTML of the container div
-    container.innerHTML = htmlContent;
+    // 3. Generate the new HTML content using template literals
+    // We can use map to generate an array of link HTML strings,
+    // then join them together. We also add line breaks <br> for spacing.
+    const newHtml = linksData.map(link => {
+        return `<a href="${link.url}" target="_blank">${link.text}</a>`;
+    }).join('<br>'); // Join the links with a line break
+
+    // 4. Replace the inner HTML of the div
+    targetDiv.innerHTML = newHtml;
 }
-
-// Call the function once the script is loaded and executed
-populateLinksFromArray();
