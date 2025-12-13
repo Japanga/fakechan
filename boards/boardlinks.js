@@ -2,23 +2,38 @@
 /**
  * Fills the 'targetDiv' with a new paragraph element.
  */
-function fillDivWithParagraph() {
-    // 1. Find the target div element by its ID
-    const targetDiv = document.getElementById('targetDiv');
-
-    // Check if the div already has content to prevent adding the paragraph multiple times
-    if (targetDiv.hasChildNodes()) {
-        alert("The div is already filled.");
-        return; 
+// This function fetches links from a text file and inserts them into the page.
+async function loadLinks() {
+  const container = document.getElementById('links-container');
+  try {
+    // Replace 'links.txt' with the actual path to your external file
+    const response = await fetch('fakechan/boards/boardlinks.txt'); 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    const text = await response.text();
+    
+    // Split the text into lines (assuming one link per line, formatted as [Text](URL))
+    const lines = text.trim().split('\n'); 
+    
+    // Format each line into an HTML anchor tag and join them with spaces or breaks
+    const linksHtml = lines.map(line => {
+      const match = line.match(/\[(.*?)\]\((.*?)\)/);
+      if (match) {
+        const linkText = match[1];
+        const url = match[2];
+        return `<a href="${url}">${linkText}</a>`;
+      }
+      return ''; // Skip lines that don't match the format
+    }).join(' '); // Joins links with a space, creating a paragraph flow
 
-    // 2. Create a new paragraph element
-    const newParagraph = document.createElement('p');
+    container.innerHTML = `<p>${linksHtml}</p>`;
 
-    // 3. Set the text content for the new paragraph
-    newParagraph.innerHTML = '<b>[</b> <a href="/fakechan/boards/a"><b>/a/</b></a>  -  <a href="/fakechan/boards/an"><b>/an/</b></a> -  <a href="/fakechan/boards/b"><b>/b/</b></a> -  <a href="/fakechan/boards/co"><b>/co/</b></a> -  <a href="/fakechan/boards/c"><b>/c/</b></a> - <a href="/fakechan/boards/ck"><b>/ck/</b></a> - <a href="/fakechan/boards/dbs"><b>/dbs/</b></a> -  <a href="/fakechan/boards/get"><b>/get/</b></a> -  <a href="/fakechan/boards/gif"><b>/gif/</b></a>  - <a href="/fakechan/boards/h"><b>/h/</b></a> -  <a href="/fakechan/boards/hc"><b>/hc/</b></a> - <a href="/fakechan/boards/hyb"><b>/hyb/</b></a> - <a href="/fakechan/boards/lit"><b>/lit/</b></a> - <a href="/fakechan/boards/x"><b>/x/</b></a> -  <a href="/fakechan/boards/m"><b>/m/</b></a> -  <a href="/fakechan/boards/mu"><b>/mu/</b></a> -  <a href="/fakechan/boards/v"><b>/v/</b></a> -  <a href="/fakechan/boards/vid"><b>/vid/</b></a> -  <a href="/fakechan/boards/tv"><b>/tv/</b></a> -  <a href="/fakechan/boards/pol"><b>/pol/</b></a> - <a href="/fakechan/boards/p"><b>/p/</b></a> - <a href="/fakechan/boards/qa"><b>/qa/</b></a> - <a href="/fakechan/boards/sp"><b>/sp/</b></a> - <a href="/fakechan/boards/jp"><b>/jp/</b></a> -  <a href="/fakechan/boards/w"><b>/w/</b></a> - <a href="/fakechan/boards/wg"><b>/wg/</b></a> -  <a href="/fakechan/boards/wsg"><b>/wsg/</b></a> -  <a href="/fakechan/boards/pw"><b>/pw</b>/</a> -  <a href="/fakechan/boards/news"><b>/news/</b></b></a> <b>]</b>  <a href="/fakechan/index"><b>Home</b></a> - <a href="https://japanga.github.io/chadsofa/"><b>Wiki</b></a> - <a href="https://japanga.github.io/fakechanarchive/"><b>Archive</b></a> - <a href="/fakechan/boards/vpn"><b>VPN</b></a> - <a href="/fakechan/faq"><b>FAQ</b></a> ';
-
-
-    // 4. Append the new paragraph element to the target div
-    targetDiv.appendChild(newParagraph);
+  } catch (error) {
+    console.error("Could not load links:", error);
+    container.textContent = "Failed to load links.";
+  }
 }
+
+// Call the function when the script runs (or when the page loads)
+loadLinks();
