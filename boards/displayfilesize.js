@@ -35,7 +35,7 @@ async function displayImageDetails() {
         dataDiv.innerHTML = `
             <img src="${objectURL}" alt="Cloudinary Image" style="max-width: 300px;">
             <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/dussuas34/image/upload/${publicId}">${publicId}.${imageFormat}</a></p>
-            <p><strong>Size:</strong> ${publicId}.${width}x${publicId}.${height} ${fileSizeInBytes} bytes</p>
+            <p><strong>Size:</strong> ${fileSizeInBytes} bytes</p>
         `;
 
         // Clean up the object URL after the image is loaded and displayed
