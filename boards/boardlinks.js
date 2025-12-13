@@ -7,7 +7,7 @@ async function loadLinks() {
   const container = document.getElementById('links-container');
   try {
     // Replace 'links.txt' with the actual path to your external file
-    const response = await fetch('fakechan/boards/boardlinks.txt'); 
+    const response = await fetch('https://japanga.github.io/fakechan/boards/boardlinks.txt'); 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
