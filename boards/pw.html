@@ -807,6 +807,43 @@ async function loadGallery() {
               
                  const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
             
+          
+          
+          function attachInlineScript(windowObj, scriptCode) {
+    const script = windowObj.document.createElement('script'); // Create a new script element
+    script.textContent = scriptCode; // Set the script's content directly
+    // Note: innerHTML does not execute scripts when inserted
+
+    windowObj.document.body.appendChild(script); // Append the script to the <head> or <body>
+}
+
+// Usage:
+   const inlineCode = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
+    script.onerror = () => alert("No script data was added to the page.");
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentexts.js');
+`;
+       
+          
+         
+   const inlineCode2 = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    script.onload = () => alert("Data from an external script was succesfully detected and put into the page.");
+    script.onerror = () => alert("No script data was added to the page.");
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/greentextandyoutube.js');
+`;
+                
       
       // 1. Define the function you want to run on click
 function imageClickHandler() {
@@ -921,6 +958,8 @@ a {
     newWindow.document.open();
     newWindow.document.write(newPageContent);
     newWindow.document.close();
+       attachInlineScript(newWindow, inlineCode);
+  attachInlineScript(newWindow, inlineCode2);
     alert('You succesfully used the "threading" sytem to dynamically create a new .html page for your thread!');
     console.log('You can perform other actions here.');
 }
