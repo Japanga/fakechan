@@ -1,12 +1,4 @@
 // displayfilesize.js
-// Function to format bytes into a readable size (KB, MB)
-// Function to format bytes into a human-readable size
-/**
- * Fetches the file size of a Cloudinary image and displays it in a span element.
- *
- * @param {string} publicId - The public ID of the image in Cloudinary.
- * @param {string} cloudName - Your Cloudinary cloud name.
- */
 
             // Fetch file size asynchronously and update the display
             try {
