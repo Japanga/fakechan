@@ -1,19 +1,55 @@
 // displayfilesize.js
+async function displayImageDetails() {
+    const dataDiv = document.getElementById('image-data');
+    const publicId = dataDiv.getAttribute('data-public-id');
+    const cloudName = dataDiv.getAttribute('data-cloud-name');
 
-            // Fetch file size asynchronously and update the display
-            try {
-                // Use the original image URL for accurate size (without transformations)
-                const originalUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
-                const size = await getFileSize(originalUrl);
-                document.getElementById(`size-${image.public_id}`).textContent = `Size: ${formatBytes(size)}`;
-               document.getElementById(`size-${image.public_id}`).innerHTML = `<strong>Size:</strong> ${image.width}x${image.height} ${formatBytes(size)}`;
-            } catch (error) {
-                console.error(error);
-                document.getElementById(`size-${image.public_id}`).textContent = 'Size: N/A';
-            }
+    if (!publicId || !cloudName) {
+        dataDiv.innerHTML = '<p>Error: Public ID or Cloud Name not found.</p>';
+        return;
+    }
+
+    // Construct the Cloudinary image URL (e.g., res.cloudinary.com)
+    const imageUrl = `res.cloudinary.com{cloudName}/image/upload/${publicId}.jpg`; // Use a default format like jpg
+
+    try {
+        // Fetch the image as a Blob (binary data)
+        const response = await fetch(imageUrl);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        const blob = await response.blob();
+
+        // Get the file size in bytes from the Blob object
+        const fileSizeInBytes = blob.size;
+
+        // Get the format (MIME type) from the Blob object
+        const imageFormat = blob.type.split('/')[1];
+
+        // Create an object URL to display the image
+        const objectURL = URL.createObjectURL(blob);
+
+        // Display the image and details in the div area
+        dataDiv.innerHTML = `
+            <img src="${objectURL}" alt="Cloudinary Image" style="max-width: 300px;">
+            <p><strong>Public ID:</strong> ${publicId}</p>
+            <p><strong>Format:</strong> ${imageFormat}</p>
+            <p><strong>File Size:</strong> ${fileSizeInBytes} bytes</p>
+        `;
+
+        // Clean up the object URL after the image is loaded and displayed
+        const imgElement = dataDiv.querySelector('img');
+        imgElement.onload = () => {
+            URL.revokeObjectURL(objectURL);
+        };
+
     } catch (error) {
-        console.error('Error loading gallery:', error);
-        galleryContainer.innerHTML = '<p>Error loading images. Check console for details and ensure your Cloudinary settings are correct.</p>';
+        console.error("Error fetching image details:", error);
+        dataDiv.innerHTML = `<p>Error: Failed to load image details. ${error.message}</p>`;
     }
 }
+
+// Call the function when the script loads
+displayImageDetails();
