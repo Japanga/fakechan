@@ -1,64 +1,66 @@
 // displayfilesize.js
-// Replace with your actual cloud name and image public ID
-const cloudName = 'dussuas34';
-const imagePublicId = '${image.public_id}'; // Use the variable here
-
-// Construct the delivery URL (you can add transformations if needed)
-const imageUrl = `res.cloudinary.com{cloudName}/image/upload/${imagePublicId}`;e)}`;
-               document.getElementById(`size-${image.public_id}`).innerHTML = `<strong>Size:</strong> ${image.width}x${image.height} ${formatBytes(size)}`;
-            } catch (error) {
-                console.error(error);
-                document.getElementById(`size-${image.public_id}`).textContent = 'Size: N/A';
-            }
-        }
-    } catch (error) {
-        console.error('Error loading gallery:', error);
-        galleryContainer.innerHTML = '<p>Error loading images. Check console for details and ensure your Cloudinary settings are correct.</p>';
-    }
-}
-async function getImageSize(url) {
-    try {
-        const response = await fetch(url, {
-            method: 'HEAD'
-        });
-
-        if (response.ok) {
-            const contentLength = response.headers.get('Content-Length');
-            if (contentLength) {
-                return parseInt(contentLength, 10); // Size in bytes
-            } else {
-                console.log('Content-Length header not available.');
-                return null;
-            }
-        } else {
-            console.error(`Error fetching image headers: ${response.statusText}`);
-            return null;
-        }
-    } catch (error) {
-        console.error('Network or CORS error:', error);
-        return null;
-    }
-                                     }
+// Function to format bytes into a readable size (KB, MB)
 function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
 
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
-// ... (cloudName, imagePublicId, getImageSize, formatBytes functions defined above) ...
 
-const displayElement = document.getElementById('fileSizeDisplay');
+async function getCloudinaryImageSize(publicId, cloudName) {
+    // Construct the standard Cloudinary delivery URL
+    const url = `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}`;
 
-getImageSize(imageUrl).then(sizeInBytes => {
-    if (sizeInBytes !== null) {
-        const formattedSize = formatBytes(sizeInBytes);
-        displayElement.textContent = formattedSize;
-    } else {
-        displayElement.textContent = 'Size not available';
+    try {
+        // Use a HEAD request to get headers without downloading the full image
+        const response = await fetch(url, {
+            method: 'HEAD'
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Get the Content-Length header, which is the file size in bytes
+        const contentLength = response.headers.get('Content-Length');
+
+        if (contentLength) {
+            const sizeInBytes = parseInt(contentLength, 10);
+            return {
+                url: url,
+                size: formatBytes(sizeInBytes)
+            };
+        } else {
+            return {
+                url: url,
+                size: 'Size not available via HEAD request'
+            };
+        }
+    } catch (error) {
+        console.error("Could not fetch image details:", error);
+        return {
+            url: url,
+            size: 'Error fetching size'
+        };
     }
-});
+}
+
+// Main execution function
+async function displayImageAndSize() {
+    const cloudName = 'dussuas34'; // e.g., 'demo'
+    const publicId = '${image.public_id}';   // e.g., 'sample'
+
+    const imageDetails = await getCloudinaryImageSize(publicId, cloudName);
+
+    // Display details in the HTML elements
+    document.getElementById('myImage').src = imageDetails.url;
+    document.getElementById('fileSize').textContent = imageDetails.size;
+}
+
+// Call the function when the script loads
+displayImageAndSize();
