@@ -1,5 +1,6 @@
 // displayfilesize.js
 // Function to format bytes into a readable size (KB, MB)
+// Function to format bytes into a human-readable size
 function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
 
@@ -12,55 +13,42 @@ function formatBytes(bytes, decimals = 2) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-async function getCloudinaryImageSize(publicId, cloudName) {
-    // Construct the standard Cloudinary delivery URL
-    const url = `https://res.cloudinary.com/${cloudName}/image/upload/${publicId}`;
+// Function to fetch the image and display its size
+async function getImageSize() {
+    const infoContainer = document.getElementById('image-info');
+    const publicId = infoContainer.dataset.publicId;
+    const cloudName = infoContainer.dataset.cloudName;
+    const sizeDisplay = document.getElementById('file-size-display');
+    const publicIdDisplay = document.getElementById('public-id-display');
+
+    if (!publicId || !cloudName) {
+        sizeDisplay.textContent = 'Error: Missing public ID or cloud name.';
+        return;
+    }
+
+    // Display public ID
+    publicIdDisplay.textContent = publicId;
+
+    // Construct the Cloudinary delivery URL
+    const imageUrl = `res.cloudinary.com{cloudName}/image/upload/${publicId}.jpg`; // Assuming .jpg format
 
     try {
-        // Use a HEAD request to get headers without downloading the full image
-        const response = await fetch(url, {
-            method: 'HEAD'
-        });
-
+        // Fetch the image as a Blob
+        const response = await fetch(imageUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const blob = await response.blob();
 
-        // Get the Content-Length header, which is the file size in bytes
-        const contentLength = response.headers.get('Content-Length');
+        // Get the size from the blob object
+        const fileSizeInBytes = blob.size;
+        sizeDisplay.textContent = formatBytes(fileSizeInBytes);
 
-        if (contentLength) {
-            const sizeInBytes = parseInt(contentLength, 10);
-            return {
-                url: url,
-                size: formatBytes(sizeInBytes)
-            };
-        } else {
-            return {
-                url: url,
-                size: 'Size not available via HEAD request'
-            };
-        }
     } catch (error) {
-        console.error("Could not fetch image details:", error);
-        return {
-            url: url,
-            size: 'Error fetching size'
-        };
+        console.error("Could not fetch image size:", error);
+        sizeDisplay.textContent = 'Error fetching size.';
     }
 }
 
-// Main execution function
-async function displayImageAndSize() {
-    const cloudName = 'dussuas34'; // e.g., 'demo'
-    const publicId = '${image.public_id}';   // e.g., 'sample'
-
-    const imageDetails = await getCloudinaryImageSize(publicId, cloudName);
-
-    // Display details in the HTML elements
-    document.getElementById('myImage').src = imageDetails.url;
-    document.getElementById('fileSize').textContent = imageDetails.size;
-}
-
-// Call the function when the script loads
-displayImageAndSize();
+// Run the function when the script loads
+getImageSize();
