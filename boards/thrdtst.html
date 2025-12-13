@@ -873,6 +873,17 @@ function loadScriptBySrc(url) {
 // 
 loadScriptBySrc('https://japanga.github.io/fakechan/boards/threadicon.js');
 `; 
+          
+              const inlineCode7 = `
+function loadScriptBySrc(url) {
+    const script = document.createElement('script');
+    script.src = url;
+    document.body.appendChild(script);
+}
+// 
+loadScriptBySrc('https://japanga.github.io/fakechan/boards/loadtextcontent.js');
+`; 
+           
            
                 
             
@@ -923,6 +934,11 @@ function imageClickHandler() {
  word-spacing: 10px; /* Space between words */
   letter-spacing: 1px; 
 }
+ #contentArea {
+ font-weight: bold;
+  color: #333333
+;
+}
      body {
   min-height: 200vh;
   margin: 0; /* Remove default body margin */
@@ -935,6 +951,11 @@ function imageClickHandler() {
      <div id="link-container">
      [  <!-- Content will be added here by JavaScript --> 
     </div> 
+    
+        <!-- The div where the content will be replaced -->
+    <div id="contentArea">
+        <p>This area will be replaced with content from a text file.</p>
+    </div>
 
                         <div class="parent-container">
       <div id="contentDiv" class="content-box">
@@ -1047,6 +1068,7 @@ a {
    attachInlineScript(newWindow, inlineCode4);
   attachInlineScript(newWindow, inlineCode5);
    attachInlineScript(newWindow, inlineCode6);
+  attachInlineScript(newWindow, inlineCode7);
     alert('You succesfully used the "threading" sytem to dynamically create a new .html page for your thread!');
     console.log('You can perform other actions here.');
 }
