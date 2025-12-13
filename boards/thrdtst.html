@@ -864,11 +864,16 @@ function imageClickHandler() {
     justify-content: center; /* Centers horizontally */
     align-items: center;     /* Centers vertically */         /* Sets the container height (e.g., to the full viewport height) */
 }
-    .imgDiv {
+    .content-box {
   border: 1px solid #000;
   width: 300px;
   height: 100px;
 }
+.content-box img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
      body {
   min-height: 200vh;
   margin: 0; /* Remove default body margin */
@@ -878,9 +883,9 @@ function imageClickHandler() {
    </style>
 
                         <div class="parent-container">
-    <div class="imgDiv">
-    <img src="default-image.jpg" alt="Random image placeholder" data-random-image>
-</div>
+      <div id="contentDiv" class="content-box">
+        <!-- Content will be injected here by JavaScript -->
+    </div>
         </div>
                           </div>
     <div class="main-content">
