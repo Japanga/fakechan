@@ -10,7 +10,7 @@ async function displayImageDetails() {
     }
 
     // Construct the Cloudinary image URL (e.g., res.cloudinary.com)
-    const imageUrl = `res.cloudinary.com{cloudName}/image/upload/${publicId}.jpg`; // Use a default format like jpg
+    const imageUrl = `res.cloudinary.com{dussuas34}/image/upload/${publicId}.jpg`; // Use a default format like jpg
 
     try {
         // Fetch the image as a Blob (binary data)
