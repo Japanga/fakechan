@@ -999,7 +999,7 @@ function imageClickHandler() {
             <p>${description}</p>
           
             
-   <iframe src="https://japanga.github.io/fakechan/boards/h_com.html?id=${i + 1}" width="450" height="300">
+   <iframe src="https://japanga.github.io/fakechan/boards/h_coms.html?id=${i + 1}" width="450" height="300">
         Your browser does not support iframes.
     </iframe>
      
@@ -1068,8 +1068,13 @@ a {
     newWindow.document.open();
     newWindow.document.write(newPageContent);
     newWindow.document.close();
-       attachInlineScript(newWindow, inlineCode);
+     attachInlineScript(newWindow, inlineCode);
   attachInlineScript(newWindow, inlineCode2);
+  attachInlineScript(newWindow, inlineCode3);
+   attachInlineScript(newWindow, inlineCode4);
+  attachInlineScript(newWindow, inlineCode5);
+   attachInlineScript(newWindow, inlineCode6);
+  attachInlineScript(newWindow, inlineCode7);
     alert('You succesfully used the "threading" sytem to dynamically create a new .html page for your thread!');
     console.log('You can perform other actions here.');
 }
