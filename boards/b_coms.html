@@ -20,6 +20,30 @@
             </div>
         </div>
 
+    <script>
+  function colorParagraphsStartingWithGreaterSign() {
+    // Get all paragraph elements on the page
+    const paragraphs = document.getElementsByTagName('p');
+
+    // Iterate through each paragraph
+    for (let i = 0; i < paragraphs.length; i++) {
+        const paragraph = paragraphs[i];
+        // Get the text content and trim any leading/trailing whitespace
+        const textContent = paragraph.textContent.trim();
+
+        // Check if the trimmed text content starts with '>'
+        if (textContent.startsWith('>')) {
+            // If it does, change the text color to green
+            paragraph.style.color = 'green';
+        }
+    }
+}
+
+// Call the function when the page loads or at an appropriate time
+window.onload = colorParagraphsStartingWithGreaterSign;
+  </script>
+
+
 
 
   <style>
