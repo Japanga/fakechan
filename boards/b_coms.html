@@ -20,29 +20,27 @@
             </div>
         </div>
 
- 
-
-<script>
-    //greentexts.js
-function applyGreenToBlockquotes() {
-    // Select all paragraph elements in the document
-    const paragraphs = document.querySelectorAll("p");
-
-    // Iterate over the NodeList of paragraphs
-    paragraphs.forEach(paragraph => {
-        // Get the text content, trim any leading/trailing whitespace
-        const textContent = paragraph.textContent.trim();
-
-        // Check if the text content starts with a '>'
-        if (textContent.startsWith(">")) {
-            // If it does, change the text color to green
-            paragraph.style.color = "green";
+       <script>
+window.onload = function() {
+    const walk = document.createTreeWalker(
+        document.body, 
+        NodeFilter.SHOW_TEXT
+    );
+    while (walk.nextNode()) {
+        const node = walk.currentNode;
+        const text = node.nodeValue.trim();
+        if (text.startsWith('→') || text.startsWith('>')) {
+            const span = document.createElement('span');
+            span.style.color = 'green';
+            span.textContent = node.nodeValue;
+            node.parentNode.replaceChild(span, node);
         }
-    });
-}
-applyGreenToBlockquotes();
+    }
+};
 
-</script>
+  </script>
+
+
 
 
   <style>
