@@ -22,17 +22,11 @@
 
     <script>
 window.onload = function() {
-  const wordToReplace = ">";
-  const replacementHTML = '<h1 class="green-text">>';
-  document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
+  document.body.innerHTML = document.body.innerHTML.replaceAll(/>([^<]+)/g, '<span style="color: green;">>$1</span>');
 };
   </script>
   
-  <style>
-    .green-text {
-    color: green;
-}
-</style>
+
 
 
 
