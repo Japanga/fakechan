@@ -22,17 +22,15 @@
 
        <script>
 window.onload = function() {
-  const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  let node;
-  while (node = walk.nextNode()) {
-    if (node.nodeValue.trim().startsWith('>')) {
-      const span = document.createElement('span');
-      span.style.color = 'green';
-      span.textContent = node.nodeValue;
-      node.parentNode.replaceChild(span, node);
+  const allParagraphs = document.querySelectorAll('p');
+  
+  allParagraphs.forEach(function(p) {
+    if (p.textContent.trim().startsWith('>')) {
+      p.style.color = 'green';
     }
-  }
+  });
 };
+
 
   </script>
 
