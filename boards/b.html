@@ -183,25 +183,7 @@ button {
         </div>
     </div>
     <button id="open-popup-btn">Settings</button>
-  
-  <script>
-  function forceReloadOnce() {
-    // Check if the page was accessed by navigating into the history (e.g., back button)
-    // or by a normal reload using the browser's default behavior
-    if (window.performance.navigation.type === 0) {
-      // If so, force a full reload from the server, bypassing the cache
-      // The 'true' parameter is supported in all major browsers including Chrome, Firefox, Safari, and Edge
-      window.location.reload(true);
-      localStorage.clear();
-sessionStorage.clear();
-    }
-  }
 
-  // Add event listener for DOMContentLoaded to run the function when the initial
-  // HTML document has been completely loaded and parsed
-  window.addEventListener("DOMContentLoaded", forceReloadOnce);
-</script>
-      
   <script>
     // Function to change the font color
 function changePageColor() {
@@ -604,11 +586,30 @@ element.style.visibility = 'hidden';
 window.onload = colorParagraphsStartingWithGreaterSign;
   </script>
 
-   
+  <script>
+  function forceReloadOnce() {
+    // Check if the page was accessed by navigating into the history (e.g., back button)
+    // or by a normal reload using the browser's default behavior
+    if (window.performance.navigation.type === 0) {
+      // If so, force a full reload from the server, bypassing the cache
+      // The 'true' parameter is supported in all major browsers including Chrome, Firefox, Safari, and Edge
+      window.location.reload(true);
+      localStorage.clear();
+sessionStorage.clear();
+    }
+  }
+
+  // Add event listener for DOMContentLoaded to run the function when the initial
+  // HTML document has been completely loaded and parsed
+  window.addEventListener("DOMContentLoaded", forceReloadOnce);
+</script>
+      
 <script>
  function makeYouTubeLinksClickable() {
     // Regular expression to find common YouTube URL formats
     var youtubeRegex = /(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11}))/g;
+
+  const githubRegex = /(https?:\/\/[^\s]*github\.com[^\s]*)/g;
 
     // Find all paragraph elements on the page
     var paragraphs = document.getElementsByTagName('p');
@@ -627,6 +628,10 @@ window.onload = colorParagraphsStartingWithGreaterSign;
         if (linkedText !== originalText) {
             paragraph.innerHTML = linkedText;
         }
+  if (paragraph.innerHTML.includes("github.com")) {
+      // Replace plain text URLs with anchor tags
+      paragraph.innerHTML = paragraph.innerHTML.replace(githubRegex, '<a href="$1" target="_blank">$1</a>');
+}
        // Check if the trimmed text content starts with '>'
         if (paragraph.textContent.startsWith('>')) {
             // If it does, change the text color to green
@@ -638,6 +643,9 @@ window.onload = colorParagraphsStartingWithGreaterSign;
 // Run the function when the window loads
 window.onload = makeYouTubeLinksClickable;
   </script>
+
+
+
 
 <script>
   var myWidget = cloudinary.createUploadWidget({
@@ -716,6 +724,7 @@ document.getElementById("upload_widget").addEventListener("click", function(){
     <div class="gallery-container" id="gallery-container">
         <!-- Images will be injected here by JavaScript -->
     </div>
+
 
    <script>
       // --- Configuration ---
@@ -1260,7 +1269,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
