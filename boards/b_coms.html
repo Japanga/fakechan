@@ -22,7 +22,12 @@
 
     <script>
 window.onload = function() {
-  document.body.innerHTML = document.body.innerHTML.replaceAll('>', '<span style="color: green;">>$1</span>');
+    const paragraphs = document.querySelectorAll('p');
+    paragraphs.forEach(p => {
+        if (p.textContent.trim().startsWith('>')) {
+            p.style.color = 'green';
+        }
+    });
 };
   </script>
   
