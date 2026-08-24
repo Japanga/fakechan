@@ -20,20 +20,19 @@
             </div>
         </div>
 
-       <script>
+    <script>
 window.onload = function() {
-  const elements = document.querySelectorAll("p, span, div, li, h1, h2, h3, h4, h5, h6, a");
-  
-  elements.forEach(el => {
-    if (el.children.length === 0 && el.textContent.trim().startsWith(">")) {
-      el.style.color = "green";
-    }
-  });
+  const wordToReplace = ">";
+  const replacementHTML = '<h1 class="green-text">>';
+  document.body.innerHTML = document.body.innerHTML.replaceAll(wordToReplace, replacementHTML);
 };
-
-
   </script>
-
+  
+  <style>
+    .green-text {
+    color: green;
+}
+</style>
 
 
 
