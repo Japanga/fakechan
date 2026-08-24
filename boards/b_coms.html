@@ -22,21 +22,9 @@
 
        <script>
 window.onload = function() {
-    const walk = document.createTreeWalker(
-        document.body, 
-        NodeFilter.SHOW_TEXT
-    );
-    while (walk.nextNode()) {
-        const node = walk.currentNode;
-        const text = node.nodeValue.trim();
-        if (text.startsWith('→') || text.startsWith('>')) {
-            const span = document.createElement('span');
-            span.style.color = 'green';
-            span.textContent = node.nodeValue;
-            node.parentNode.replaceChild(span, node);
-        }
-    }
+  document.body.innerHTML = document.body.innerHTML.replace(/(^|&gt;|&lt;|>|\s)(&gt;|>)([^<\s]+)/g, '$1<span style="color: green;">&gt;$3</span>');
 };
+
 
   </script>
 
