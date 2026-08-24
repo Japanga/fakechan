@@ -22,11 +22,11 @@
 
        <script>
 window.onload = function() {
-  const allParagraphs = document.querySelectorAll('p');
+  const elements = document.querySelectorAll("p, span, div, li, h1, h2, h3, h4, h5, h6, a");
   
-  allParagraphs.forEach(function(p) {
-    if (p.textContent.trim().startsWith('>')) {
-      p.style.color = 'green';
+  elements.forEach(el => {
+    if (el.children.length === 0 && el.textContent.trim().startsWith(">")) {
+      el.style.color = "green";
     }
   });
 };
