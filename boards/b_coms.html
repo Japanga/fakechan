@@ -25,7 +25,7 @@ window.onload = function() {
     const paragraphs = document.querySelectorAll('p');
     paragraphs.forEach(p => {
         if (p.textContent.trim().startsWith('>')) {
-            p.style.color = 'green';
+           p.style.fontWeight = 'bold';
         }
     });
 };
