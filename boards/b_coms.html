@@ -22,9 +22,17 @@
 
        <script>
 window.onload = function() {
-  document.body.innerHTML = document.body.innerHTML.replace(/(^|&gt;|&lt;|>|\s)(&gt;|>)([^<\s]+)/g, '$1<span style="color: green;">&gt;$3</span>');
+  const walk = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let node;
+  while (node = walk.nextNode()) {
+    if (node.nodeValue.trim().startsWith('>')) {
+      const span = document.createElement('span');
+      span.style.color = 'green';
+      span.textContent = node.nodeValue;
+      node.parentNode.replaceChild(span, node);
+    }
+  }
 };
-
 
   </script>
 
