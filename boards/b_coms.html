@@ -22,15 +22,22 @@
 
        <script>
 window.onload = function() {
-  const allElements = document.querySelectorAll('body *');
-  
-  allElements.forEach(el => {
-    if (el.children.length === 0 && el.textContent.trim().startsWith('->')) {
-      el.style.fontWeight = 'bold';
-      el.style.color = 'green';
+    const walk = document.createTreeWalker(
+        document.body, 
+        NodeFilter.SHOW_TEXT
+    );
+    while (walk.nextNode()) {
+        const node = walk.currentNode;
+        const text = node.nodeValue.trim();
+        if (text.startsWith('→') || text.startsWith('>')) {
+            const span = document.createElement('span');
+            span.style.color = 'green';
+            span.textContent = node.nodeValue;
+            node.parentNode.replaceChild(span, node);
+        }
     }
-  });
 };
+
   </script>
 
 
