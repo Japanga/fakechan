@@ -3,6 +3,8 @@
     // Regular expression to find common YouTube URL formats
     var youtubeRegex = /(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11}))/g;
 
+    const githubRegex = /(https?:\/\/[^\s]*github\.com[^\s]*)/g;
+
     // Find all paragraph elements on the page
     var paragraphs = document.getElementsByTagName('p');
 
@@ -15,7 +17,10 @@
             // The match is the full URL found by the regex
             return '<a href="' + url + '">' + url + '</a>';
         });
-
+  if (paragraph.innerHTML.includes("github.com")) {
+      // Replace plain text URLs with anchor tags
+      paragraph.innerHTML = paragraph.innerHTML.replace(githubRegex, '<a href="$1" target="_blank">$1</a>');
+}
         // Update the paragraph's HTML content only if a replacement was made
         if (linkedText !== originalText) {
             paragraph.innerHTML = linkedText;
