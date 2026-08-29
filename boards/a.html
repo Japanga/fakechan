@@ -17,55 +17,7 @@
   <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
   
       <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script>
-   <script>
-        // Function to check for Incognito mode
-        function checkIncognito(callback) {
-            // Modern Chrome, Edge, and Opera using Storage API
-            if ('storage' in navigator && 'estimate' in navigator.storage) {
-                navigator.storage.estimate().then(function(estimate) {
-                    // In private mode, quota is typically much smaller
-                    if (estimate.quota < 120 * 1024 * 1024 * 1024) {
-                        callback(true);
-                    } else {
-                        callback(false);
-                    }
-                }).catch(function() {
-                    callback(false);
-                });
-            } else if (window.webkitRequestFileSystem) {
-                // Older Chrome/Safari fallback
-                window.webkitRequestFileSystem(window.TEMPORARY, 100, function() {
-                    callback(false);
-                }, function() {
-                    callback(true);
-                });
-            } else if (navigator.userAgent.includes("Firefox")) {
-                // Firefox IndexedDB check
-                let db = indexedDB.open("test");
-                db.onerror = function() {
-                    callback(true);
-                };
-                db.onsuccess = function() {
-                    callback(false);
-                };
-            } else {
-                callback(false);
-            }
-        }
-
-        // Run check on load
-        window.addEventListener('DOMContentLoaded', function() {
-            checkIncognito(function(isIncognito) {
-                if (isIncognito) {
-                    // Redirect to 403 error page or display 403 content
-                    window.location.href = "https://japanga.github.io/fakechan/403.html";
-                } else {
-                    // Normal page load actions
-                    document.getElementById('content').style.display = 'block';
-                }
-            });
-        });
-    </script>
+  
    
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -85,30 +37,63 @@
            
         });
     </script>
-
-     <script>
-        // Create a unique channel name for this specific page
-        const tabChannel = new BroadcastChannel('single_tab_channel');
+ <script>
+        const CHANNEL_NAME = 'single_tab_test_channel';
+        const STORAGE_KEY = 'single_tab_active_instance';
         
-        // Define the error destination page URL
-        const errorPageUrl = 'https://japanga.github.io/fakechan/403.html'; // Swap this with your actual error page URL
+        // Generate a unique ID for this specific tab instance
+        const tabId = Math.random().toString(36).substring(2);
+        let channel = null;
 
-        // 1. Immediately tell other tabs: "I am trying to open!"
-        tabChannel.postMessage({ type: 'NEW_TAB_OPENED' });
+        function triggerError() {
+               window.location.href = "https://japanga.github.io/fakechan/403.html";
+        }
 
-        // 2. Listen for responses or commands from other open tabs
-        tabChannel.onmessage = (event) => {
-            if (event.data.type === 'NEW_TAB_OPENED') {
-                // An existing tab hears a new tab opening. 
-                // It replies back: "Hey, I am already the boss here!"
-                tabChannel.postMessage({ type: 'TAB_ALREADY_EXISTS' });
-            } 
+        // Initialize communication cross-tab/cross-window
+        if (window.BroadcastChannel) {
+            channel = new BroadcastChannel(CHANNEL_NAME);
             
-            if (event.data.type === 'TAB_ALREADY_EXISTS') {
-                // The newly opened tab receives this message and immediately redirects
-                window.location.href = errorPageUrl;
+            // Tell existing tabs a new tab just loaded
+            channel.postMessage({ type: 'CHECK_PRESENCE', id: tabId });
+
+            // Listen for signals from other tabs
+            channel.onmessage = (event) => {
+                if (event.data.type === 'CHECK_PRESENCE' && event.data.id !== tabId) {
+                    // Another tab announced itself, reply that we are already here
+                    channel.postMessage({ type: 'ACK_PRESENCE', id: tabId });
+                    triggerError();
+                }
+                if (event.data.type === 'ACK_PRESENCE' && event.data.id !== tabId) {
+                    // An existing tab replied to our announcement
+                    triggerError();
+                }
+            };
+        }
+
+        // Fallback / reinforcement using localStorage for mobile browsers with weak BroadcastChannel lifecycles
+        window.addEventListener('storage', (event) => {
+            if (event.key === STORAGE_KEY && event.newValue) {
+                const activeData = JSON.parse(event.newValue);
+                if (activeData.id !== tabId) {
+                    triggerError();
+                }
             }
-        };
+        });
+
+        // Register current tab on load
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ id: tabId, time: Date.now() }));
+
+        // Clean up storage flag if user closes the primary tab
+        window.addEventListener('beforeunload', () => {
+            const current = localStorage.getItem(STORAGE_KEY);
+            if (current) {
+                const parsed = JSON.parse(current);
+                if (parsed.id === tabId) {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+            }
+            if (channel) channel.close();
+        });
     </script>
 
 </head>
