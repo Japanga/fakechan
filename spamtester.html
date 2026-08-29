@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Tab Enforcement Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to the Main Application</h1>
+        <p>This page only allows one open tab at a time.</p>
+        <p>Try copying this URL and opening it in a new tab to test the behavior!</p>
+    </div>
+
+    <script>
+        // Create a unique channel name for this specific page
+        const tabChannel = new BroadcastChannel('single_tab_channel');
+        
+        // Define the error destination page URL
+        const errorPageUrl = 'https://example.com'; // Swap this with your actual error page URL
+
+        // 1. Immediately tell other tabs: "I am trying to open!"
+        tabChannel.postMessage({ type: 'NEW_TAB_OPENED' });
+
+        // 2. Listen for responses or commands from other open tabs
+        tabChannel.onmessage = (event) => {
+            if (event.data.type === 'NEW_TAB_OPENED') {
+                // An existing tab hears a new tab opening. 
+                // It replies back: "Hey, I am already the boss here!"
+                tabChannel.postMessage({ type: 'TAB_ALREADY_EXISTS' });
+            } 
+            
+            if (event.data.type === 'TAB_ALREADY_EXISTS') {
+                // The newly opened tab receives this message and immediately redirects
+                window.location.href = errorPageUrl;
+            }
+        };
+    </script>
+</body>
+</html>
