@@ -728,7 +728,7 @@ window.onload = makeYouTubeLinksClickable;
     console.error("Error fetching country data:", error);
     // Fallback: Keeps the default US flag defined in your HTML if the API fails
   }
-}
+} 
 
 // Execute the function when the page loads
 window.onload = setLocalFlag;
@@ -758,7 +758,7 @@ window.onload = setLocalFlag;
         if (descriptionValue) {
          
            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-              params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue; + '|country_flag=' + imgElement.src;  '|country_name=' + flagText.textContent;
+              params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue; + '|country_flag=' + currentSrc;  '|country_name=' + flagText.textContent.value;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
@@ -766,9 +766,9 @@ window.onload = setLocalFlag;
           
            params.metadata = 'thread_title=' + titleValue;
            
-            params.metadata = '|country_flag=' + imgElement.src;
+            params.metadata = '|country_flag=' + currentSrc;
             
-             params.metadata = '|country_name=' + flagText.textContent;
+             params.metadata = '|country_name=' + flagText.textContent.value;
         }
         cb(params);
     }
