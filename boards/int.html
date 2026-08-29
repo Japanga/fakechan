@@ -746,8 +746,7 @@ window.onload = setLocalFlag;
              const titleInput = document.getElementById('threadTitle');
         const titleValue = titleInput.value;
            const passwordInput = document.getElementById('generatedPassword');
-const imgElement = document.getElementById('visitor-flag');
-const encodedUrl = imgElement.getAttribute('src');
+const img = document.getElementById('visitor-flag');
         const passwordValue = passwordInput.value;
     const element = document.getElementById("revealText");
     const text = element.textContent;
@@ -758,7 +757,7 @@ const encodedUrl = imgElement.getAttribute('src');
         if (descriptionValue) {
           
             // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-                params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue; + '|country_flag=' + encodedUrl + '|country_name=' + text;
+                params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue; + '|country_flag=' + img.src + '|country_name=' + text;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
@@ -766,7 +765,7 @@ const encodedUrl = imgElement.getAttribute('src');
           
            params.metadata = 'thread_title=' + titleValue;
            
-           params.metadata = 'country_flag=' + encodedUrl;
+           params.metadata = 'country_flag=' + img.src;
           
            params.metadata = 'country_name=' + text;
         }
