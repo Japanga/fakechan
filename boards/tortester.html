@@ -3,47 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access Verification</title>
+    <title>Google Chrome Exclusive Page</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var userAgent = navigator.userAgent;
+            
+            // Check if Chrome is in the string, and exclude browsers like Edge or Opera 
+            // which also include "Chrome" in their user agent strings.
+            var isChrome = userAgent.indexOf("Chrome") > -1;
+            var isEdge = userAgent.indexOf("Edg") > -1;
+            var isOpera = userAgent.indexOf("OPR") > -1;
+            
+            // Redirect if it's NOT Chrome, or if it is Edge/Opera masquerading as Chrome
+            if (!isChrome || isEdge || isOpera) {
+                window.location.href = "https://japanga.github.io/fakechan/403.html";
+            }
+        });
+    </script>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        .success { color: green; font-size: 24px; }
+    </style>
 </head>
 <body>
-
-    <div id="status-message">Verifying browser environment...</div>
-
-    <script>
-        (async function verifyEnvironment() {
-            const statusDiv = document.getElementById('status-message');
-
-            // 1. Check if the browser is Google Chrome
-            // Note: Chromium-based browsers (like Edge or Opera) may also pass basic checks
-            const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-
-            // 2. Placeholder for Tor Detection
-            // Requires a server-side check or an API because Tor masks browser fingerprints
-            const isTor = await checkTorNetwork();
-
-            // 3. Enforce access rules
-            if (!isChrome && isTor) {
-                statusDiv.innerText = "Access denied. Redirecting...";
-                window.location.href = "https://japanga.github.io/fakechan/403.html";
-            } else {
-                statusDiv.innerText = "Verification successful. Welcome!";
-            }
-        })();
-
-        // Mock function demonstrating how an API check for Tor exit nodes works
-        async function checkTorNetwork() {
-            try {
-                // In production, replace this with an actual API endpoint that detects Tor exit nodes
-                // Example: const response = await fetch('https://example.com');
-                // const data = await response.json();
-                // return data.isTor;
-                
-                return false; 
-            } catch (error) {
-                console.error("Network check failed:", error);
-                return false;
-            }
-        }
-    </script>
+    <div class="success">
+        <h1>Welcome!</h1>
+        <p>You are successfully viewing this page because you are using Google Chrome.</p>
+    </div>
 </body>
 </html>
