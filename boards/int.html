@@ -734,7 +734,7 @@ window.onload = makeYouTubeLinksClickable;
 window.onload = setLocalFlag;
 
     </script> 
-    
+
 <script>
   var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
@@ -746,7 +746,12 @@ window.onload = setLocalFlag;
              const titleInput = document.getElementById('threadTitle');
         const titleValue = titleInput.value;
            const passwordInput = document.getElementById('generatedPassword');
-const img = document.getElementById('visitor-flag');
+    const imgElement = document.getElementById('visitor-flag');
+    
+    // 2. Get the URL from the src attribute
+    const imageUrl = imgElement.src;
+    
+        
         const passwordValue = passwordInput.value;
     const element = document.getElementById("revealText");
     const text = element.textContent;
@@ -757,7 +762,7 @@ const img = document.getElementById('visitor-flag');
         if (descriptionValue) {
           
             // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-                params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue; + '|country_flag=' + img.src; + '|country_name=' + text;
+                params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue; + '|country_flag=' + imageUrl; + '|country_name=' + text;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
@@ -765,7 +770,7 @@ const img = document.getElementById('visitor-flag');
           
            params.metadata = 'thread_title=' + titleValue;
            
-           params.metadata = 'country_flag=' + img.src;
+           params.metadata = 'country_flag=' + imageUrl;
           
            params.metadata = 'country_name=' + text;
         }
