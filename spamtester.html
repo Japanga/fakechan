@@ -6,54 +6,97 @@
     <title>Single Tab Enforcement Test</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
-        }
-        .container {
+            font-family: system-ui, -apple-system, sans-serif;
             text-align: center;
-            padding: 30px;
-            background: white;
+            padding: 2rem;
+            color: #222;
+        }
+        .error-box {
+            background-color: #fee2e2;
+            border: 1px solid #ef4444;
+            padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 500px;
+            margin: 3rem auto;
+            display: none;
+        }
+        .content-box {
+            display: block;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Welcome to the Main Application</h1>
-        <p>This page only allows one open tab at a time.</p>
-        <p>Try copying this URL and opening it in a new tab to test the behavior!</p>
+    <!-- Main App Content -->
+    <div id="main-content" class="content-box">
+        <h1>Welcome</h1>
+        <p>This page is active. If you open another copy of this tab on your device, this window will show an error.</p>
+    </div>
+
+    <!-- Error View (Hidden by default) -->
+    <div id="error-content" class="error-box">
+        <h1>Access Denied</h1>
+        <p>You have more than one copy of this tab open. Please close the extra tab to continue using this page.</p>
     </div>
 
     <script>
-        // Create a unique channel name for this specific page
-        const tabChannel = new BroadcastChannel('single_tab_channel');
+        const CHANNEL_NAME = 'single_tab_test_channel';
+        const STORAGE_KEY = 'single_tab_active_instance';
         
-        // Define the error destination page URL
-        const errorPageUrl = 'https://example.com'; // Swap this with your actual error page URL
+        // Generate a unique ID for this specific tab instance
+        const tabId = Math.random().toString(36).substring(2);
+        let channel = null;
 
-        // 1. Immediately tell other tabs: "I am trying to open!"
-        tabChannel.postMessage({ type: 'NEW_TAB_OPENED' });
+        function triggerError() {
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('error-content').style.display = 'block';
+        }
 
-        // 2. Listen for responses or commands from other open tabs
-        tabChannel.onmessage = (event) => {
-            if (event.data.type === 'NEW_TAB_OPENED') {
-                // An existing tab hears a new tab opening. 
-                // It replies back: "Hey, I am already the boss here!"
-                tabChannel.postMessage({ type: 'TAB_ALREADY_EXISTS' });
-            } 
+        // Initialize communication cross-tab/cross-window
+        if (window.BroadcastChannel) {
+            channel = new BroadcastChannel(CHANNEL_NAME);
             
-            if (event.data.type === 'TAB_ALREADY_EXISTS') {
-                // The newly opened tab receives this message and immediately redirects
-                window.location.href = errorPageUrl;
+            // Tell existing tabs a new tab just loaded
+            channel.postMessage({ type: 'CHECK_PRESENCE', id: tabId });
+
+            // Listen for signals from other tabs
+            channel.onmessage = (event) => {
+                if (event.data.type === 'CHECK_PRESENCE' && event.data.id !== tabId) {
+                    // Another tab announced itself, reply that we are already here
+                    channel.postMessage({ type: 'ACK_PRESENCE', id: tabId });
+                    triggerError();
+                }
+                if (event.data.type === 'ACK_PRESENCE' && event.data.id !== tabId) {
+                    // An existing tab replied to our announcement
+                    triggerError();
+                }
+            };
+        }
+
+        // Fallback / reinforcement using localStorage for mobile browsers with weak BroadcastChannel lifecycles
+        window.addEventListener('storage', (event) => {
+            if (event.key === STORAGE_KEY && event.newValue) {
+                const activeData = JSON.parse(event.newValue);
+                if (activeData.id !== tabId) {
+                    triggerError();
+                }
             }
-        };
+        });
+
+        // Register current tab on load
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ id: tabId, time: Date.now() }));
+
+        // Clean up storage flag if user closes the primary tab
+        window.addEventListener('beforeunload', () => {
+            const current = localStorage.getItem(STORAGE_KEY);
+            if (current) {
+                const parsed = JSON.parse(current);
+                if (parsed.id === tabId) {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+            }
+            if (channel) channel.close();
+        });
     </script>
 </body>
 </html>
