@@ -1087,11 +1087,7 @@ a {
             infoDiv.classList.add('image-info');
             infoDiv.innerHTML = `
                 <p><strong>No:</strong> ${i + 1}</p>
-                <p><strong>Filename:</strong> <a href="https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}">${image.public_id}.${image.format}</a></p>
-                <p id="size-${image.public_id}">Size: Fetching...</p>
-       
-                  <p><strong>Date:</strong> (${dayOfWeek}) ${dateString}</p>
-                  <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
+
                   <p><strong>Thread Title: ${threadtitle}</strong></p>
                   <div>
                   <p>${description}</p>
@@ -1104,8 +1100,7 @@ a {
                 // Use the original image URL for accurate size (without transformations)
                 const originalUrl = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${image.public_id}.${image.format}`;
                 const size = await getFileSize(originalUrl);
-                document.getElementById(`size-${image.public_id}`).textContent = `Size: ${formatBytes(size)}`;
-               document.getElementById(`size-${image.public_id}`).innerHTML = `<strong>Size:</strong> ${image.width}x${image.height} ${formatBytes(size)}`;
+
             } catch (error) {
                 console.error(error);
                 document.getElementById(`size-${image.public_id}`).textContent = 'Size: N/A';
