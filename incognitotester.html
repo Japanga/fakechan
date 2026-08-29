@@ -45,7 +45,7 @@
             checkIncognito(function(isIncognito) {
                 if (isIncognito) {
                     // Redirect to 403 error page or display 403 content
-                    window.location.replace("data:text/html,<html><body><h1>403 Forbidden</h1><p>Access denied in Incognito mode.</p></body></html>");
+                    window.location.href = "https://japanga.github.io/fakechan/403.html";
                 } else {
                     // Normal page load actions
                     document.getElementById('content').style.display = 'block';
