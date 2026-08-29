@@ -739,47 +739,27 @@ window.onload = setLocalFlag;
   var myWidget = cloudinary.createUploadWidget({
     cloudName: 'dussuas34', // Replace with your Cloudinary cloud name
     uploadPreset: 'InternationalUploads', // Replace with your upload preset
-    // Use prepareUploadParams to add custom data
+       // Use prepareUploadParams to add custom data
     prepareUploadParams: (cb, params) => {
         const descriptionInput = document.getElementById('imageDescription');
         const descriptionValue = descriptionInput.value;
-                 const titleInput = document.getElementById('threadTitle');
+             const titleInput = document.getElementById('threadTitle');
         const titleValue = titleInput.value;
            const passwordInput = document.getElementById('generatedPassword');
         const passwordValue = passwordInput.value;
-        
-            // 1. Find the element in the DOM
-    const element = document.getElementById(revealText);
-    
-    // 2. Extract its current text content
-    const text = element.textContent;
-    
-  // 1. Select the image element
-  const imgElement = document.getElementById('visitor-flag');
-
-  // 2. Get the src string
-  const rawSrc = imgElement.src;
-
-  // 3. Decode the URL string (handles %3A, %2F, etc.)
-  const decodedUrl = decodeURIComponent(rawSrc);
-
       context: true;
       
 
         if (descriptionValue) {
-         
-           // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-              params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue; + '|country_flag=' + rawSrc;  '|country_name=' + text;
+          
+            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
+                params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'tripcode=' + passwordValue;
           
            params.metadata = 'thread_title=' + titleValue;
-           
-            params.metadata = 'country_flag=' + rawSrc;
-            
-             params.metadata = 'country_name=' + text;
         }
         cb(params);
     }
