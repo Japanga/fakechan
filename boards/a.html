@@ -19,35 +19,33 @@
       <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script>
   
     <script>
-        // Synchronous check function for Chrome/Chromium private mode
-        function checkIncognitoSync() {
-            try {
-                // Heuristic: Test if localStorage throws an immediate quota/access exception
-                localStorage.setItem('test_incognito', '1');
-                localStorage.removeItem('test_incognito');
-                
-                // Secondary synchronous check via temporary file system or memory constraints if available
-                const fs = window.RequestFileSystem || window.webkitRequestFileSystem;
-                if (fs) {
-                    // If it doesn't throw or fail immediately, assume normal mode
-                    return false; 
+        // Onload function triggers when the page finishes loading
+        window.onload = function() {
+            async function checkIncognito() {
+                try {
+                    // Check storage quota estimate
+                    const estimate = await navigator.storage.estimate();
+                    // In Chrome incognito, quota is heavily restricted/smaller
+                    // Standard threshold check (approx. less than 120MB quota)
+                    if (estimate.quota && estimate.quota < 120 * 1024 * 1024) {
+                        return true; // Likely Incognito
+                    }
+                } catch (e) {
+                    // Fallback or error in estimation
                 }
-                return false;
-            } catch (e) {
-                // An exception thrown during storage write strongly signals private/incognito mode
-                return true;
+                return false; // Likely Safe / Normal mode
             }
-        }
 
-        // Run the check immediately upon loading (synchronously)
-        (function enforceIncognito() {
-            const isIncognito = checkIncognitoSync();
-            
-            // If the user is NOT in incognito mode, redirect to an error page immediately
-            if (!isIncognito) {
-                window.location.replace("https://japanga.github.io/fakechan/403.html");
-            }
-        })();
+            checkIncognito().then(isIncognito => {
+                if (isIncognito) {
+                    // Switch window to an error page if in incognito mode
+                    window.location.href = "https://japanga.github.io/fakechan/403.html"; 
+                } else {
+                    // Give an alert that the page is safe if not in incognito mode
+                    alert("No TOR/incognito mode usage detected, you have safely been granted access to FakeChan.");
+                }
+            });
+        };
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
