@@ -27,7 +27,7 @@
                     // Incognito mode often reports a much lower maximum quota limit
                     // Threshold is roughly set around 120MB for testing purposes
                     if (estimate.quota && estimate.quota < 120 * 1024 * 1024) {
-                        window.location.replace("https://japanga.github.io/fakechan/403.html");
+                        window.location.href("https://japanga.github.io/fakechan/403.html");
                         return;
                     }
                 }
@@ -39,11 +39,12 @@
             // If not in incognito or check passes, keep the page visible
             document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("content").style.display = "block";
+                checkIncognitoAndRedirect();
             });
         }
 
         // Run the check immediately
-        checkIncognitoAndRedirect();
+       
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
