@@ -1044,8 +1044,8 @@ function imageClickHandler() {
      body {
   min-height: 200vh;
   margin: 0; /* Remove default body margin */
-  background-image: linear-gradient(#F7B48D
-, #FFFDFC
+  background-image: linear-gradient(#D1D5EE
+, #EEF2FF
 );
    </style>
 
@@ -1087,8 +1087,10 @@ function imageClickHandler() {
                   <p><strong>Author:</strong> <span style="color: green;">Anonymous <strong>${tripcode}</span></strong></p>
                   
                  <p><strong>Region:</strong></p>
-  <img src="${countryFlag}" alt="Sample Image">
 
+ <div class="image-container2">
+    <img src="${countryFlag}" alt="Sample Image">
+  </div>
     <p><strong>${countryName}</strong></p>
 
         
@@ -1110,6 +1112,16 @@ function imageClickHandler() {
     </div>
   
      <style>
+     /* Container must be relative so the overlay positions itself inside it */
+.image-container2 {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Make sure the image fills the container */
+.image-container2 img {
+  object-fit: cover;
+}
        .main-content {
     display: flex;
     gap: 20px; /* Adds space between the left and right sections */
