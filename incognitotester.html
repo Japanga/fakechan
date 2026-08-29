@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Check</title>
+    <script>
+        // Function to check for Incognito mode
+        function checkIncognito(callback) {
+            // Modern Chrome, Edge, and Opera using Storage API
+            if ('storage' in navigator && 'estimate' in navigator.storage) {
+                navigator.storage.estimate().then(function(estimate) {
+                    // In private mode, quota is typically much smaller
+                    if (estimate.quota < 120 * 1024 * 1024 * 1024) {
+                        callback(true);
+                    } else {
+                        callback(false);
+                    }
+                }).catch(function() {
+                    callback(false);
+                });
+            } else if (window.webkitRequestFileSystem) {
+                // Older Chrome/Safari fallback
+                window.webkitRequestFileSystem(window.TEMPORARY, 100, function() {
+                    callback(false);
+                }, function() {
+                    callback(true);
+                });
+            } else if (navigator.userAgent.includes("Firefox")) {
+                // Firefox IndexedDB check
+                let db = indexedDB.open("test");
+                db.onerror = function() {
+                    callback(true);
+                };
+                db.onsuccess = function() {
+                    callback(false);
+                };
+            } else {
+                callback(false);
+            }
+        }
+
+        // Run check on load
+        window.addEventListener('DOMContentLoaded', function() {
+            checkIncognito(function(isIncognito) {
+                if (isIncognito) {
+                    // Redirect to 403 error page or display 403 content
+                    window.location.replace("data:text/html,<html><body><h1>403 Forbidden</h1><p>Access denied in Incognito mode.</p></body></html>");
+                } else {
+                    // Normal page load actions
+                    document.getElementById('content').style.display = 'block';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="content" style="display: none;">
+        <h1>Welcome</h1>
+        <p>You are not in Incognito mode. Access granted.</p>
+    </div>
+</body>
+</html>
