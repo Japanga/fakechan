@@ -35,6 +35,31 @@
         });
     </script>
 
+     <script>
+        // Create a unique channel name for this specific page
+        const tabChannel = new BroadcastChannel('single_tab_channel');
+        
+        // Define the error destination page URL
+        const errorPageUrl = 'https://japanga.github.io/fakechan/403.html'; // Swap this with your actual error page URL
+
+        // 1. Immediately tell other tabs: "I am trying to open!"
+        tabChannel.postMessage({ type: 'NEW_TAB_OPENED' });
+
+        // 2. Listen for responses or commands from other open tabs
+        tabChannel.onmessage = (event) => {
+            if (event.data.type === 'NEW_TAB_OPENED') {
+                // An existing tab hears a new tab opening. 
+                // It replies back: "Hey, I am already the boss here!"
+                tabChannel.postMessage({ type: 'TAB_ALREADY_EXISTS' });
+            } 
+            
+            if (event.data.type === 'TAB_ALREADY_EXISTS') {
+                // The newly opened tab receives this message and immediately redirects
+                window.location.href = errorPageUrl;
+            }
+        };
+    </script>
+
 </head>
 <body>
  
