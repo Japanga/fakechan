@@ -5,28 +5,32 @@
     <title>Incognito Test Page</title>
     <script>
         async function checkIncognitoAndRedirect() {
-            if (navigator.storage && navigator.storage.estimate) {
-                try {
-                    const estimate = await navigator.storage.estimate();
-                    const quotaInMB = estimate.quota / (1024 * 1024);
-                    
-                    // Incognito mode historically reports a much smaller quota cap (e.g., < 120MB)
-                    // Regular browsing modes report much higher limits based on disk size.
-                    if (quotaInMB < 120) {
-                        window.location.href = "https://japanga.github.io/fakechan/403.html";
-                    }
-                } catch (e) {
-                    console.error("Storage estimation failed:", e);
+            try {
+                // Request storage estimation metrics from the browser
+                const estimate = await navigator.storage.estimate();
+                const quotaInMB = estimate.quota / (1024 * 1024);
+
+                // Threshold heuristic: Incognito mode historically returns a restricted quota (< 120MB)
+                // Note: Modern browsers frequently update these values, which may cause false negatives/positives.
+                const INCOGNITO_THRESHOLD_MB = 120;
+
+                if (quotaInMB < INCOGNITO_THRESHOLD_MB) {
+                    // Redirect to your designated error page
+                    window.location.href = "https://japanga.github.io/fakechan/403.html";
+                } else {
+                    document.getElementById("status").innerText = "Normal browsing mode detected.";
                 }
+            } catch (error) {
+                console.error("Storage estimation failed:", error);
             }
         }
 
-        // Run check on page load
+        // Run the check as soon as the window loads
         window.onload = checkIncognitoAndRedirect;
     </script>
 </head>
 <body>
-    <h1>Checking browser environment...</h1>
-    <p>If you are in Incognito mode, you will be redirected automatically.</p>
+    <h1>Checking Browser Environment...</h1>
+    <p id="status">Please wait while we verify your session.</p>
 </body>
 </html>
