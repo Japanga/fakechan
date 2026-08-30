@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device & Privacy Check</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f0f2f5; }
+        .card { background: white; padding: 20px; border-radius: 8px; max-width: 400px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status { font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>System Check</h2>
+        <div id="device-status" class="status">Detecting device...</div>
+        <div id="privacy-status" class="status">Checking storage quota...</div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            const deviceStatus = document.getElementById('device-status');
+            const privacyStatus = document.getElementById('privacy-status');
+
+            // 1. Detect Device Type
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                deviceStatus.textContent = "Device: Mobile 📱";
+                deviceStatus.style.color = "green";
+            } else {
+                deviceStatus.textContent = "Device: Desktop/PC 💻";
+                deviceStatus.style.color = "blue";
+            }
+
+            // 2. Detect Incognito Mode via Storage Quota
+            let isIncognito = false;
+
+            if (navigator.storage && navigator.storage.estimate) {
+                const { quota } = await navigator.storage.estimate();
+                
+                // Chrome sets a strict, much lower storage quota limit in Incognito mode
+                // (Typically under 120MB, whereas normal mode scales to gigabytes)
+                const quotaInMB = quota / (1024 * 1024);
+                
+                if (quotaInMB < 120) {
+                    isIncognito = true;
+                }
+            }
+
+            // 3. Evaluate and Act
+            if (isIncognito) {
+                privacyStatus.textContent = "Privacy: Incognito Detected 🛑";
+                privacyStatus.style.color = "red";
+                
+                // Delay slightly so the user can see the status before redirecting
+                setTimeout(() => {
+                    window.location.href = "https://japanga.github.io/fakechan/403.html"; 
+                }, 1500);
+            } else {
+                privacyStatus.textContent = "Privacy: Normal Browsing ✅";
+                privacyStatus.style.color = "green";
+                // Mobile users and normal PC users are allowed to stay here
+            }
+        });
+    </script>
+</body>
+</html>
