@@ -18,32 +18,33 @@
   
       <script src="https://product-gallery.cloudinary.com/global/cloudinary-product-gallery.js" type="text/javascript"></script>
   
-    <script>
-        // Onload function triggers when the page finishes loading
+      <script>
         window.onload = function() {
-            async function checkIncognito() {
-                try {
-                    // Check storage quota estimate
-                    const estimate = await navigator.storage.estimate();
-                    // In Chrome incognito, quota is heavily restricted/smaller
-                    // Standard threshold check (approx. less than 120MB quota)
-                    if (estimate.quota && estimate.quota < 120 * 1024 * 1024) {
-                        return true; // Likely Incognito
-                    }
-                } catch (e) {
-                    // Fallback or error in estimation
-                }
-                return false; // Likely Safe / Normal mode
+            // 1. Check if the user is on a mobile phone
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            // If it is a mobile phone, skip the check completely
+            if (isMobile) {
+                alert("Mobile device has skipped incognito mode check, but you are still prohibited from having multiple tabs of FakeChan open.");
+                return;
             }
 
-            checkIncognito().then(isIncognito => {
-                if (isIncognito) {
+            // 2. Check for Incognito / Private mode using storage estimation
+            navigator.storage.estimate().then(function(estimate) {
+                // Incognito mode in Chromium browsers heavily restricts storage quota
+                const quotaMiB = estimate.quota / (1024 * 1024);
+                
+                // Threshold heuristic for restricted storage in private mode
+                if (quotaMiB < 120) {
                     // Switch window to an error page if in incognito mode
-                    window.location.href = "https://japanga.github.io/fakechan/403.html"; 
+                    window.location.href = "error.html"; 
                 } else {
                     // Give an alert that the page is safe if not in incognito mode
                     alert("No TOR/incognito mode usage detected, you have safely been granted access to FakeChan.");
                 }
+            }).catch(function() {
+                // Fallback if the storage API fails or is blocked
+                alert("No TOR/incognito mode usage detected, you have safely been granted access to FakeChan.");
             });
         };
     </script>
