@@ -2,35 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Incognito Test Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normal Landing Page</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f9; }
+        .container { text-align: center; padding: 2rem; border-radius: 8px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Public Page!</h1>
+        <p>Scanning browser state...</p>
+    </div>
+
     <script>
-        async function checkIncognitoAndRedirect() {
-            try {
-                // Request storage estimation metrics from the browser
-                const estimate = await navigator.storage.estimate();
-                const quotaInMB = estimate.quota / (1024 * 1024);
+        async function checkIncognito() {
+            // Check if the Storage Manager API exists
+            if (navigator.storage && navigator.storage.estimate) {
+                const { quota } = await navigator.storage.estimate();
+                
+                // Set fallback memory limit if jsHeapSizeLimit is unavailable
+                const heapLimit = (performance.memory && performance.memory.jsHeapSizeLimit) 
+                    ? performance.memory.jsHeapSizeLimit 
+                    : 1073741824; // 1 GiB fallback
 
-                // Threshold heuristic: Incognito mode historically returns a restricted quota (< 120MB)
-                // Note: Modern browsers frequently update these values, which may cause false negatives/positives.
-                const INCOGNITO_THRESHOLD_MB = 120;
-
-                if (quotaInMB < INCOGNITO_THRESHOLD_MB) {
-                    // Redirect to your designated error page
-                    window.location.href = "https://japanga.github.io/fakechan/403.html";
-                } else {
-                    document.getElementById("status").innerText = "Normal browsing mode detected.";
+                // Incognito restricts temporary storage quota tightly
+                if (quota < heapLimit) {
+                    // Redirect to the error page
+                    window.location.href = 'https://japanga.github.io/fakechan/403.html';
                 }
-            } catch (error) {
-                console.error("Storage estimation failed:", error);
             }
         }
 
-        // Run the check as soon as the window loads
-        window.onload = checkIncognitoAndRedirect;
+        // Run the script on window load
+        window.onload = checkIncognito;
     </script>
-</head>
-<body>
-    <h1>Checking Browser Environment...</h1>
-    <p id="status">Please wait while we verify your session.</p>
 </body>
 </html>
