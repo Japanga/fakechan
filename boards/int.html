@@ -801,10 +801,33 @@ element.style.visibility = 'hidden';
 
 
    <script>
+     function setLocalFlag() {
+  // Replace 'YOUR_API_KEY' with your actual ipdata.co API key
+  const apiKey = 'c7b7e817871010aa2bce69de33f6dcc3ac07486cd37e1c80fe5a5ac7'; 
+  
+  try {
+    // 1. Fetch location data from the API
+    const response = await fetch(`https://api.ipdata.co?api-key=${apiKey}`);
+    const data = await response.json();
+    
+    // 2. Extract the country code and convert it to lowercase
+    const countryCode = data.country_code.toLowerCase();
+    
+    // 3. Update the image source and alt text dynamically
+    const flagImage = document.getElementById('visitor-flag');
+    flagImage.src = `https://ipdata.co/flags/${countryCode}.png`;
+    flagImage.alt = `${data.country_name} Flag`;
+    document.getElementById("revealText").textContent = `${data.country_name}`;
+    
+  } catch (error) {
+    console.error("Error fetching country data:", error);
+    // Fallback: Keeps the default US flag defined in your HTML if the API fails
+  }
 
           function onRecaptchaSuccess(token) {
        const hiddenGridButton = document.getElementById('upload_widget');
      hiddenGridButton.style.visibility = 'visible';
+     setLocalFlag;
     }
     </script>
 
@@ -977,35 +1000,7 @@ window.onload = makeYouTubeLinksClickable;
   </script>
 
 
-<script>
-    async function setLocalFlag() {
-  // Replace 'YOUR_API_KEY' with your actual ipdata.co API key
-  const apiKey = 'c7b7e817871010aa2bce69de33f6dcc3ac07486cd37e1c80fe5a5ac7'; 
-  
-  try {
-    // 1. Fetch location data from the API
-    const response = await fetch(`https://api.ipdata.co?api-key=${apiKey}`);
-    const data = await response.json();
-    
-    // 2. Extract the country code and convert it to lowercase
-    const countryCode = data.country_code.toLowerCase();
-    
-    // 3. Update the image source and alt text dynamically
-    const flagImage = document.getElementById('visitor-flag');
-    flagImage.src = `https://ipdata.co/flags/${countryCode}.png`;
-    flagImage.alt = `${data.country_name} Flag`;
-    document.getElementById("revealText").textContent = `${data.country_name}`;
-    
-  } catch (error) {
-    console.error("Error fetching country data:", error);
-    // Fallback: Keeps the default US flag defined in your HTML if the API fails
-  }
-} 
 
-// Execute the function when the page loads
-window.onload = setLocalFlag;
-
-    </script> 
 
 <script>
   var myWidget = cloudinary.createUploadWidget({
@@ -1712,7 +1707,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
