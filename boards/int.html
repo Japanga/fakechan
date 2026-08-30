@@ -618,14 +618,14 @@ p {
 </style>
 
    <div class="center-div">
-       
+       <div class="hiddendiv">
        Region: <div>
    <div id="myObject" class="hover-target">
        <img id="visitor-flag" src="https://ipdata.co/flags/us.png" alt="Country Flag">
 </div>
         <div id="revealText" class="hidden-text">Detecting current region...</div>
 </div>
-
+</div>
 
 
     <script>
@@ -1534,6 +1534,10 @@ loadGallery();
 
             
 <style>
+
+.hiddendiv {
+    display: none;
+}
 /* Container must be relative so the overlay positions itself inside it */
 .image-container2 {
   position: relative;
@@ -1708,7 +1712,6 @@ height: 220px;
 
 </body>
 </html>
-
 
 
 
