@@ -3,55 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Type Test</title>
+    <title>Device Detection Test</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f7;
         }
-        #result {
-            font-size: 24px;
-            font-weight: bold;
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
             color: #333;
-            margin-top: 20px;
+            margin-bottom: 0.5rem;
+        }
+        .result {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0066cc;
+            margin: 1.5rem 0;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+        .details {
+            font-size: 0.85rem;
+            color: #666;
+            word-break: break-all;
+            background: #fafafa;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #eee;
+            text-align: left;
         }
     </style>
 </head>
 <body>
 
-    <h1>Device Type Checker</h1>
-    <p>This page checks if your device is a PC or a Mobile phone.</p>
-    
-    <div id="result">Detecting device...</div>
+    <div class="card">
+        <h1>Device Type</h1>
+        <div id="device-result" class="result">Detecting...</div>
+        <div class="details">
+            <strong>Detection Method:</strong> <span id="method-used">-</span><br><br>
+            <strong>Raw User Agent:</strong><br>
+            <span id="ua-string">-</span>
+        </div>
+    </div>
 
     <script>
-        function checkDevice() {
-            const resultDiv = document.getElementById("result");
-            let isMobile = false;
+        function checkDeviceType() {
+            const resultElement = document.getElementById('device-result');
+            const methodElement = document.getElementById('method-used');
+            const uaElement = document.getElementById('ua-string');
 
-            // Check using modern User-Agent Client Hints API if available
-            if (navigator.userAgentData) {
-                isMobile = navigator.userAgentData.mobile;
-            } else {
-                // Fallback to classic User-Agent regex check
-                const ua = navigator.userAgent;
-                isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-            }
+            // Print the raw user agent string for debugging purposes
+            uaElement.textContent = navigator.userAgent;
 
-            // Display the result
-            if (isMobile) {
-                resultDiv.textContent = "📱 You are using a Mobile Device";
-                resultDiv.style.color = "#d9534f";
-            } else {
-                resultDiv.textContent = "💻 You are using a PC / Desktop";
-                resultDiv.style.color = "#5cb85c";
+            // 1. Primary Check: Modern User-Agent Client Hints API
+            if (navigator.userAgentData && typeof navigator.userAgentData.mobile !== 'undefined') {
+                methodElement.textContent = "navigator.userAgentData API (Modern)";
+                if (navigator.userAgentData.mobile) {
+                    resultElement.textContent = "📱 Mobile / Tablet";
+                } else {
+                    resultElement.textContent = "💻 PC / Desktop";
+                }
+            } 
+            // 2. Fallback Check: Legacy User Agent Sniffing
+            else {
+                methodElement.textContent = "navigator.userAgent Regex (Fallback)";
+                
+                // Matches popular mobile device string tokens
+                const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+                
+                if (mobileRegex.test(navigator.userAgent)) {
+                    resultElement.textContent = "📱 Mobile / Tablet";
+                } else {
+                    resultElement.textContent = "💻 PC / Desktop";
+                }
             }
         }
 
-        // Run the check when the page loads
-        checkDevice();
+        // Run the detection as soon as the page DOM is ready
+        window.addEventListener('DOMContentLoaded', checkDeviceType);
     </script>
-
 </body>
 </html>
