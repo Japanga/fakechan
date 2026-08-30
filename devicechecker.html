@@ -3,61 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Detection Test</title>
+    <title>Device Type Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f9;
-        }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             text-align: center;
+            margin-top: 50px;
         }
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .result {
+        #result {
             font-size: 24px;
             font-weight: bold;
-            color: #007BFF;
+            color: #333;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Your Device Type:</h1>
-        <div id="device-result" class="result">Detecting...</div>
-    </div>
+    <h1>Device Type Checker</h1>
+    <p>This page checks if your device is a PC or a Mobile phone.</p>
+    
+    <div id="result">Detecting device...</div>
 
     <script>
-        function detectDevice() {
-            // 1. Modern approach: Check via UserAgentData API (Chromium browsers)
+        function checkDevice() {
+            const resultDiv = document.getElementById("result");
+            let isMobile = false;
+
+            // Check using modern User-Agent Client Hints API if available
             if (navigator.userAgentData) {
-                return navigator.userAgentData.mobile ? "Mobile" : "PC / Desktop";
+                isMobile = navigator.userAgentData.mobile;
+            } else {
+                // Fallback to classic User-Agent regex check
+                const ua = navigator.userAgent;
+                isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
             }
-            
-            // 2. Fallback approach: Regular expression check on userAgent string (Safari/Firefox)
-            const mobileRegex = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-            if (mobileRegex.test(navigator.userAgent)) {
-                return "Mobile";
+
+            // Display the result
+            if (isMobile) {
+                resultDiv.textContent = "📱 You are using a Mobile Device";
+                resultDiv.style.color = "#d9534f";
+            } else {
+                resultDiv.textContent = "💻 You are using a PC / Desktop";
+                resultDiv.style.color = "#5cb85c";
             }
-            
-            // Default to PC if no mobile signature is found
-            return "PC / Desktop";
         }
 
-        // Run the function and display the result on the webpage
-        document.getElementById("device-result").innerText = detectDevice();
+        // Run the check when the page loads
+        checkDevice();
     </script>
 
 </body>
