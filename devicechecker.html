@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <center><meta charset="UTF-8"></center>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Device Detection Test Page</title>
+    <title>Advanced Device Classification Diagnostics</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -13,179 +13,230 @@
             margin: 40px auto;
             padding: 20px;
         }
-        h1 { text-align: center; color: #2c3e50; }
-        .result-box {
+        .card {
             background: #fff;
-            padding: 25px;
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             text-align: center;
-            margin-bottom: 20px;
         }
         .verdict {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 15px 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .pc { color: #2980b9; }
-        .mobile { color: #27ae60; }
-        .score { font-size: 1.1rem; color: #7f8c8d; margin-bottom: 20px; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        .pc-theme { color: #2b6cb0; }
+        .mobile-theme { color: #dd6b20; }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1-tier));
+            gap: 15px;
+            margin-top: 30px;
+            text-align: left;
         }
-        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #edf2f7; }
-        th { background-color: #edf2f7; color: #4a5568; font-weight: 600; }
-        .passed { color: #27ae60; font-weight: bold; }
-        .failed { color: #c0392b; font-weight: bold; }
-        .neutral { color: #7f8c8d; }
+        .metric-box {
+            background: #f7fafc;
+            padding: 15px;
+            border-left: 4px solid #cbd5e0;
+            border-radius: 4px;
+        }
+        .metric-box.pass { border-left-color: #48bb78; }
+        .metric-box h4 { margin: 0 0 5px 0; color: #4a5568; }
+        .metric-box p { margin: 0; font-family: monospace; font-size: 0.9rem; word-break: break-all; }
+        pre {
+            background: #2d3748;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Device Detection Analyzer</h1>
-    
-    <div class="result-box">
-        <div>Calculated Final Verdict:</div>
-        <div id="final-verdict" class="verdict">—</div>
-        <div id="confidence-score" class="score">Analyzing heuristics...</div>
+    <div class="card">
+        <h1>Device Classification Engine</h1>
+        <p>Heuristic diagnostic evaluation matrix using multi-layered browser APIs.</p>
+        
+        <div id="verdict-display" class="verdict">Analyzing...</div>
+        <div id="confidence-display">Calculating engine confidence vectors...</div>
+
+        <div class="metrics-grid" id="metrics-output"></div>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Detection Layer Method</th>
-                <th>Result / Raw Value</th>
-                <th>Indication</th>
-            </tr>
-        </thead>
-        <tbody id="tech-table">
-            <!-- Layers will be populated dynamically -->
-        </tbody>
-    </table>
+    <div style="margin-top: 30px;">
+        <h3>Raw Diagnostic Dump</h3>
+        <pre id="raw-log"></pre>
+    </div>
 
-    <script>
-        async function analyzeDevice() {
-            let mobilePoints = 0;
-            let pcPoints = 0;
-            const log = [];
+<script>
+class AdvancedDeviceDetector {
+    constructor() {
+        this.scores = { pc: 0, mobile: 0 };
+        this.diagnostics = {};
+    }
 
-            // 1. LAYER 1: Modern Client Hints API (Chromium Framework)
-            // Direct request to the browser engine for its device type.
-            if (navigator.userAgentData) {
-                const uaData = navigator.userAgentData;
-                const isUADataMobile = uaData.mobile;
-                if (isUADataMobile) {
-                    mobilePoints += 10;
-                    log.push({ method: "navigator.userAgentData.mobile", val: "true", ind: "Mobile", css: "passed" });
-                } else {
-                    pcPoints += 10;
-                    log.push({ method: "navigator.userAgentData.mobile", val: "false", ind: "PC / Desktop", css: "failed" });
-                }
-            } else {
-                log.push({ method: "navigator.userAgentData", val: "Not Supported", ind: "N/A (Safari/Firefox legacy)", css: "neutral" });
-            }
+    async runEvaluation() {
+        // Method 1: Modern Client Hints API
+        this.evaluateClientHints();
 
-            // 2. LAYER 2: Advanced Regular Expression Sniffing
-            // Evaluates legacy user agent strings for common mobile substrings.
-            const uaString = navigator.userAgent;
-            const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi/i;
-            const isRegexMobile = mobileRegex.test(uaString);
+        // Method 2: Legacy Deep User Agent Sniffing
+        this.evaluateUserAgent();
+
+        // Method 3: Touch Hardware Capacitance Points
+        this.evaluateTouchPoints();
+
+        // Method 4: CSS Interaction Media Query Analysis
+        this.evaluatePointerPrecision();
+
+        // Method 5: Legacy Window Orientation Presence
+        this.evaluateOrientationAvailability();
+
+        // Finalize state resolution
+        return this.compileVerdict();
+    }
+
+    evaluateClientHints() {
+        // High Accuracy Detection via modern Sec-CH-UA browser primitives
+        if (navigator.userAgentData) {
+            const isMobileHint = navigator.userAgentData.mobile;
+            this.diagnostics.clientHints = `Supported (mobile flag: ${isMobileHint})`;
             
-            if (isRegexMobile) {
-                mobilePoints += 5;
-                log.push({ method: "Legacy User-Agent RegEx Match", val: "Matched Mobile Token", ind: "Mobile", css: "passed" });
+            if (isMobileHint) {
+                this.scores.mobile += 3.5; // Heavily weight modern API feedback
             } else {
-                pcPoints += 3;
-                log.push({ method: "Legacy User-Agent RegEx Match", val: "No Mobile Token Found", ind: "PC / Desktop", css: "failed" });
+                this.scores.pc += 3.5;
             }
-
-            // 3. LAYER 3: Hardware Pointer Accuracy Profile (matchMedia)
-            // Identifies if the primary input method has "coarse" (finger) or "fine" (mouse) accuracy.
-            const hasCoarsePointer = window.matchMedia('(any-pointer: coarse)').matches;
-            const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
-            
-            if (hasCoarsePointer && !hasFinePointer) {
-                mobilePoints += 4;
-                log.push({ method: "Pointer Media Query Profile", val: "Coarse Only (Touch)", ind: "Mobile", css: "passed" });
-            } else if (hasFinePointer && !hasCoarsePointer) {
-                pcPoints += 5;
-                log.push({ method: "Pointer Media Query Profile", val: "Fine Only (Mouse)", ind: "PC / Desktop", css: "failed" });
-            } else if (hasCoarsePointer && hasFinePointer) {
-                mobilePoints += 1;
-                pcPoints += 2;
-                log.push({ method: "Pointer Media Query Profile", val: "Hybrid (Touch + Mouse)", ind: "Likely PC (Laptop)", css: "neutral" });
-            } else {
-                log.push({ method: "Pointer Media Query Profile", val: "Unknown Pointer Type", ind: "N/A", css: "neutral" });
-            }
-
-            // 4. LAYER 4: Touch Points Capabilities
-            // Monitors hardware support for concurrent touch inputs. 
-            const maxTouch = navigator.maxTouchPoints || 0;
-            if (maxTouch > 0) {
-                mobilePoints += 3;
-                log.push({ method: "navigator.maxTouchPoints", val: `${maxTouch} points`, ind: "Touch Enabled Device", css: "passed" });
-            } else {
-                pcPoints += 4;
-                log.push({ method: "navigator.maxTouchPoints", val: "0 points", ind: "PC / Non-Touch", css: "failed" });
-            }
-
-            // 5. LAYER 5: Device Orientation & Sensor Availability
-            // Mobile devices natively populate screen orientation types differently than standard monitors.
-            const orientation = window.screen.orientation ? window.screen.orientation.type : 'unknown';
-            if (orientation.includes('portrait') && !hasFinePointer) {
-                mobilePoints += 3;
-                log.push({ method: "Screen Orientation Profile", val: orientation, ind: "Mobile Behavior", css: "passed" });
-            } else {
-                log.push({ method: "Screen Orientation Profile", val: orientation, ind: "Inconclusive", css: "neutral" });
-            }
-
-            // 6. LAYER 6: The "iPad macOS Cloaking" Bypass
-            // Apple iPads running iPadOS claim to be desktop Macintosh computers but lack desktop architecture.
-            const isSafariMac = /Macintosh/i.test(uaString) && navigator.maxTouchPoints > 1;
-            if (isSafariMac) {
-                mobilePoints += 12; // Overrides the false PC reading from the user agent
-                log.push({ method: "iPad-Apple Silicon Cloak Bypass", val: "Mac UA + Multi-touch", ind: "Mobile (iPad/Tablet)", css: "passed" });
-            } else {
-                log.push({ method: "iPad-Apple Silicon Cloak Bypass", val: "Not Triggered", ind: "N/A", css: "neutral" });
-            }
-
-            // Final Calculation Logic Matrix
-            const totalPoints = mobilePoints + pcPoints;
-            const mobileConfidence = Math.round((mobilePoints / totalPoints) * 100);
-            const pcConfidence = Math.round((pcPoints / totalPoints) * 100);
-            
-            const verdictElement = document.getElementById("final-verdict");
-            const scoreElement = document.getElementById("confidence-score");
-
-            if (mobilePoints > pcPoints) {
-                verdictElement.innerText = "Mobile Device";
-                verdictElement.className = "verdict mobile";
-                scoreElement.innerText = `Confidence Level: ${mobileConfidence}% Mobile vs ${pcConfidence}% PC`;
-            } else {
-                verdictElement.innerText = "PC / Desktop";
-                verdictElement.className = "verdict pc";
-                scoreElement.innerText = `Confidence Level: ${pcConfidence}% PC vs ${mobileConfidence}% Mobile`;
-            }
-
-            // Render detailed metrics into visual log table
-            const tableBody = document.getElementById("tech-table");
-            tableBody.innerHTML = log.map(item => `
-                <tr>
-                    <td><strong>${item.method}</strong></td>
-                    <td><code>${item.val}</code></td>
-                    <td class="${item.css}">${item.ind}</td>
-                </tr>
-            `).join('');
+        } else {
+            this.diagnostics.clientHints = "Not Supported (Fallback Triggered)";
         }
+    }
 
-        // Initialize profiling on DOM load
-        window.addEventListener('DOMContentLoaded', analyzeDevice);
-    </script>
+    evaluateUserAgent() {
+        const ua = navigator.userAgent;
+        this.diagnostics.userAgentRaw = ua;
+
+        // Comprehensive validation strings
+        const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi|Silk/i;
+        
+        if (mobileRegex.test(ua)) {
+            this.scores.mobile += 2.0;
+            this.diagnostics.uaRegex = "Matched Mobile Signatures";
+        } else {
+            // Check for explicit desktop markers
+            if (/Macintosh|Windows NT|Linux x86_64/i.test(ua)) {
+                this.scores.pc += 1.5;
+                this.diagnostics.uaRegex = "Matched Desktop Architecture";
+            } else {
+                this.diagnostics.uaRegex = "Indeterminate Signatures";
+            }
+        }
+    }
+
+    evaluateTouchPoints() {
+        // Mobile devices overwhelmingly support touch, though exceptions exist (touch laptops)
+        const maxTouch = navigator.maxTouchPoints || 0;
+        this.diagnostics.maxTouchPoints = maxTouch;
+
+        if (maxTouch > 1) {
+            this.scores.mobile += 1.5;
+            
+            // Sneaky check for modern iPads posing as macOS Desktops
+            if (navigator.userAgent.includes("Macintosh") && !("ontouchend" in document)) {
+                // True macOS device with a touch profile or custom peripheral
+                this.scores.pc += 0.5;
+            } else if (navigator.userAgent.includes("Macintosh")) {
+                // iPadOS masquerading as macOS Safari
+                this.scores.mobile += 2.5; 
+                this.diagnostics.maxTouchPoints += " (Detected iPadOS Camouflage)";
+            }
+        } else {
+            this.scores.pc += 2.0;
+        }
+    }
+
+    evaluatePointerPrecision() {
+        // Resolve hardware classification through pointer fine/coarse interactions
+        const hasCoarsePointer = window.matchMedia('(any-pointer: coarse)').matches;
+        const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
+
+        this.diagnostics.pointerType = `Coarse: ${hasCoarsePointer} | Fine: ${hasFinePointer}`;
+
+        if (hasCoarsePointer && !hasFinePointer) {
+            // Pure mobile/tablet environment
+            this.scores.mobile += 2.5;
+        } else if (hasFinePointer && !hasCoarsePointer) {
+            // Pure desktop workstation with mouse/trackpad
+            this.scores.pc += 2.5;
+        } else if (hasCoarsePointer && hasFinePointer) {
+            // Hybrid machine (e.g., Microsoft Surface Laptop)
+            this.scores.pc += 1.5;
+            this.scores.mobile += 0.5;
+        }
+    }
+
+    evaluateOrientationAvailability() {
+        // Historic check; mobile window architectures native binding properties
+        const hasOrientationAPI = typeof window.orientation !== 'undefined' || 'orientation' in screen;
+        this.diagnostics.orientationAPI = hasOrientationAPI ? "Present" : "Absent";
+
+        if (hasOrientationAPI) {
+            this.scores.mobile += 1.0;
+        } else {
+            this.scores.pc += 0.5;
+        }
+    }
+
+    compileVerdict() {
+        const total = this.scores.pc + this.scores.mobile;
+        const pcPercentage = Math.round((this.scores.pc / total) * 100);
+        const mobilePercentage = Math.round((this.scores.mobile / total) * 100);
+
+        return {
+            verdict: this.scores.pc >= this.scores.mobile ? 'PC' : 'Mobile',
+            confidence: this.scores.pc >= this.scores.mobile ? pcPercentage : mobilePercentage,
+            scores: this.scores,
+            diagnostics: this.diagnostics
+        };
+    }
+}
+
+// Interface Controller Execution Loop
+document.addEventListener("DOMContentLoaded", async () => {
+    const detector = new AdvancedDeviceDetector();
+    const result = await detector.runEvaluation();
+
+    // Render global classification text
+    const display = document.getElementById("verdict-display");
+    display.textContent = result.verdict;
+    display.className = `verdict ${result.verdict === 'PC' ? 'pc-theme' : 'mobile-theme'}`;
+
+    document.getElementById("confidence-display").innerHTML = 
+        `Algorithmic Matrix Confidence Level: <strong>${result.confidence}%</strong>`;
+
+    // Process UI grid breakdown metrics
+    const grid = document.getElementById("metrics-output");
+    const metricsDef = [
+        { title: "Client Hints API", data: result.diagnostics.clientHints },
+        { title: "UA String Rules Engine", data: result.diagnostics.uaRegex },
+        { title: "Hardware Touch Points", data: result.diagnostics.maxTouchPoints },
+        { title: "CSS Pointer Hardware Match", data: result.diagnostics.pointerType },
+        { title: "Screen Orientation API", data: result.diagnostics.orientationAPI }
+    ];
+
+    metricsDef.forEach(item => {
+        const box = document.createElement("div");
+        box.className = "metric-box pass";
+        box.innerHTML = `<h4>${item.title}</h4><p>${item.data}</p>`;
+        grid.appendChild(box);
+    });
+
+    // Populate the fallback debug elements
+    document.getElementById("raw-log").textContent = JSON.stringify(result, null, 4);
+});
+</script>
 </body>
 </html>
