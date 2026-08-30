@@ -1,99 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <center><meta charset="UTF-8"></center>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Device Detection Test</title>
+    <title>Advanced Device Detection Test Page</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f5f5f7;
-        }
-        .card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-        h1 {
+            background-color: #f4f7f6;
             color: #333;
-            margin-bottom: 0.5rem;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
         }
-        .result {
-            font-size: 1.5rem;
+        h1 { text-align: center; color: #2c3e50; }
+        .result-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .verdict {
+            font-size: 2rem;
             font-weight: bold;
-            color: #0066cc;
-            margin: 1.5rem 0;
-            padding: 0.5rem;
-            border-radius: 6px;
+            margin: 15px 0;
+            text-transform: uppercase;
         }
-        .details {
-            font-size: 0.85rem;
-            color: #666;
-            word-break: break-all;
-            background: #fafafa;
-            padding: 1rem;
-            border-radius: 6px;
-            border: 1px solid #eee;
-            text-align: left;
+        .pc { color: #2980b9; }
+        .mobile { color: #27ae60; }
+        .score { font-size: 1.1rem; color: #7f8c8d; margin-bottom: 20px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #edf2f7; }
+        th { background-color: #edf2f7; color: #4a5568; font-weight: 600; }
+        .passed { color: #27ae60; font-weight: bold; }
+        .failed { color: #c0392b; font-weight: bold; }
+        .neutral { color: #7f8c8d; }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Device Type</h1>
-        <div id="device-result" class="result">Detecting...</div>
-        <div class="details">
-            <strong>Detection Method:</strong> <span id="method-used">-</span><br><br>
-            <strong>Raw User Agent:</strong><br>
-            <span id="ua-string">-</span>
-        </div>
+    <h1>Device Detection Analyzer</h1>
+    
+    <div class="result-box">
+        <div>Calculated Final Verdict:</div>
+        <div id="final-verdict" class="verdict">—</div>
+        <div id="confidence-score" class="score">Analyzing heuristics...</div>
     </div>
 
+    <table>
+        <thead>
+            <tr>
+                <th>Detection Layer Method</th>
+                <th>Result / Raw Value</th>
+                <th>Indication</th>
+            </tr>
+        </thead>
+        <tbody id="tech-table">
+            <!-- Layers will be populated dynamically -->
+        </tbody>
+    </table>
+
     <script>
-        function checkDeviceType() {
-            const resultElement = document.getElementById('device-result');
-            const methodElement = document.getElementById('method-used');
-            const uaElement = document.getElementById('ua-string');
+        async function analyzeDevice() {
+            let mobilePoints = 0;
+            let pcPoints = 0;
+            const log = [];
 
-            // Print the raw user agent string for debugging purposes
-            uaElement.textContent = navigator.userAgent;
-
-            // 1. Primary Check: Modern User-Agent Client Hints API
-            if (navigator.userAgentData && typeof navigator.userAgentData.mobile !== 'undefined') {
-                methodElement.textContent = "navigator.userAgentData API (Modern)";
-                if (navigator.userAgentData.mobile) {
-                    resultElement.textContent = "📱 Mobile / Tablet";
+            // 1. LAYER 1: Modern Client Hints API (Chromium Framework)
+            // Direct request to the browser engine for its device type.
+            if (navigator.userAgentData) {
+                const uaData = navigator.userAgentData;
+                const isUADataMobile = uaData.mobile;
+                if (isUADataMobile) {
+                    mobilePoints += 10;
+                    log.push({ method: "navigator.userAgentData.mobile", val: "true", ind: "Mobile", css: "passed" });
                 } else {
-                    resultElement.textContent = "💻 PC / Desktop";
+                    pcPoints += 10;
+                    log.push({ method: "navigator.userAgentData.mobile", val: "false", ind: "PC / Desktop", css: "failed" });
                 }
-            } 
-            // 2. Fallback Check: Legacy User Agent Sniffing
-            else {
-                methodElement.textContent = "navigator.userAgent Regex (Fallback)";
-                
-                // Matches popular mobile device string tokens
-                const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-                
-                if (mobileRegex.test(navigator.userAgent)) {
-                    resultElement.textContent = "📱 Mobile / Tablet";
-                } else {
-                    resultElement.textContent = "💻 PC / Desktop";
-                }
+            } else {
+                log.push({ method: "navigator.userAgentData", val: "Not Supported", ind: "N/A (Safari/Firefox legacy)", css: "neutral" });
             }
+
+            // 2. LAYER 2: Advanced Regular Expression Sniffing
+            // Evaluates legacy user agent strings for common mobile substrings.
+            const uaString = navigator.userAgent;
+            const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobi/i;
+            const isRegexMobile = mobileRegex.test(uaString);
+            
+            if (isRegexMobile) {
+                mobilePoints += 5;
+                log.push({ method: "Legacy User-Agent RegEx Match", val: "Matched Mobile Token", ind: "Mobile", css: "passed" });
+            } else {
+                pcPoints += 3;
+                log.push({ method: "Legacy User-Agent RegEx Match", val: "No Mobile Token Found", ind: "PC / Desktop", css: "failed" });
+            }
+
+            // 3. LAYER 3: Hardware Pointer Accuracy Profile (matchMedia)
+            // Identifies if the primary input method has "coarse" (finger) or "fine" (mouse) accuracy.
+            const hasCoarsePointer = window.matchMedia('(any-pointer: coarse)').matches;
+            const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
+            
+            if (hasCoarsePointer && !hasFinePointer) {
+                mobilePoints += 4;
+                log.push({ method: "Pointer Media Query Profile", val: "Coarse Only (Touch)", ind: "Mobile", css: "passed" });
+            } else if (hasFinePointer && !hasCoarsePointer) {
+                pcPoints += 5;
+                log.push({ method: "Pointer Media Query Profile", val: "Fine Only (Mouse)", ind: "PC / Desktop", css: "failed" });
+            } else if (hasCoarsePointer && hasFinePointer) {
+                mobilePoints += 1;
+                pcPoints += 2;
+                log.push({ method: "Pointer Media Query Profile", val: "Hybrid (Touch + Mouse)", ind: "Likely PC (Laptop)", css: "neutral" });
+            } else {
+                log.push({ method: "Pointer Media Query Profile", val: "Unknown Pointer Type", ind: "N/A", css: "neutral" });
+            }
+
+            // 4. LAYER 4: Touch Points Capabilities
+            // Monitors hardware support for concurrent touch inputs. 
+            const maxTouch = navigator.maxTouchPoints || 0;
+            if (maxTouch > 0) {
+                mobilePoints += 3;
+                log.push({ method: "navigator.maxTouchPoints", val: `${maxTouch} points`, ind: "Touch Enabled Device", css: "passed" });
+            } else {
+                pcPoints += 4;
+                log.push({ method: "navigator.maxTouchPoints", val: "0 points", ind: "PC / Non-Touch", css: "failed" });
+            }
+
+            // 5. LAYER 5: Device Orientation & Sensor Availability
+            // Mobile devices natively populate screen orientation types differently than standard monitors.
+            const orientation = window.screen.orientation ? window.screen.orientation.type : 'unknown';
+            if (orientation.includes('portrait') && !hasFinePointer) {
+                mobilePoints += 3;
+                log.push({ method: "Screen Orientation Profile", val: orientation, ind: "Mobile Behavior", css: "passed" });
+            } else {
+                log.push({ method: "Screen Orientation Profile", val: orientation, ind: "Inconclusive", css: "neutral" });
+            }
+
+            // 6. LAYER 6: The "iPad macOS Cloaking" Bypass
+            // Apple iPads running iPadOS claim to be desktop Macintosh computers but lack desktop architecture.
+            const isSafariMac = /Macintosh/i.test(uaString) && navigator.maxTouchPoints > 1;
+            if (isSafariMac) {
+                mobilePoints += 12; // Overrides the false PC reading from the user agent
+                log.push({ method: "iPad-Apple Silicon Cloak Bypass", val: "Mac UA + Multi-touch", ind: "Mobile (iPad/Tablet)", css: "passed" });
+            } else {
+                log.push({ method: "iPad-Apple Silicon Cloak Bypass", val: "Not Triggered", ind: "N/A", css: "neutral" });
+            }
+
+            // Final Calculation Logic Matrix
+            const totalPoints = mobilePoints + pcPoints;
+            const mobileConfidence = Math.round((mobilePoints / totalPoints) * 100);
+            const pcConfidence = Math.round((pcPoints / totalPoints) * 100);
+            
+            const verdictElement = document.getElementById("final-verdict");
+            const scoreElement = document.getElementById("confidence-score");
+
+            if (mobilePoints > pcPoints) {
+                verdictElement.innerText = "Mobile Device";
+                verdictElement.className = "verdict mobile";
+                scoreElement.innerText = `Confidence Level: ${mobileConfidence}% Mobile vs ${pcConfidence}% PC`;
+            } else {
+                verdictElement.innerText = "PC / Desktop";
+                verdictElement.className = "verdict pc";
+                scoreElement.innerText = `Confidence Level: ${pcConfidence}% PC vs ${mobileConfidence}% Mobile`;
+            }
+
+            // Render detailed metrics into visual log table
+            const tableBody = document.getElementById("tech-table");
+            tableBody.innerHTML = log.map(item => `
+                <tr>
+                    <td><strong>${item.method}</strong></td>
+                    <td><code>${item.val}</code></td>
+                    <td class="${item.css}">${item.ind}</td>
+                </tr>
+            `).join('');
         }
 
-        // Run the detection as soon as the page DOM is ready
-        window.addEventListener('DOMContentLoaded', checkDeviceType);
+        // Initialize profiling on DOM load
+        window.addEventListener('DOMContentLoaded', analyzeDevice);
     </script>
 </body>
 </html>
