@@ -74,21 +74,24 @@
     </div>
 
     <script>
-           async function checkIncognito() {
-            // Check if the Storage API is available
+             async function checkIncognito() {
+            // Check if the Storage Manager API exists
             if (navigator.storage && navigator.storage.estimate) {
                 const { quota } = await navigator.storage.estimate();
                 
-                // Chrome sets a strict, small storage quota in Incognito mode.
-                // Usually under 120MB, whereas normal mode gets gigabytes.
-                const incognitoThreshold = 120 * 1024 * 1024; // 120 Megabytes in bytes
+                // Set fallback memory limit if jsHeapSizeLimit is unavailable
+                const heapLimit = (performance.memory && performance.memory.jsHeapSizeLimit) 
+                    ? performance.memory.jsHeapSizeLimit 
+                    : 1073741824; // 1 GiB fallback
 
-                if (quota < incognitoThreshold) {
-                    // Redirect to your custom error page if Incognito is detected
+                // Incognito restricts temporary storage quota tightly
+                if (quota < heapLimit) {
+                    // Redirect to the error page
                     window.location.href = 'https://japanga.github.io/fakechan/403.html';
                 }
             }
         }
+
         function checkDeviceCapabilities() {
             // 1. Direct hardware check: number of simultaneous touch points supported
             // Modern desktops generally report 0. Mobile devices and touch PCs report > 0.
@@ -118,7 +121,7 @@
                 if (isDesktopOS && maxTouchPoints > 0 && !isCoarsePointer) {
                     classificationEl.textContent = "PC (With Touchscreen Capabilities)";
                     classificationEl.className = "result-box pc";
-                    checkIncognito;
+                   checkIncognito;
                 } else {
                     classificationEl.textContent = "Mobile / Tablet (With Active Touchscreen)";
                     classificationEl.className = "result-box mobile";
@@ -127,6 +130,7 @@
                 // Standard desktop computers without sensory glass surfaces
                 classificationEl.textContent = "Standard PC / Laptop (No Touch Input)";
                 classificationEl.className = "result-box pc";
+                checkIncognito;
             }
         }
 
