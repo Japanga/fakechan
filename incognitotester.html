@@ -2,62 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access Check</title>
+    <title>Incognito Test Page</title>
     <script>
-        // Function to check for Incognito mode
-        function checkIncognito(callback) {
-            // Modern Chrome, Edge, and Opera using Storage API
-            if ('storage' in navigator && 'estimate' in navigator.storage) {
-                navigator.storage.estimate().then(function(estimate) {
-                    // In private mode, quota is typically much smaller
-                    if (estimate.quota < 120 * 1024 * 1024 * 1024) {
-                        callback(true);
-                    } else {
-                        callback(false);
+        async function checkIncognitoAndRedirect() {
+            if (navigator.storage && navigator.storage.estimate) {
+                try {
+                    const estimate = await navigator.storage.estimate();
+                    const quotaInMB = estimate.quota / (1024 * 1024);
+                    
+                    // Incognito mode historically reports a much smaller quota cap (e.g., < 120MB)
+                    // Regular browsing modes report much higher limits based on disk size.
+                    if (quotaInMB < 120) {
+                        window.location.href = "https://japanga.github.io/fakechan/403.html";
                     }
-                }).catch(function() {
-                    callback(false);
-                });
-            } else if (window.webkitRequestFileSystem) {
-                // Older Chrome/Safari fallback
-                window.webkitRequestFileSystem(window.TEMPORARY, 100, function() {
-                    callback(false);
-                }, function() {
-                    callback(true);
-                });
-            } else if (navigator.userAgent.includes("Firefox")) {
-                // Firefox IndexedDB check
-                let db = indexedDB.open("test");
-                db.onerror = function() {
-                    callback(true);
-                };
-                db.onsuccess = function() {
-                    callback(false);
-                };
-            } else {
-                callback(false);
+                } catch (e) {
+                    console.error("Storage estimation failed:", e);
+                }
             }
         }
 
-        // Run check on load
-        window.addEventListener('DOMContentLoaded', function() {
-            checkIncognito(function(isIncognito) {
-                if (isIncognito) {
-                    // Redirect to 403 error page or display 403 content
-                    window.location.href = "https://japanga.github.io/fakechan/403.html";
-                } else {
-                    // Normal page load actions
-                    document.getElementById('content').style.display = 'block';
-                }
-            });
-        });
+        // Run check on page load
+        window.onload = checkIncognitoAndRedirect;
     </script>
 </head>
 <body>
-    <div id="content" style="display: none;">
-        <h1>Welcome</h1>
-        <p>You are not in Incognito mode. Access granted.</p>
-    </div>
+    <h1>Checking browser environment...</h1>
+    <p>If you are in Incognito mode, you will be redirected automatically.</p>
 </body>
 </html>
