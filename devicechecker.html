@@ -2,40 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Incognito Test Page</title>
-    <script>
-        // Function to check if the user is on a mobile device using User-Agent strings
-        function isMobileDevice() {
-            const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-            return regex.test(navigator.userAgent);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Detection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
         }
-
-        // Function to detect Chromium Incognito mode via storage quota estimation
-        async function checkIncognitoAndRedirect() {
-            // Skip the check completely if it is a mobile device
-            if (isMobileDevice()) {
-                console.log("Mobile device detected. Skipping incognito check.");
-                return; 
-            }
-
-            try {
-                // Check storage quota estimation
-                const estimate = await navigator.storage.estimate();
-                // A lower quota limit historically flags desktop Chrome Incognito
-                if (estimate.quota && estimate.quota < 120 * 1024 * 1024) {
-                    window.location.replace("https://japanga.github.io/fakechan/403.html");
-                }
-            } catch (e) {
-                console.error("Incognito check failed", e);
-            }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
         }
-
-        // Run the function when the page loads
-        window.onload = checkIncognitoAndRedirect;
-    </script>
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007BFF;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Main Page</h1>
-    <p>If you see this, you are either on a mobile device or using a standard desktop browser window.</p>
+
+    <div class="card">
+        <h1>Your Device Type:</h1>
+        <div id="device-result" class="result">Detecting...</div>
+    </div>
+
+    <script>
+        function detectDevice() {
+            // 1. Modern approach: Check via UserAgentData API (Chromium browsers)
+            if (navigator.userAgentData) {
+                return navigator.userAgentData.mobile ? "Mobile" : "PC / Desktop";
+            }
+            
+            // 2. Fallback approach: Regular expression check on userAgent string (Safari/Firefox)
+            const mobileRegex = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+            if (mobileRegex.test(navigator.userAgent)) {
+                return "Mobile";
+            }
+            
+            // Default to PC if no mobile signature is found
+            return "PC / Desktop";
+        }
+
+        // Run the function and display the result on the webpage
+        document.getElementById("device-result").innerText = detectDevice();
+    </script>
+
 </body>
 </html>
