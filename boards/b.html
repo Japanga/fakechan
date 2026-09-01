@@ -936,15 +936,13 @@ window.onload = makeYouTubeLinksClickable;
         if (descriptionValue) {
          
            // Cloudinary uses pipe (|) separated key-value pairs for context metadata
-              params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|guest_data=' + '' + '|thread_title=' + titleValue;
+              params.context = 'alt=' + descriptionValue + '|caption=' + descriptionValue  + '|custom_desc=' + descriptionValue + '|tripcode=' + passwordValue + '|thread_title=' + titleValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'custom_desc=' + descriptionValue;
             // You can also use custom keys, e.g., 'custom_desc=...'
           params.metadata = 'tripcode=' + passwordValue;
           
            params.metadata = 'thread_title=' + titleValue;
-           
-            params.metadata = 'guest_data=' + '';
         }
         cb(params);
     }
