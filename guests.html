@@ -1058,6 +1058,8 @@ async function loadGallery() {
             const threadtitle = image.context && image.context.custom && image.context.custom.thread_title ? image.context.custom.thread_title : 'No title available';
               
                  const tripcode = image.context && image.context.custom && image.context.custom.tripcode ? image.context.custom.tripcode : '';
+                 
+                     const guestData = image.context && image.context.custom && image.context.custom.guest_data ? image.context.custom.guest_data : '';
           
           
                    
@@ -1343,12 +1345,9 @@ a {
             const infoDiv = document.createElement('div');
             infoDiv.classList.add('image-info');
             infoDiv.innerHTML = `
-            <div class="image-container2">
-  <img src="https://i.imgur.com/69Xi2hA.png" alt="Sample Image" width="32" height="32">
-  <div class="overlay">
-    <div class="text">Post uploaded by Guest at (${dayOfWeek}) ${dateString}</div>
-  </div>
-</div>
+          ${guestData}
+          
+    
                 <p><strong>No:</strong> ${i + 1}</p>
                
                   <p><strong>Title: ${threadtitle}</strong></p>
