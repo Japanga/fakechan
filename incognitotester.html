@@ -3,39 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Normal Landing Page</title>
+    <title>Incognito Mode Detector</title>
     <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f4f4f9; }
-        .container { text-align: center; padding: 2rem; border-radius: 8px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+        }
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 { margin-top: 0; font-size: 24px; }
+        .status {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .normal { background-color: #e2f0d9; color: #385723; }
+        .incognito { background-color: #fce4d6; color: #c65911; }
+        .checking { background-color: #fff2cc; color: #7f6000; }
+        .details { font-size: 14px; color: #86868b; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Public Page!</h1>
-        <p>Scanning browser state...</p>
-    </div>
 
-    <script>
-        async function checkIncognito() {
-            // Check if the Storage Manager API exists
-            if (navigator.storage && navigator.storage.estimate) {
+<div class="card">
+    <h1>Privacy Check</h1>
+    <div id="status-box" class="status checking">Analyzing session...</div>
+    <div id="details" class="details">Checking storage fingerprints...</div>
+</div>
+
+<!-- Cross-browser fallback library (MIT Licensed) -->
+<script src="https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@main/dist/es5/detectIncognito.min.js"></script>
+
+<script>
+    async function checkIncognito() {
+        const statusBox = document.getElementById('status-box');
+        const detailsBox = document.getElementById('details');
+
+        // Heuristic 1: Storage quota calculation (Best for modern Chrome/Chromium)
+        if (navigator.storage && navigator.storage.estimate) {
+            try {
                 const { quota } = await navigator.storage.estimate();
                 
-                // Set fallback memory limit if jsHeapSizeLimit is unavailable
-                const heapLimit = (performance.memory && performance.memory.jsHeapSizeLimit) 
-                    ? performance.memory.jsHeapSizeLimit 
-                    : 1073741824; // 1 GiB fallback
-
-                // Incognito restricts temporary storage quota tightly
-                if (quota < heapLimit) {
-                    // Redirect to the error page
-                    window.location.href = 'https://japanga.github.io/fakechan/403.html';
+                // Chromium restricts private window storage quotas sharply (usually under 120MB)
+                const quotaInMB = quota / (1024 * 1024);
+                
+                if (quotaInMB < 120) {
+                    displayResult(true, `Chromium Throttled Storage Quota: ${Math.round(quotaInMB)}MB`);
+                    return;
                 }
+            } catch (e) {
+                console.warn("Storage check failed, trying library fallback...", e);
             }
         }
 
-        // Run the script on window load
-        window.onload = checkIncognito;
-    </script>
+        // Heuristic 2: Library Fallback (Executes browser-specific API error checks for Safari/Firefox)
+        if (typeof detectIncognito !== 'undefined') {
+            try {
+                const result = await detectIncognito();
+                displayResult(result.isPrivate, `API Engine: ${result.browserName}`);
+                return;
+            } catch (e) {
+                console.error("Library detection failed", e);
+            }
+        }
+
+        // Fallback state if everything is blocked or unresolvable
+        statusBox.className = "status normal";
+        statusBox.innerText = "Undetected / Normal Mode";
+        detailsBox.innerText = "No aggressive privacy sandboxes matched.";
+    }
+
+    function displayResult(isPrivate, logicUsed) {
+        const statusBox = document.getElementById('status-box');
+        const detailsBox = document.getElementById('details');
+
+        if (isPrivate) {
+            statusBox.className = "status incognito";
+            statusBox.innerText = "🕵️ Incognito / Private Mode";
+            detailsBox.innerText = `Detected via: ${logicUsed}`;
+        } else {
+            statusBox.className = "status normal";
+            statusBox.innerText = "🌐 Normal Browsing Mode";
+            detailsBox.innerText = `Detected via: ${logicUsed}`;
+        }
+    }
+
+    // Run on window mount
+    window.addEventListener('DOMContentLoaded', checkIncognito);
+</script>
+
 </body>
 </html>
