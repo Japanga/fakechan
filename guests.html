@@ -447,7 +447,8 @@ button {
             <input type="text" id="colorInput" placeholder="e.g., red, green, teal etc. or #00ff00">
     <button id="colorButton">Apply Color</button>
                       <button id="close-popup-btn">Close</button>
-    
+    <button onclick="unhideDiv()">  <img src="https://i.imgur.com/69Xi2hA.png" alt="Sample Image" width="19" height="19">  Enable Guest Display Data</button>
+ 
         </div>
     </div>
     <button id="open-popup-btn">Settings</button>
@@ -1345,8 +1346,7 @@ a {
             const infoDiv = document.createElement('div');
             infoDiv.classList.add('image-info');
             infoDiv.innerHTML = `
-          ${guestData}
-          
+       ${guestData}
     
                 <p><strong>No:</strong> ${i + 1}</p>
                
@@ -1375,6 +1375,27 @@ a {
 // Initialize the gallery
 loadGallery();
   </script>
+  
+       <style>
+        /* This hides the div by default when the page loads */
+        #myHiddenDiv {
+            display: none; 
+
+        }
+    </style>
+  
+  
+
+   <script>
+        function unhideDiv() {
+            // Find the element by its unique ID
+            var x = document.getElementById("myHiddenDiv");
+            
+            // Change its display property to make it visible
+            x.style.display = "block";
+        }
+    </script>
+  
            </span>
 <script src="https://product-gallery.cloudinary.com/latest/all.js" type="text/javascript">
 </script>  
