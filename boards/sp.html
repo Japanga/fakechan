@@ -98,203 +98,96 @@
 
 </head>
 <body>
+
+
+    <style>
  
-     <style>
-  
-        .container {
+        .card {
             background: #ffffff;
             padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            max-width: 550px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
             width: 100%;
             display: none;
         }
-        .metric {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-           display: none;
-        }
-        .metric:last-child {
-            border-bottom: none;
-        }
-        .label {
-            font-weight: 600;
-            color: #555;
-           display: none;
-        }
-        .value {
-            font-family: monospace;
-            font-size: 14px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            background: #f0f0f0;
-           display: none;
-        }
-        .status-true { background: #e6f4ea; color: #137333; }
-        .status-false { background: #fce8e6; color: #c5221f; }
-        .status-neutral { background: #e8f0fe; color: #1a73e8; }
-        .log-box {
-            margin-top: 20px;
-            background: #2d3748;
-            color: #a0aec0;
-            padding: 15px;
-            border-radius: 6px;
-            font-size: 12px;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
-        }
+        .normal { background-color: #e2f0d9; color: #385723; }
+        .incognito { background-color: #fce4d6; color: #c65911; }
+        .checking { background-color: #fff2cc; color: #7f6000; }
+        .details { font-size: 14px; color: #86868b; }
     </style>
-    
-    
-<div class="container">
-    <h1>Device Assessment Dashboard</h1>
-    
-    <div class="metric">
-        <span class="label">Touch Screen Detected:</span>
-        <span id="touch-status" class="value">Checking...</span>
-    </div>
-    <div class="metric">
-        <span class="label">Device Category:</span>
-        <span id="device-status" class="value">Checking...</span>
-    </div>
-    <div class="metric">
-        <span class="label">Storage Quota Status:</span>
-        <span id="quota-status" class="value">Checking...</span>
-    </div>
-
-    <div class="log-box" id="log-output">
-        [System Initialization] Running diagnostics...<br>
-    </div>
+  
+   <div class="card">
+    <h1>Privacy Check</h1>
+    <div id="status-box" class="status checking">Analyzing session...</div>
+    <div id="details" class="details">Checking storage fingerprints...</div>
 </div>
 
+<!-- Cross-browser fallback library (MIT Licensed) -->
+<script src="https://cdn.jsdelivr.net/gh/Joe12387/detectIncognito@main/dist/es5/detectIncognito.min.js"></script>
+
 <script>
-    const logOutput = document.getElementById('log-output');
-    
-    function log(message) {
-        logOutput.innerHTML += `> ${message}<br>`;
-        logOutput.scrollTop = logOutput.scrollHeight;
-    }
+    async function checkIncognito() {
+        const statusBox = document.getElementById('status-box');
+        const detailsBox = document.getElementById('details');
 
-    // 1. TOUCH SCREEN DETECTION
-    function checkTouchScreen() {
-        const hasTouchPoints = navigator.maxTouchPoints && navigator.maxTouchPoints > 0;
-        const hasCoarsePointer = window.matchMedia("(any-pointer: coarse)").matches;
-        const legacyTouchStart = 'ontouchstart' in window;
-
-        const isTouch = hasTouchPoints || hasCoarsePointer || legacyTouchStart;
-        
-        const badge = document.getElementById('touch-status');
-        badge.innerText = isTouch ? "YES" : "NO";
-        badge.className = `value ${isTouch ? 'status-true' : 'status-false'}`;
-        
-        log(`Touch evaluation: maxTouchPoints(${navigator.maxTouchPoints || 0}), coarsePointer(${hasCoarsePointer})`);
-        return isTouch;
-    }
-
-    // 2. PC / DESKTOP DETECTION
-    function checkIfPC() {
-        const ua = navigator.userAgent;
-        const isMobileOrTablet = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua);
-        const isPC = !isMobileOrTablet;
-
-        const badge = document.getElementById('device-status');
-        badge.innerText = isPC ? "PC / Desktop" : "Mobile / Tablet";
-        badge.className = `value status-neutral`;
-        
-        log(`Device identity completed. Detected as PC: ${isPC}`);
-        return isPC;
-    }
-
-    // 3. ADVANCED INCOGNITO / STORAGE QUOTA EVALUATION
-    async function evaluateStorageAndPrivacy(isPC) {
-        const quotaBadge = document.getElementById('quota-status');
-        
-        if (!isPC) {
-            quotaBadge.innerText = "Skipped (Not a PC)";
-            quotaBadge.className = "value status-neutral";
-            log("Incognito check skipped because the device is not recognized as a PC.");
-            return;
-        }
-
-        try {
-            // Baseline modern Quota Estimation API
-            if (navigator.storage && navigator.storage.estimate) {
-                const estimate = await navigator.storage.estimate();
-                log(`Standard Storage API -> Quota: ${(estimate.quota / 1024 / 1024).toFixed(2)} MB`);
+        // Heuristic 1: Storage quota calculation (Best for modern Chrome/Chromium)
+        if (navigator.storage && navigator.storage.estimate) {
+            try {
+                const { quota } = await navigator.storage.estimate();
                 
-                // Classic Chromium & Fallback Incognito rule (less than 120MB restriction)
-                if (estimate.quota < 126000000) {
-                    handleIncognitoRedirect("Standard API Quota Restricted");
+                // Chromium restricts private window storage quotas sharply (usually under 120MB)
+                const quotaInMB = quota / (1024 * 1024);
+                
+                if (quotaInMB < 120) {
+                    displayResult(true, `Chromium Throttled Storage Quota: ${Math.round(quotaInMB)}MB`);
                     return;
                 }
+            } catch (e) {
+                console.warn("Storage check failed, trying library fallback...", e);
             }
+        }
 
-            // Chromium Anti-Masking bypass script (Handles modern Chrome/Edge masking features)
-            if (navigator.webkitTemporaryStorage && navigator.webkitTemporaryStorage.queryUsageAndQuota) {
-                navigator.webkitTemporaryStorage.queryUsageAndQuota(
-                    function(usedBytes, quotaBytes) {
-                        log(`Legacy Webkit API -> Quota: ${(quotaBytes / 1024 / 1024).toFixed(2)} MB`);
-                        
-                        // Check if memory performance parameters exist
-                        if (window.performance && window.performance.memory) {
-                            const heapLimit = window.performance.memory.jsHeapSizeLimit;
-                            log(`V8 Engine JS Heap Limit: ${(heapLimit / 1024 / 1024).toFixed(2)} MB`);
-                            
-                            // Advanced heuristic: RAM-bound legacy quota vs Heap space
-                            if (quotaBytes < heapLimit * 2) {
-                                handleIncognitoRedirect("Memory-bound storage allocation signature");
-                                return;
-                            }
-                        }
-                        
-                        quotaBadge.innerText = "Normal / Allowed";
-                        quotaBadge.className = "value status-true";
-                        log("Storage configuration verification passed.");
-                    },
-                    function(error) {
-                        log(`Legacy storage lookup exception: ${error}`);
-                    }
-                );
-            } else {
-                // Non-Chromium PC Fallback (e.g., Firefox/Safari Private Mode Checks)
-                quotaBadge.innerText = "Verified Standard";
-                quotaBadge.className = "value status-true";
+        // Heuristic 2: Library Fallback (Executes browser-specific API error checks for Safari/Firefox)
+        if (typeof detectIncognito !== 'undefined') {
+            try {
+                const result = await detectIncognito();
+                displayResult(result.isPrivate, `API Engine: ${result.browserName}`);
+                return;
+            } catch (e) {
+                console.error("Library detection failed", e);
             }
+        }
 
-        } catch (err) {
-            log(`Storage system assertion critical error: ${err}`);
-            quotaBadge.innerText = "Error Checking";
-            quotaBadge.className = "value status-false";
+        // Fallback state if everything is blocked or unresolvable
+        statusBox.className = "status normal";
+        statusBox.innerText = "Undetected / Normal Mode";
+        detailsBox.innerText = "No aggressive privacy sandboxes matched.";
+    }
+
+    function displayResult(isPrivate, logicUsed) {
+        const statusBox = document.getElementById('status-box');
+        const detailsBox = document.getElementById('details');
+
+        if (isPrivate) {
+            statusBox.className = "status incognito";
+            statusBox.innerText = "🕵️ Incognito / Private Mode";
+            detailsBox.innerText = `Detected via: ${logicUsed}`;
+               window.location.href = "https://japanga.github.io/fakechan/403.html";
+        } else {
+            statusBox.className = "status normal";
+            statusBox.innerText = "🌐 Normal Browsing Mode";
+            detailsBox.innerText = `Detected via: ${logicUsed}`;
         }
     }
 
-    // 4. REDIRECTION HANDLER
-    function handleIncognitoRedirect(reason) {
-        const quotaBadge = document.getElementById('quota-status');
-        quotaBadge.innerText = "INCOGNITO DETECTED";
-        quotaBadge.className = "value status-false";
-        
-        log(`!!! TRIGGERING REDIRECT: ${reason}`);
-        
-        // Timeout added for local script testing visibility; change to immediate redirect if needed
-        setTimeout(() => {
-            // Replace with your desired error endpoint URL
-            window.location.replace("https://japanga.github.io/fakechan/403.html"); 
-        }, 1500);
-    }
-
-    // Trigger orchestration on window readiness
-    window.addEventListener('DOMContentLoaded', () => {
-        const hasTouch = checkTouchScreen();
-        const isPC = checkIfPC();
-        evaluateStorageAndPrivacy(isPC);
-    });
+    // Run on window mount
+    window.addEventListener('DOMContentLoaded', checkIncognito);
 </script>
+
+
+   
      <div id="message"></div>
 
       
